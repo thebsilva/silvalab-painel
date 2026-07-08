@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Meta Ads — Silva &amp; Co.</title>
+<style>
+  :root {
+    --bg: #0e1116; --panel: #171c24; --panel-2: #1e242e; --line: #2a323d;
+    --txt: #e7ecf3; --muted: #8b97a7; --accent: #4f8cff; --good: #36c98d;
+    --warn: #f4b740; --bad: #ef5e6b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--txt); line-height: 1.4;
+    padding: 24px clamp(14px, 3vw, 40px);
+  }
+  a { color: var(--accent); }
+  header.top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; }
+  header.top h1 { font-size: 21px; font-weight: 700; letter-spacing: -0.3px; }
+  header.top .sub { color: var(--muted); font-size: 12.5px; }
+
+  /* Barra de controles: período + filtro */
+  .controls { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0 8px; }
+  select, input[type=search] {
+    background: var(--panel); color: var(--txt); border: 1px solid var(--line);
+    border-radius: 9px; padding: 8px 12px; font-size: 13.5px; font-family: inherit;
+  }
+  input[type=search] { min-width: 230px; }
+  select:focus, input:focus { outline: none; border-color: var(--accent); }
+  .controls label { color: var(--muted); font-size: 12px; margin-right: -4px; }
+
+  /* Abas */
+  .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 14px; border-bottom: 1px solid var(--line); }
+  .tabs button {
+    background: transparent; color: var(--muted); border: 1px solid transparent; border-bottom: none;
+    border-radius: 10px 10px 0 0; padding: 9px 16px; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    transition: .15s; margin-bottom: -1px;
+  }
+  .tabs button:hover { color: var(--txt); }
+  .tabs button.active { color: var(--txt); background: var(--panel); border-color: var(--line); border-bottom-color: var(--panel); }
+  .tabs button.is-overview { color: var(--accent); }
+
+  h2.section { font-size: 12px; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 22px 0 10px; }
+
+  /* KPIs grandes */
+  .kpi-row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 16px 0; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 14px 16px; }
+  .kpi .v { font-size: 24px; font-weight: 700; letter-spacing: -.5px; }
+  .kpi .v.hl { color: var(--accent); }
+  .kpi .k { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+  /* Tabelas */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--panel-2); text-align: right; padding: 10px 12px; color: var(--muted);
+    font-weight: 600; white-space: nowrap; cursor: pointer; user-select: none; position: relative;
+  }
+  thead th:first-child { text-align: left; position: sticky; left: 0; background: var(--panel-2); }
+  thead th:hover { color: var(--txt); }
+  thead th .arrow { color: var(--accent); font-size: 10px; }
+  tbody td { padding: 9px 12px; text-align: right; border-top: 1px solid var(--line); white-space: nowrap; }
+  tbody td:first-child { text-align: left; font-weight: 600; position: sticky; left: 0; background: var(--bg); }
+  tbody tr:hover td { background: var(--panel); }
+  tbody tr.clickable td:first-child { cursor: pointer; color: var(--accent); }
+  .pill { font-size: 10.5px; color: var(--muted); display: block; font-weight: 400; }
+  .rank-best { color: var(--good); } .rank-bad { color: var(--bad); }
+  .st { font-size: 11px; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
+  .st.on { background: rgba(54,201,141,.15); color: var(--good); }
+  .st.off { background: rgba(139,151,167,.15); color: var(--muted); }
+  .client-head { display: flex; align-items: baseline; gap: 10px; margin: 4px 0 6px; }
+  .client-head h2 { font-size: 18px; }
+  .client-head .acc { color: var(--muted); font-size: 12px; }
+  .empty { color: var(--muted); padding: 16px; }
+  footer { color: var(--muted); font-size: 12px; margin-top: 28px; }
+</style>
+</head>
+<body>
+  <header class="top">
+    <h1>Painel Meta Ads · Silva &amp; Co.</h1>
+    <span class="sub" id="updated"></span>
+  </header>
+
+  <div class="controls">
+    <label>Período</label>
+    <select id="period"></select>
+    <input type="search" id="filter" placeholder="🔎 Filtrar por nome da campanha…">
+  </div>
+
+  <nav class="tabs" id="tabs"></nav>
+  <main id="view"></main>
+  <footer id="foot"></footer>
+
+<script src="data.js"></script>
+<script>
+  const D = window.DASHBOARD_DATA || null;
+  const PERIOD_LABELS = {
+    today: "Hoje", yesterday: "Ontem", last_7d: "Últimos 7 dias", last_14d: "Últimos 14 dias",
+    last_30d: "Últimos 30 dias", this_month: "Mês atual", last_month: "Mês passado",
+    this_quarter: "Trimestre atual", maximum: "Máximo (vitalício)",
+  };
+  // Colunas da tabela de campanhas (ordem = print do Gerenciador). key = campo no dado.
+  const COLS = [
+    { key: "name",          label: "Campanha",         type: "text" },
+    { key: "status",        label: "Status",           type: "status" },
+    { key: "objective",     label: "Objetivo",         type: "text" },
+    { key: "budget",        label: "Orçamento",        type: "money" },
+    { key: "spend",         label: "Valor usado",      type: "money" },
+    { key: "created",       label: "Criação",          type: "text" },
+    { key: "frequency",     label: "Freq.",            type: "dec" },
+    { key: "impressions",   label: "Impressões",       type: "int" },
+    { key: "reach",         label: "Alcance",          type: "int" },
+    { key: "profile_visits",label: "Visitas perfil",   type: "int" },
+    { key: "link_clicks",   label: "Cliques no link",  type: "int" },
+    { key: "conversas",     label: "Conversas",        type: "int" },
+    { key: "followers",     label: "Seguidores",       type: "int" },
+    { key: "cpm",           label: "CPM",              type: "money" },
+    { key: "ctr",           label: "CTR",              type: "pct" },
+    { key: "cost_conversa", label: "Custo/conversa",   type: "money" },
+    { key: "results",       label: "Resultados",       type: "int" },
+    { key: "leads",         label: "Leads",            type: "int" },
+    { key: "compras",       label: "Compras",          type: "int" },
+    { key: "conversion_value", label: "Valor conv.",   type: "money" },
+    { key: "roas",          label: "ROAS",             type: "x" },
+    { key: "cost_purchase", label: "Custo/compra",     type: "money" },
+    { key: "profit",        label: "Lucro Vendas",     type: "money" },
+    { key: "page_views",    label: "Visitas página",   type: "int" },
+  ];
+
+  const fmtMoney = (v, cur) => v == null ? "—" : new Intl.NumberFormat("pt-BR", { style: "currency", currency: cur || "BRL" }).format(v);
+  const fmtNum = (v) => v == null ? "—" : new Intl.NumberFormat("pt-BR").format(v);
+  const fmtPct = (v) => v == null ? "—" : new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 }).format(v) + "%";
+  const fmtX = (v) => v == null ? "—" : v.toLocaleString("pt-BR") + "x";
+  const fmtDec = (v) => v == null ? "—" : v.toLocaleString("pt-BR");
+
+  function fmtCell(val, type, cur) {
+    switch (type) {
+      case "money": return fmtMoney(val, cur);
+      case "pct": return fmtPct(val);
+      case "x": return fmtX(val);
+      case "int": return fmtNum(val);
+      case "dec": return fmtDec(val);
+      default: return val == null || val === "" ? "—" : val;
+    }
+  }
+
+  let current = null, activeTab = "__overview__", filterText = "";
+  let sortCol = "spend", sortDir = -1;  // -1 desc, 1 asc
+
+  function init() {
+    if (!D || !Array.isArray(D.accounts) || D.accounts.length === 0) {
+      document.getElementById("view").innerHTML = '<div class="empty">Sem dados. Rode a coleta com o token.</div>';
+      return;
+    }
+    const periods = D.periods || Object.keys(D.accounts[0].periods || {});
+    current = periods.includes("last_30d") ? "last_30d" : periods[0];
+
+    const dt = D.generated_at ? new Date(D.generated_at) : null;
+    document.getElementById("updated").textContent = dt
+      ? "Atualizado em " + dt.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" }) : "";
+
+    // menu de datas
+    const sel = document.getElementById("period");
+    periods.forEach(p => {
+      const o = document.createElement("option");
+      o.value = p; o.textContent = PERIOD_LABELS[p] || p; sel.appendChild(o);
+    });
+    sel.value = current;
+    sel.onchange = () => { current = sel.value; render(); };
+
+    // filtro
+    const fi = document.getElementById("filter");
+    fi.oninput = () => { filterText = fi.value.trim().toLowerCase(); render(); };
+
+    // abas
+    const tabs = document.getElementById("tabs");
+    const mkTab = (id, label, cls) => {
+      const b = document.createElement("button");
+      b.textContent = label; b.dataset.tab = id; if (cls) b.className = cls;
+      b.onclick = () => { activeTab = id; render(); };
+      tabs.appendChild(b);
+    };
+    mkTab("__overview__", "📊 Comparativo", "is-overview");
+    D.accounts.forEach(a => mkTab(a.client, a.client));
+
+    document.getElementById("foot").textContent =
+      "Fonte: API de Marketing do Meta · token somente leitura · clique no cabeçalho pra ordenar.";
+    render();
+  }
+
+  function render() {
+    document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === activeTab));
+    document.getElementById("filter").style.display = activeTab === "__overview__" ? "none" : "";
+    document.getElementById("view").innerHTML =
+      activeTab === "__overview__" ? renderOverview() : renderClient(activeTab);
+    wire();
+  }
+
+  function wire() {
+    document.querySelectorAll("tr.clickable").forEach(tr =>
+      tr.querySelector("td").onclick = () => { activeTab = tr.dataset.client; render(); });
+    document.querySelectorAll("th[data-col]").forEach(th =>
+      th.onclick = () => {
+        const c = th.dataset.col;
+        if (sortCol === c) sortDir = -sortDir; else { sortCol = c; sortDir = -1; }
+        render();
+      });
+  }
+
+  function accMetric(a) { return ((a.periods || {})[current] || {}).account || {}; }
+
+  function renderOverview() {
+    const rows = D.accounts.map(a => ({ a, m: accMetric(a) }));
+    rows.sort((x, y) => (y.m.spend || 0) - (x.m.spend || 0));
+    const body = rows.map(({ a, m }) => {
+      const bd = m.results_breakdown || [];
+      const resCell = bd.length
+        ? bd.map(b => `<div>${fmtNum(b.value)} <span class="pill">${b.label}</span></div>`).join("")
+        : `<span class="pill">—</span>`;
+      const cplCell = bd.length
+        ? bd.map(b => `<div>${b.cost != null ? fmtMoney(b.cost, a.currency) + "/un" : "—"}</div>`).join("")
+        : "—";
+      return `<tr class="clickable" data-client="${a.client}">
+        <td>${a.client}<span class="pill">${a.label}</span></td>
+        <td>${fmtMoney(m.spend, a.currency)}</td>
+        <td>${resCell}</td>
+        <td>${cplCell}</td>
+        <td>${fmtPct(m.ctr)}</td><td>${fmtMoney(m.cpm, a.currency)}</td>
+        <td>${fmtDec(m.frequency)}</td></tr>`;
+    }).join("");
+    return `<h2 class="section">Comparativo — ${PERIOD_LABELS[current] || current}</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Cliente</th><th>Gasto</th><th>Resultados</th><th>CPL</th><th>CTR</th><th>CPM</th><th>Freq.</th></tr></thead>
+        <tbody>${body}</tbody></table></div>
+      <p class="sub" style="margin-top:10px;color:var(--muted);font-size:12px">Clique num cliente pra abrir as campanhas dele.</p>`;
+  }
+
+  function renderClient(clientName) {
+    const a = D.accounts.find(x => x.client === clientName);
+    if (!a) return "";
+    const m = accMetric(a);
+    if (a.ok === false)
+      return `<div class="client-head"><h2>${a.client}</h2></div><div class="empty" style="color:var(--bad)">Sem acesso a esta conta com o token atual.</div>`;
+
+    const kpi = (k, v, hl) => `<div class="kpi"><div class="v ${hl ? "hl" : ""}">${v}</div><div class="k">${k}</div></div>`;
+    const head = `<div class="client-head"><h2>${a.client}</h2><span class="acc">${a.label} · act_${a.ad_account_id} · ${PERIOD_LABELS[current] || current}</span></div>
+      <div class="kpi-row">
+        ${kpi("Gasto", fmtMoney(m.spend, a.currency))}
+        ${(m.results_breakdown && m.results_breakdown.length
+            ? m.results_breakdown.slice(0, 4).map(b =>
+                kpi(`${b.label}${b.cost != null ? " · " + fmtMoney(b.cost, a.currency) + "/un" : ""}`, fmtNum(b.value), true)).join("")
+            : kpi("Resultados", fmtNum(m.results), true))}
+        ${kpi("ROAS", fmtX(m.roas))}
+        ${kpi("Lucro das vendas", fmtMoney(m.profit, a.currency))}
+      </div>`;
+
+    // tabela de campanhas (filtrada + ordenada)
+    let camps = (((a.periods || {})[current] || {}).campaigns || []).slice();
+    if (filterText) camps = camps.filter(c => (c.name || "").toLowerCase().includes(filterText));
+    camps.sort((x, y) => {
+      let vx = x[sortCol], vy = y[sortCol], base;
+      if (typeof vx === "string" || typeof vy === "string") {
+        vx = (vx ?? "").toString().toLowerCase(); vy = (vy ?? "").toString().toLowerCase();
+        base = vx < vy ? -1 : vx > vy ? 1 : 0;
+      } else {
+        base = (vx ?? -Infinity) - (vy ?? -Infinity);
+      }
+      return base * sortDir;  // sortDir: 1 crescente, -1 decrescente
+    });
+
+    const ths = COLS.map(c =>
+      `<th data-col="${c.key}">${c.label}${sortCol === c.key ? ` <span class="arrow">${sortDir < 0 ? "▼" : "▲"}</span>` : ""}</th>`
+    ).join("");
+
+    const rows = camps.map(c => "<tr>" + COLS.map(col => {
+      if (col.key === "status") {
+        const on = /ACTIVE/i.test(c.status);
+        return `<td><span class="st ${on ? "on" : "off"}">${c.status}</span></td>`;
+      }
+      if (col.key === "budget") {
+        return `<td>${fmtMoney(c.budget, a.currency)}${c.budget != null ? `<span class="pill">${c.budget_type}</span>` : ""}</td>`;
+      }
+      if (col.key === "results") {
+        return `<td>${fmtNum(c.results)}${c.result_type && c.result_type !== "—" ? `<span class="pill">${c.result_type}</span>` : ""}</td>`;
+      }
+      return `<td>${fmtCell(c[col.key], col.type, a.currency)}</td>`;
+    }).join("") + "</tr>").join("");
+
+    const table = camps.length
+      ? `<div class="table-wrap"><table><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>`
+      : `<div class="empty">${filterText ? "Nenhuma campanha bate com o filtro." : "Sem campanhas com entrega neste período."}</div>`;
+
+    return head + `<h2 class="section">Campanhas — ${camps.length} ${filterText ? "(filtradas)" : ""}</h2>` + table;
+  }
+
+  init();
+</script>
+</body>
+</html>
