@@ -8,13 +8,15 @@
   @import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&display=swap');
 
   :root {
-    --navy: #141E2E; --bg: #101927; --panel: #1B2637; --panel-2: #223049;
-    --ink: #202B39; --line: #2C3A4E; --line-soft: #26334a;
-    --cream: #ECE5D5; --muted: #92A2B8; --muted-2: #6E8098;
-    --amber: #C88A40; --amber-hi: #E2A65E;
-    --cyan: #2BA9DB; --cyan-hi: #5EC4EC;
-    --green: #2E7D4F; --green-hi: #4CC08A;
-    --red: #B0413E; --red-hi: #E06B67;
+    /* Tema CLARO "Creme" — remete à logo (o creme do focinho). No claro, --cream
+       passa a ser a TINTA escura (texto), e --bg/--panel/--ink são os tons claros. */
+    --navy: #141E2E; --bg: #ECE5D5; --panel: #FBF8F1; --panel-2: #F1E9DA;
+    --ink: #F1E9DA; --line: #D9CFBB; --line-soft: #E5DCCA;
+    --cream: #1B2436; --muted: #5E6B7D; --muted-2: #8493A4;
+    --amber: #A96C26; --amber-hi: #B87A2E;
+    --cyan: #1B82AC; --cyan-hi: #2591BE;
+    --green: #2E7D4F; --green-hi: #2E7D4F;
+    --red: #B0413E; --red-hi: #B0413E;
     --num: "Sora", sans-serif; --body: "Inter", sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -149,13 +151,13 @@
   .tag { display: inline-block; font: 600 10.5px var(--body); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); vertical-align: 2px; }
   .tag.esp { border-color: var(--amber); color: var(--amber-hi); }
   .st { font-size: 11px; padding: 2px 9px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
-  .st.on { background: rgba(76,192,138,.14); color: var(--green-hi); }
-  .st.off { background: rgba(146,162,184,.12); color: var(--muted); }
-  .st.issue { background: rgba(224,107,103,.14); color: var(--red-hi); }
+  .st.on { background: rgba(46,125,79,.14); color: var(--green-hi); }
+  .st.off { background: rgba(94,107,125,.13); color: var(--muted); }
+  .st.issue { background: rgba(176,65,62,.13); color: var(--red-hi); }
   .badge { display: inline-block; font: 700 12px var(--num); padding: 3px 10px; border-radius: 999px; }
-  .badge.good { background: rgba(76,192,138,.15); color: var(--green-hi); }
-  .badge.warn { background: rgba(226,166,94,.15); color: var(--amber-hi); }
-  .badge.bad  { background: rgba(224,107,103,.15); color: var(--red-hi); }
+  .badge.good { background: rgba(46,125,79,.15); color: var(--green-hi); }
+  .badge.warn { background: rgba(169,108,38,.16); color: var(--amber-hi); }
+  .badge.bad  { background: rgba(176,65,62,.15); color: var(--red-hi); }
 
   /* ───── Tabelas ───── */
   .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
