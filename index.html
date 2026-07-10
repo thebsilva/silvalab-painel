@@ -50,12 +50,59 @@
   }
   .seg button:hover { color: var(--cream); }
   .seg button.on { background: var(--panel-2); color: var(--cream); font-weight: 600; }
-  select.periodSel { display: none; }
-  select, input[type=search] {
+  select, input[type=search], input[type=date] {
     background: var(--panel); color: var(--cream); border: 1px solid var(--line);
     border-radius: 9px; padding: 8px 12px; font: 500 13px var(--body);
   }
   select:focus, input:focus { outline: none; border-color: var(--amber); }
+  .custom-note { display: none; color: var(--muted-2); font-size: 11.5px; flex-basis: 100%; }
+  body.custom-on .custom-note { display: block; }
+
+  /* ── seletor de período estilo Gerenciador (botão + calendário compacto) ── */
+  .cal-wrap { position: relative; }
+  .cal-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--panel); color: var(--cream); border: 1px solid var(--line);
+    border-radius: 9px; padding: 8px 13px; font: 600 13px var(--body); cursor: pointer;
+  }
+  .cal-btn:hover { border-color: var(--amber); }
+  .cal-btn i { font-style: normal; color: var(--muted); font-size: 10px; }
+  .cal-pop {
+    position: absolute; top: calc(100% + 6px); left: 0; z-index: 60;
+    display: flex; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; box-shadow: 0 12px 34px rgba(20, 30, 46, .16); overflow: hidden;
+  }
+  .cal-pop[hidden] { display: none; }
+  .cal-presets { display: flex; flex-direction: column; min-width: 126px; border-right: 1px solid var(--line-soft); padding: 6px; }
+  .cal-presets button {
+    text-align: left; background: none; border: 0; padding: 7px 10px; border-radius: 8px;
+    color: var(--muted); font: 500 12.5px var(--body); cursor: pointer; white-space: nowrap;
+  }
+  .cal-presets button:hover { background: var(--panel-2); color: var(--cream); }
+  .cal-presets button.on { background: var(--panel-2); color: var(--cream); font-weight: 600; }
+  .cal-right { padding: 10px 12px 11px; width: 254px; }
+  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .cal-head b { font: 600 12.5px var(--num); text-transform: capitalize; }
+  .cal-nav { background: none; border: 1px solid var(--line); border-radius: 7px; width: 24px; height: 24px; color: var(--muted); cursor: pointer; line-height: 1; }
+  .cal-nav:hover { color: var(--cream); border-color: var(--amber); }
+  .cal-nav:disabled { opacity: .3; cursor: default; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+  .cal-grid .wd { color: var(--muted-2); text-align: center; font-size: 9.5px; padding: 2px 0; text-transform: uppercase; }
+  .cal-day {
+    border: 0; background: none; padding: 5px 0; text-align: center; border-radius: 7px;
+    color: var(--cream); font: 500 11.5px var(--body); cursor: pointer;
+  }
+  .cal-day:hover { background: var(--panel-2); }
+  .cal-day.fora { visibility: hidden; }
+  .cal-day.dis { color: var(--line); cursor: default; }
+  .cal-day.dis:hover { background: none; }
+  .cal-day.in { background: var(--ink); border-radius: 0; }
+  .cal-day.edge { background: var(--navy); color: #ECE5D5; font-weight: 700; border-radius: 7px; }
+  .cal-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 9px; font-size: 11px; color: var(--muted); }
+  .cal-foot .acts { display: flex; gap: 6px; }
+  .cal-cancel { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; color: var(--muted); font: 500 12px var(--body); cursor: pointer; }
+  .cal-apply { background: var(--navy); color: #ECE5D5; border: 0; border-radius: 8px; padding: 6px 13px; font: 600 12px var(--body); cursor: pointer; }
+  .cal-apply:disabled { opacity: .4; cursor: default; }
 
   .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 12px; border-bottom: 1px solid var(--line); }
   .tabs button {
@@ -200,12 +247,11 @@
   footer .leg { display: inline-flex; gap: 16px; margin-right: 16px; color: var(--muted); }
 
   /* ───── Mobile ───── */
-  @media (max-width: 900px) {
-    .seg.periods { display: none; }
-    select.periodSel { display: inline-block; }
-  }
   @media (max-width: 760px) {
     body { font-size: 13.5px; }
+    .cal-pop { flex-direction: column; width: min(302px, calc(100vw - 28px)); }
+    .cal-presets { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line-soft); min-width: 0; }
+    .cal-right { width: auto; }
     .hero { flex-direction: column; gap: 14px; padding: 16px; }
     .hero-badge { align-self: stretch; display: flex; align-items: baseline; justify-content: center; gap: 10px; }
     .hero-num { font-size: 24px; }
@@ -235,8 +281,28 @@
   </header>
 
   <div class="controls">
-    <div class="seg periods" id="periodSeg"></div>
-    <select class="periodSel" id="periodSel"></select>
+    <div class="cal-wrap">
+      <button class="cal-btn" id="calBtn" type="button"><span id="calLbl"></span><i>▾</i></button>
+      <div class="cal-pop" id="calPop" hidden>
+        <div class="cal-presets" id="calPresets"></div>
+        <div class="cal-right">
+          <div class="cal-head">
+            <button class="cal-nav" id="calPrev" type="button">‹</button>
+            <b id="calMes"></b>
+            <button class="cal-nav" id="calNext" type="button">›</button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+          <div class="cal-foot">
+            <span id="calRange"></span>
+            <span class="acts">
+              <button class="cal-cancel" id="calCancel" type="button">Cancelar</button>
+              <button class="cal-apply" id="calApply" type="button">Aplicar</button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="custom-note">Janela personalizada: alcance e frequência ficam indisponíveis (não somam por dia); conversas = Meta.</span>
   </div>
 
   <nav class="tabs" id="tabs"></nav>
@@ -246,15 +312,22 @@
 
 <script src="data.js"></script>
 <script src="painel.js"></script>
+<script src="diario.js"></script>
 <script>
 (function () {
   "use strict";
   const D = window.DASHBOARD_DATA || null;
   const P = window.PAINEL_DATA || null;
+  const DD = window.DIARIO_DATA || null;           // métricas POR DIA (janela livre)
+  const DIDX = {};                                  // campo -> posição no vetor diário
+  ((DD && DD.campos) || []).forEach((c, i) => { DIDX[c] = i; });
+  const DDBY = {};                                  // client -> conta diária
+  ((DD && DD.accounts) || []).forEach(a => { DDBY[a.client] = a; });
 
   const PERIOD_LABELS = {
     today: "Hoje", yesterday: "Ontem", last_7d: "7 dias", last_14d: "14 dias",
     last_30d: "30 dias", this_month: "Este mês", last_month: "Mês passado", maximum: "Tudo",
+    custom: "Personalizado",
   };
   const OBJETIVOS = {
     OUTCOME_SALES: "Vendas", OUTCOME_TRAFFIC: "Tráfego", OUTCOME_LEADS: "Leads",
@@ -305,23 +378,161 @@
   /* ── estado ── */
   const ACCTS = D && Array.isArray(D.accounts) ? D.accounts.filter(a => a.ok !== false) : [];
   const PBY = {}; ((P && P.accounts) || []).forEach(a => { PBY[a.client] = a; });
-  const PERIODS = (P && P.periods) || (D && D.periods) || [];
-  const state = { period: "this_month", tab: "__agencia__", campFilter: "gasto", campQuery: "", sortCol: "spend", sortDir: -1 };
+  const PERIODS = ((P && P.periods) || (D && D.periods) || []).slice();
+  if (DD && !PERIODS.includes("custom")) PERIODS.push("custom");  // janela livre
+  const hojeISO = new Date().toISOString().slice(0, 10);
+  const DESDE = (DD && DD.desde) || "2026-01-01";
+  const state = { period: "this_month", tab: "__agencia__", campFilter: "gasto", campQuery: "", sortCol: "spend", sortDir: -1,
+                  cIni: hojeISO.slice(0, 8) + "01", cFim: hojeISO };
+
   if (!PERIODS.includes(state.period)) state.period = PERIODS[0] || "this_month";
 
-  // restaura do hash (#aba|periodo)
+  // restaura do hash (#aba|periodo  ou  #aba|c:2026-02-01:2026-03-15)
   try {
     const h = decodeURIComponent(location.hash.slice(1));
     if (h) {
       const [t, p] = h.split("|");
       if (t && (t === "__agencia__" || ACCTS.some(a => a.client === t))) state.tab = t;
-      if (p && PERIODS.includes(p)) state.period = p;
+      if (p && p.startsWith("c:") && DD) {
+        const [, i, f] = p.split(":");
+        if (i && f) { state.period = "custom"; state.cIni = i; state.cFim = f; }
+      } else if (p && PERIODS.includes(p)) state.period = p;
     }
   } catch (e) { /* hash inválido — ignora */ }
 
-  const am = (a) => (((a.periods || {})[state.period] || {}).account) || {};
-  const pmOf = (client) => ((((PBY[client] || {}).periods) || {})[state.period]) || {};
-  const campsOf = (a) => (((a.periods || {})[state.period] || {}).campaigns) || [];
+  const fmtBR = (iso) => { const [y, m, d] = (iso || "").split("-"); return d ? `${d}/${m}/${y.slice(2)}` : iso; };
+  const periodoLabel = () => state.period === "custom"
+    ? `${fmtBR(state.cIni)} → ${fmtBR(state.cFim)}`
+    : (PERIOD_LABELS[state.period] || state.period);
+
+  /* ══ JANELA LIVRE: soma os dias no navegador (fonte: diario.js) ══ */
+  const emJanela = (d) => d >= state.cIni && d <= state.cFim;
+
+  function somaDias(dias) {                       // {data: vetor} -> {campo: soma}
+    const s = {}; ((DD && DD.campos) || []).forEach(c => { s[c] = 0; });
+    for (const d in (dias || {})) if (emJanela(d)) {
+      const v = dias[d];
+      for (const c in DIDX) s[c] += v[DIDX[c]] || 0;
+    }
+    s.spend = Math.round(s.spend * 100) / 100;
+    s.conversion_value = Math.round(s.conversion_value * 100) / 100;
+    return s;
+  }
+
+  function vendasJanela(client) {                 // vendas_dia do painel.js -> {consultas, vendas, faturamento}
+    const dias = (PBY[client] || {}).vendas_dia || {};
+    let c = 0, v = 0, f = 0;
+    for (const d in dias) if (emJanela(d)) { c += dias[d].c || 0; v += dias[d].v || 0; f += dias[d].f || 0; }
+    return { consultas: c, vendas: v, faturamento: Math.round(f * 100) / 100 };
+  }
+
+  // porta fiel do resolve_result do coletor (ads_collect.py) — decide a headline da campanha
+  function resolveResult(og, dest, objective, m) {
+    og = (og || "").toUpperCase(); dest = (dest || "").toUpperCase(); const obj = (objective || "").toUpperCase();
+    const msg = ["WHATSAPP", "MESSENGER", "DIRECT"].some(x => dest.includes(x));
+    const trafego = m.page_views > 0 ? ["Visitas à página", m.page_views] : ["Cliques no link", m.link_clicks];
+    if (["REACH", "AD_RECALL_LIFT", "IMPRESSIONS"].includes(og)) return ["Alcance", null]; // alcance não soma por dia
+    if (msg) {
+      if (["OFFSITE_CONVERSIONS", "ONSITE_CONVERSIONS", "VALUE"].includes(og) && m.compras > 0) return ["Compras", m.compras];
+      return ["Conversas", m.conversas];
+    }
+    if (og === "LANDING_PAGE_VIEWS") return ["Visitas à página", m.page_views];
+    if (["LINK_CLICKS", "PROFILE_VISIT", "PROFILE_AND_PAGE_ENGAGEMENT", "POST_ENGAGEMENT", "PAGE_LIKES",
+         "THRUPLAY", "TWO_SECOND_CONTINUOUS_VIDEO_VIEWS", "VIDEO_VIEWS", "EVENT_RESPONSES"].includes(og)) return ["Cliques no link", m.link_clicks];
+    if (["LEAD_GENERATION", "QUALITY_LEAD", "SUBSCRIBERS"].includes(og)) return m.leads > 0 ? ["Leads", m.leads] : trafego;
+    if (["OFFSITE_CONVERSIONS", "ONSITE_CONVERSIONS", "VALUE"].includes(og)) {
+      if (m.compras > 0) return ["Compras", m.compras];
+      if (m.leads > 0) return ["Leads", m.leads];
+      return trafego;
+    }
+    if (og === "CONVERSATIONS" || obj.includes("TRAFFIC")) return trafego;
+    if (m.compras > 0) return ["Compras", m.compras];
+    if (m.conversas > 0) return ["Conversas", m.conversas];
+    if (m.leads > 0) return ["Leads", m.leads];
+    return (m.page_views > 0 || m.link_clicks > 0) ? trafego : ["—", 0];
+  }
+
+  function breakdownJS(camps) {                   // mix da conta (porta do account_breakdown)
+    const grp = {}, ordem = ["Compras", "Conversas", "Leads", "Leads (site)", "Visitas à página", "Cliques no link"];
+    camps.forEach(c => {
+      const l = c.result_type;
+      if (!l || l === "—" || l === "Alcance" || !(c.results > 0)) return;
+      const g = grp[l] || (grp[l] = { label: l, value: 0, spend: 0 });
+      g.value += c.results; g.spend += c.spend || 0;
+    });
+    return ordem.filter(l => grp[l]).map(l => ({
+      label: l, value: grp[l].value,
+      cost: grp[l].value ? Math.round(grp[l].spend / grp[l].value * 100) / 100 : null,
+    }));
+  }
+
+  function campSintetica(cid, cdata, cat) {       // campanha na janela livre (colunas do Gerenciador)
+    const s = somaDias(cdata.dias);
+    if (!Object.values(s).some(v => v)) return null;
+    const meta = cat[cid] || {};
+    const [label, val] = resolveResult(meta.opt_goal, meta.dest, meta.objective, s);
+    const div = (a, b) => b > 0 ? Math.round(a / b * 100) / 100 : null;
+    return {
+      id: cid, name: meta.name || "(campanha)", status: meta.status || "—",
+      objective: meta.objective || "—", budget: meta.budget == null ? null : meta.budget,
+      budget_type: meta.budget_type || "—", created: meta.created || "",
+      spend: s.spend, impressions: s.impressions, clicks: s.clicks, link_clicks: s.link_clicks,
+      reach: null, frequency: null,               // não somáveis por dia — honestidade
+      ctr: div(s.clicks * 100, s.impressions), cpc: div(s.spend, s.clicks), cpm: div(s.spend * 1000, s.impressions),
+      conversas: s.conversas, cost_conversa: div(s.spend, s.conversas),
+      leads: s.leads, compras: s.compras, conversion_value: s.conversion_value,
+      cost_purchase: div(s.spend, s.compras), roas: div(s.conversion_value, s.spend),
+      profit: s.conversion_value ? Math.round((s.conversion_value - s.spend) * 100) / 100 : null,
+      page_views: s.page_views, profile_visits: s.profile_visits, followers: s.followers,
+      result_type: label, results: val == null ? null : Math.round(val), cpl: val > 0 ? div(s.spend, val) : null,
+    };
+  }
+
+  const _cacheJanela = {};                        // client -> {am, pm, camps} (limpo a cada render)
+  function janelaDe(client) {
+    if (_cacheJanela[client]) return _cacheJanela[client];
+    const dd = DDBY[client];
+    const div = (a, b) => b > 0 ? Math.round(a / b * 100) / 100 : null;
+    const pct = (a, b) => b > 0 ? Math.round(a / b * 1000) / 10 : null;
+    const vazio = { am: {}, pm: {}, camps: [] };
+    if (!dd) return (_cacheJanela[client] = vazio);
+    const s = somaDias(dd.dias);
+    const camps = Object.entries(dd.campanhas || {})
+      .map(([cid, c]) => campSintetica(cid, c, dd.catalogo || {}))
+      .filter(Boolean).sort((a, b) => b.spend - a.spend);
+    const bd = breakdownJS(camps);
+    const am = {
+      spend: s.spend, impressions: s.impressions, clicks: s.clicks, link_clicks: s.link_clicks,
+      reach: null, frequency: null,
+      ctr: div(s.clicks * 100, s.impressions), cpc: div(s.spend, s.clicks), cpm: div(s.spend * 1000, s.impressions),
+      conversas: s.conversas, results_breakdown: bd,
+      result_type: bd.length ? bd[0].label : "—", results: bd.length ? bd[0].value : 0,
+      cpl: bd.length ? bd[0].cost : null,
+      roas: div(s.conversion_value, s.spend), profit: s.conversion_value ? Math.round((s.conversion_value - s.spend) * 100) / 100 : null,
+    };
+    // métricas de negócio — mesmas fórmulas do build_painel.metricas()
+    const v = vendasJanela(client);
+    const teto = div(v.faturamento, s.conversas), custoConv = div(s.spend, s.conversas);
+    const pm = {
+      gasto: s.spend, conversas: s.conversas, leads: s.leads, cliques: s.link_clicks,
+      vendas: v.vendas, faturamento: v.faturamento, consultas: v.consultas,
+      ticket: div(v.faturamento, v.vendas), custo_venda: div(s.spend, v.vendas),
+      lucro: v.faturamento ? Math.round((v.faturamento - s.spend) * 100) / 100 : null,
+      margem_pct: v.faturamento ? pct(v.faturamento - s.spend, v.faturamento) : null,
+      roas_conta: div(v.faturamento, s.spend),
+      consultas_por_venda: div(v.consultas, v.vendas), taxa_conversao_pct: pct(v.vendas, v.consultas),
+      teto_conversa: teto, custo_conversa: custoConv,
+      folga: (teto && custoConv) ? Math.round(teto / custoConv * 100) / 100 : null,
+    };
+    return (_cacheJanela[client] = { am, pm, camps });
+  }
+
+  const am = (a) => state.period === "custom" ? janelaDe(a.client).am
+    : ((((a.periods || {})[state.period] || {}).account) || {});
+  const pmOf = (client) => state.period === "custom" ? janelaDe(client).pm
+    : (((((PBY[client] || {}).periods) || {})[state.period]) || {});
+  const campsOf = (a) => state.period === "custom" ? janelaDe(a.client).camps
+    : ((((a.periods || {})[state.period] || {}).campaigns) || []);
 
   /* ── nível da folga ── */
   const tone = (folga) => folga == null ? null : folga >= 1.5 ? "good" : folga >= 1 ? "warn" : "bad";
@@ -346,17 +557,70 @@
       el.title = dt.toLocaleString("pt-BR");
     } else el.style.display = "none";
 
-    // período: segmentado (desktop) + select (mobile)
-    const seg = document.getElementById("periodSeg"), sel = document.getElementById("periodSel");
-    PERIODS.forEach(p => {
+    // ── seletor de período estilo Gerenciador: presets à esquerda + calendário ──
+    const pop = document.getElementById("calPop"), btn = document.getElementById("calBtn");
+    const pres = document.getElementById("calPresets");
+    PERIODS.filter(p => p !== "custom").forEach(p => {
       const b = document.createElement("button");
       b.textContent = PERIOD_LABELS[p] || p; b.dataset.p = p;
-      b.onclick = () => { state.period = p; render(); };
-      seg.appendChild(b);
-      const o = document.createElement("option");
-      o.value = p; o.textContent = PERIOD_LABELS[p] || p; sel.appendChild(o);
+      b.onclick = () => { state.period = p; fechaCal(); render(); };
+      pres.appendChild(b);
     });
-    sel.onchange = () => { state.period = sel.value; render(); };
+    const cal = { ini: null, fim: null, y: 0, m: 0 };   // estado do popover (pendente até Aplicar)
+    const mesLbl = document.getElementById("calMes"), grid = document.getElementById("calGrid");
+    const rngLbl = document.getElementById("calRange"), btnApply = document.getElementById("calApply");
+    const ymMin = DESDE.slice(0, 7), ymMax = hojeISO.slice(0, 7);
+    const MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho",
+                   "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+
+    function abreCal() {
+      cal.ini = state.period === "custom" ? state.cIni : null;
+      cal.fim = state.period === "custom" ? state.cFim : null;
+      const ref = cal.fim || hojeISO;
+      cal.y = +ref.slice(0, 4); cal.m = +ref.slice(5, 7) - 1;
+      pop.hidden = false; desenhaCal();
+    }
+    function fechaCal() { pop.hidden = true; }
+    btn.onclick = () => { pop.hidden ? abreCal() : fechaCal(); };
+    document.addEventListener("click", (e) => { if (!pop.hidden && !e.target.closest(".cal-wrap")) fechaCal(); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechaCal(); });
+    document.getElementById("calCancel").onclick = fechaCal;
+    document.getElementById("calPrev").onclick = () => { if (--cal.m < 0) { cal.m = 11; cal.y--; } desenhaCal(); };
+    document.getElementById("calNext").onclick = () => { if (++cal.m > 11) { cal.m = 0; cal.y++; } desenhaCal(); };
+    btnApply.onclick = () => {
+      if (!cal.ini) return;
+      state.period = "custom"; state.cIni = cal.ini; state.cFim = cal.fim || cal.ini;
+      fechaCal(); render();
+    };
+
+    function desenhaCal() {
+      const ym = `${cal.y}-${String(cal.m + 1).padStart(2, "0")}`;
+      mesLbl.textContent = `${MESES[cal.m]} ${cal.y}`;
+      document.getElementById("calPrev").disabled = ym <= ymMin;
+      document.getElementById("calNext").disabled = ym >= ymMax;
+      let html = ["S", "T", "Q", "Q", "S", "S", "D"].map(d => `<span class="wd">${d}</span>`).join("");
+      const off = (new Date(cal.y, cal.m, 1).getDay() + 6) % 7;   // semana começa na segunda
+      const nd = new Date(cal.y, cal.m + 1, 0).getDate();
+      for (let i = 0; i < off; i++) html += `<button class="cal-day fora" tabindex="-1"></button>`;
+      for (let d = 1; d <= nd; d++) {
+        const iso = `${ym}-${String(d).padStart(2, "0")}`;
+        const dis = iso < DESDE || iso > hojeISO;
+        const edge = iso === cal.ini || iso === cal.fim;
+        const dentro = cal.ini && cal.fim && iso > cal.ini && iso < cal.fim;
+        html += `<button class="cal-day${dis ? " dis" : ""}${dentro ? " in" : ""}${edge ? " edge" : ""}"${dis ? " disabled" : ` data-d="${iso}"`}>${d}</button>`;
+      }
+      grid.innerHTML = html;
+      grid.querySelectorAll(".cal-day[data-d]").forEach(b => { b.onclick = () => diaClick(b.dataset.d); });
+      rngLbl.textContent = cal.ini ? (fmtBR(cal.ini) + " → " + (cal.fim ? fmtBR(cal.fim) : "…")) : "escolha o início";
+      btnApply.disabled = !cal.ini;
+    }
+    function diaClick(iso) {
+      if (!cal.ini || (cal.ini && cal.fim)) { cal.ini = iso; cal.fim = null; }
+      else if (iso < cal.ini) { cal.fim = cal.ini; cal.ini = iso; }
+      else { cal.fim = iso; }
+      desenhaCal();
+    }
+    if (location.search.indexOf("calopen") >= 0) setTimeout(abreCal, 60);  // apoio de teste/print
 
     // abas
     const tabs = document.getElementById("tabs");
@@ -381,10 +645,20 @@
 
   /* ── render raiz ── */
   function render() {
+    for (const k in _cacheJanela) delete _cacheJanela[k];   // datas podem ter mudado
+    const custom = state.period === "custom";
+    document.body.classList.toggle("custom-on", custom);
+    if (custom) {
+      const dIni = document.getElementById("dIni"), dFim = document.getElementById("dFim");
+      if (dIni) dIni.value = state.cIni;
+      if (dFim) dFim.value = state.cFim;
+    }
     document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === state.tab));
-    document.querySelectorAll("#periodSeg button").forEach(b => b.classList.toggle("on", b.dataset.p === state.period));
-    document.getElementById("periodSel").value = state.period;
-    try { history.replaceState(null, "", "#" + encodeURIComponent(state.tab) + "|" + state.period); } catch (e) {}
+    document.querySelectorAll("#calPresets button").forEach(b => b.classList.toggle("on", !custom && b.dataset.p === state.period));
+    const calLbl = document.getElementById("calLbl");
+    if (calLbl) calLbl.textContent = periodoLabel();
+    const hp = custom ? `c:${state.cIni}:${state.cFim}` : state.period;
+    try { history.replaceState(null, "", "#" + encodeURIComponent(state.tab) + "|" + hp); } catch (e) {}
     document.getElementById("view").innerHTML = state.tab === "__agencia__" ? renderAgencia() : renderClient(state.tab);
     wire();
   }
@@ -474,7 +748,7 @@
     </tr>`;
 
     return strip + `
-      <h2 class="section">Clientes — ${PERIOD_LABELS[state.period] || state.period}</h2>
+      <h2 class="section">Clientes — ${periodoLabel()}</h2>
       <div class="table-wrap resp"><table>
         <thead><tr><th>Cliente</th><th><span class="src m"></span> Gasto</th><th><span class="src m"></span> Resultados</th><th>Custo/resultado</th><th><span class="src m"></span> Conversas</th><th><span class="src n"></span> Faturamento</th><th><span class="src n"></span> Vendas</th><th>Ticket</th><th>ROAS</th><th>Folga</th></tr></thead>
         <tbody>${body}${totalRow}</tbody></table></div>
@@ -489,7 +763,7 @@
     const acc = PBY[clientName] || {};
     const cur = a.currency;
 
-    const head = `<div class="client-head"><h2>${esc(a.client)}</h2><span class="acc">${esc(a.label || "")} · act_${a.ad_account_id} · ${PERIOD_LABELS[state.period] || state.period}</span></div>`;
+    const head = `<div class="client-head"><h2>${esc(a.client)}</h2><span class="acc">${esc(a.label || "")} · act_${a.ad_account_id} · ${periodoLabel()}</span></div>`;
 
     /* herói */
     const heroHtml = hero(p, acc, cur);
@@ -589,7 +863,9 @@
       parts.push(`Entraram <b>${fMoney(f, cur)}</b> em vendas${g ? ` com <b>${fMoney(g, cur)}</b> investidos` : " sem mídia no período"}.`);
     }
     if (p.consultas_por_venda > 0 && acc.consulta_label) {
-      parts.push(`São <b>${fDec(p.consultas_por_venda)}</b> ${(PLURAL[acc.consulta_label] || acc.consulta_label + "s").toLowerCase()} pra fechar 1 venda.`);
+      const uma = p.consultas_por_venda === 1;
+      const lbl = (uma ? acc.consulta_label : (PLURAL[acc.consulta_label] || acc.consulta_label + "s")).toLowerCase();
+      parts.push(`${uma ? "É" : "São"} <b>${fDec(p.consultas_por_venda)}</b> ${lbl} pra fechar 1 venda.`);
     }
     if (p.teto_conversa != null && p.custo_conversa != null) {
       parts.push(`Dá pra pagar até <b>${fMoney(p.teto_conversa, cur)}</b> por conversa — hoje paga <b>${fMoney(p.custo_conversa, cur)}</b>, folga de <b>${fX(p.folga)}</b>.`);
