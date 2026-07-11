@@ -582,7 +582,13 @@
     }
     function fechaCal() { pop.hidden = true; }
     btn.onclick = () => { pop.hidden ? abreCal() : fechaCal(); };
-    document.addEventListener("click", (e) => { if (!pop.hidden && !e.target.closest(".cal-wrap")) fechaCal(); });
+    document.addEventListener("click", (e) => {
+      if (pop.hidden) return;
+      // clique num dia re-desenha o grid: quando o evento chega aqui o alvo já foi
+      // trocado (desconectado) e o closest() falharia -> NÃO é clique fora, ignora.
+      if (!(e.target instanceof Element) || !e.target.isConnected) return;
+      if (!e.target.closest(".cal-wrap")) fechaCal();
+    });
     document.addEventListener("keydown", (e) => { if (e.key === "Escape") fechaCal(); });
     document.getElementById("calCancel").onclick = fechaCal;
     document.getElementById("calPrev").onclick = () => { if (--cal.m < 0) { cal.m = 11; cal.y--; } desenhaCal(); };
@@ -610,10 +616,14 @@
         html += `<button class="cal-day${dis ? " dis" : ""}${dentro ? " in" : ""}${edge ? " edge" : ""}"${dis ? " disabled" : ` data-d="${iso}"`}>${d}</button>`;
       }
       grid.innerHTML = html;
-      grid.querySelectorAll(".cal-day[data-d]").forEach(b => { b.onclick = () => diaClick(b.dataset.d); });
       rngLbl.textContent = cal.ini ? (fmtBR(cal.ini) + " → " + (cal.fim ? fmtBR(cal.fim) : "…")) : "escolha o início";
       btnApply.disabled = !cal.ini;
     }
+    // delegação: o grid persiste entre re-desenhos (os botões de dia, não)
+    grid.onclick = (e) => {
+      const b = e.target.closest(".cal-day[data-d]");
+      if (b) diaClick(b.dataset.d);
+    };
     function diaClick(iso) {
       if (!cal.ini || (cal.ini && cal.fim)) { cal.ini = iso; cal.fim = null; }
       else if (iso < cal.ini) { cal.fim = cal.ini; cal.ini = iso; }
