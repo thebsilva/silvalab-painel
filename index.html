@@ -508,8 +508,9 @@
     const vazio = { am: {}, pm: {}, camps: [] };
     if (!dd) return (_cacheJanela[client] = vazio);
     const s = somaDias(dd.dias);
-    // conversa REAL (webhook) onde há captura; senão proxy Meta do diário. Marca a fonte.
-    const real = temConversaReal(client);
+    // conversa REAL só se o webhook COBRE a janela (início >= 1ª captura); senão proxy Meta.
+    const cvDesde = (CVBY[client] || {}).desde || "9999";
+    const real = temConversaReal(client) && state.cIni >= cvDesde;
     const conversas = real ? conversasReaisJanela(client) : s.conversas;
     const fonte = real ? "real" : "meta";
     const camps = Object.entries(dd.campanhas || {})
