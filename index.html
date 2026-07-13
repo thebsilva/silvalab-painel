@@ -313,6 +313,7 @@
 <script src="data.js"></script>
 <script src="painel.js"></script>
 <script src="diario.js"></script>
+<script src="conversas.js"></script>
 <script>
 (function () {
   "use strict";
@@ -323,6 +324,9 @@
   ((DD && DD.campos) || []).forEach((c, i) => { DIDX[c] = i; });
   const DDBY = {};                                  // client -> conta diária
   ((DD && DD.accounts) || []).forEach(a => { DDBY[a.client] = a; });
+  const CV = window.CONVERSAS_DATA || null;         // conversas de VERDADE por dia (webhook)
+  const CVBY = (CV && CV.clientes) || {};           // client -> {dias:{data:{conversas,...}}}
+  const temConversaReal = (client) => !!(CVBY[client] && CVBY[client].dias && Object.keys(CVBY[client].dias).length);
 
   const PERIOD_LABELS = {
     today: "Hoje", yesterday: "Ontem", last_7d: "7 dias", last_14d: "14 dias",
@@ -426,6 +430,13 @@
     return { consultas: c, vendas: v, faturamento: Math.round(f * 100) / 100 };
   }
 
+  function conversasReaisJanela(client) {         // conversas de VERDADE (webhook) somadas no range
+    const dias = (CVBY[client] || {}).dias || {};
+    let c = 0;
+    for (const d in dias) if (emJanela(d)) c += dias[d].conversas || 0;
+    return c;
+  }
+
   // porta fiel do resolve_result do coletor (ads_collect.py) — decide a headline da campanha
   function resolveResult(og, dest, objective, m) {
     og = (og || "").toUpperCase(); dest = (dest || "").toUpperCase(); const obj = (objective || "").toUpperCase();
@@ -497,6 +508,10 @@
     const vazio = { am: {}, pm: {}, camps: [] };
     if (!dd) return (_cacheJanela[client] = vazio);
     const s = somaDias(dd.dias);
+    // conversa REAL (webhook) onde há captura; senão proxy Meta do diário. Marca a fonte.
+    const real = temConversaReal(client);
+    const conversas = real ? conversasReaisJanela(client) : s.conversas;
+    const fonte = real ? "real" : "meta";
     const camps = Object.entries(dd.campanhas || {})
       .map(([cid, c]) => campSintetica(cid, c, dd.catalogo || {}))
       .filter(Boolean).sort((a, b) => b.spend - a.spend);
@@ -505,16 +520,16 @@
       spend: s.spend, impressions: s.impressions, clicks: s.clicks, link_clicks: s.link_clicks,
       reach: null, frequency: null,
       ctr: div(s.clicks * 100, s.impressions), cpc: div(s.spend, s.clicks), cpm: div(s.spend * 1000, s.impressions),
-      conversas: s.conversas, results_breakdown: bd,
+      conversas: conversas, conversas_fonte: fonte, results_breakdown: bd,
       result_type: bd.length ? bd[0].label : "—", results: bd.length ? bd[0].value : 0,
       cpl: bd.length ? bd[0].cost : null,
       roas: div(s.conversion_value, s.spend), profit: s.conversion_value ? Math.round((s.conversion_value - s.spend) * 100) / 100 : null,
     };
     // métricas de negócio — mesmas fórmulas do build_painel.metricas()
     const v = vendasJanela(client);
-    const teto = div(v.faturamento, s.conversas), custoConv = div(s.spend, s.conversas);
+    const teto = div(v.faturamento, conversas), custoConv = div(s.spend, conversas);
     const pm = {
-      gasto: s.spend, conversas: s.conversas, leads: s.leads, cliques: s.link_clicks,
+      gasto: s.spend, conversas: conversas, conversas_fonte: fonte, leads: s.leads, cliques: s.link_clicks,
       vendas: v.vendas, faturamento: v.faturamento, consultas: v.consultas,
       ticket: div(v.faturamento, v.vendas), custo_venda: div(s.spend, v.vendas),
       lucro: v.faturamento ? Math.round((v.faturamento - s.spend) * 100) / 100 : null,
@@ -790,7 +805,9 @@
       ${bd.slice(0, 3).map(b => kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un` : ""), fInt(b.value))).join("") || kpi("Resultados", fInt(m.results))}
       ${kpi("CTR", fPct(m.ctr, 2))}
       ${kpi("CPM", fMoney(m.cpm, cur))}
-      ${kpi("Conversas", fInt(p.conversas || null), "proxy da Meta até o webhook real")}
+      ${p.conversas_fonte === "real"
+        ? kpi("Conversas", fInt(p.conversas || null), "de verdade — ≥ mín. de msgs, do nosso webhook", "n")
+        : kpi("Conversas", fInt(p.conversas || null), "proxy da Meta até o webhook real", "m")}
     </div>`;
 
     /* KPIs — vendas (nosso) */
@@ -887,10 +904,13 @@
   /* ── funil + caminho por venda ── */
   function funnel(p, acc) {
     const vendas = p.vendas || 0, cur = acc.currency;
-    const conversaTip = "Hoje é a contagem da Meta (proxy). Quando o webhook próprio ligar, vira a conversa qualificada que combinamos — mínimo de mensagens espalhadas, sem contar rajada.";
+    const convReal = p.conversas_fonte === "real";
+    const conversaTip = convReal
+      ? "Conversa de verdade: o contato mandou pelo menos o mínimo de mensagens espalhadas (nosso webhook), não a estimativa da Meta."
+      : "Hoje é a contagem da Meta (proxy). Quando o webhook próprio ligar, vira a conversa qualificada que combinamos — mínimo de mensagens espalhadas, sem contar rajada.";
     const stages = [
       { k: "Cliques no link", v: p.cliques, src: "m" },
-      { k: "Conversas iniciadas", v: p.conversas, src: "m", tip: conversaTip },
+      { k: "Conversas iniciadas", v: p.conversas, src: convReal ? "n" : "m", tip: conversaTip },
     ];
     const temConsulta = acc.consulta_label && (p.consultas || 0) > 0;
     if (temConsulta) stages.push({ k: PLURAL[acc.consulta_label] || acc.consulta_label + "s", v: p.consultas, src: "n", tip: acc.consulta_label + " agendada" });
