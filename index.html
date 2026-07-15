@@ -174,6 +174,63 @@
   .insight.bad { border-left-color: var(--red-hi); }
   .insight.bad .kicker { color: var(--red-hi); }
 
+  /* ───── Simulador de escala ───── */
+  .sim-cta {
+    display: inline-flex; align-items: center; gap: 7px; margin: 12px 0 2px;
+    background: var(--navy); color: #ECE5D5; border: 0; border-radius: 9px;
+    padding: 9px 15px; font: 600 12.5px var(--body); cursor: pointer; transition: .13s;
+  }
+  .sim-cta:hover { background: #1d2b42; }
+  .sim-overlay {
+    position: fixed; inset: 0; background: rgba(20,30,46,.44); z-index: 60;
+    display: flex; justify-content: flex-end; opacity: 0; transition: opacity .18s;
+  }
+  .sim-overlay.open { opacity: 1; }
+  .sim-panel {
+    background: var(--bg); width: min(640px, 100%); height: 100%; overflow-y: auto; overflow-x: hidden;
+    box-shadow: -14px 0 40px rgba(20,30,46,.22); transform: translateX(26px);
+    transition: transform .2s; padding: 22px clamp(14px,3vw,24px) 36px;
+  }
+  .sim-overlay.open .sim-panel { transform: none; }
+  .sim-tw { overflow-x: auto; margin: 16px 0 6px; }
+  .sim-tw::-webkit-scrollbar { height: 7px; }
+  .sim-tw::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+  .sim-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .sim-title { font: 800 18px var(--num); letter-spacing: -.2px; display: flex; align-items: center; gap: 9px; }
+  .sim-title svg { color: var(--amber-hi); }
+  .sim-sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .sim-close { background: none; border: 1px solid var(--line); border-radius: 8px; width: 30px; height: 30px; color: var(--muted); cursor: pointer; font-size: 14px; line-height: 1; flex-shrink: 0; }
+  .sim-close:hover { color: var(--cream); border-color: var(--muted-2); }
+  .sim-lead {
+    background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--cyan);
+    border-radius: 11px; padding: 11px 14px; margin: 16px 0 4px; font-size: 13px; color: var(--cream); line-height: 1.5;
+  }
+  .sim-lead b { color: var(--cream); font-weight: 600; }
+  .sim-table { width: 100%; min-width: 460px; border-collapse: collapse; font-size: 13px; }
+  .sim-table th, .sim-table td { padding: 8px 9px; text-align: right; }
+  .sim-table thead th { color: var(--muted); font: 600 12px var(--body); border-bottom: 1px solid var(--line); }
+  .sim-table th:first-child, .sim-table td:first-child { text-align: left; color: var(--muted); font-weight: 500; }
+  .sim-table tbody td { border-top: 1px solid var(--line-soft); color: var(--cream); font-variant-numeric: tabular-nums; }
+  .sim-col-hot { background: rgba(169,108,38,.10); }
+  .sim-table thead th.sim-col-hot { color: var(--amber-hi); border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
+  .sim-delta { display: block; font-size: 10.5px; color: var(--green-hi); font-weight: 500; }
+  .sim-strong td { font-weight: 600; }
+  .sim-up { color: var(--amber-hi); font-size: 10px; vertical-align: 1px; }
+  .sim-alert {
+    display: flex; gap: 8px; align-items: flex-start; margin: 11px 0;
+    background: rgba(169,108,38,.11); border: 1px solid rgba(169,108,38,.32);
+    border-radius: 10px; padding: 10px 13px; font-size: 12.5px; color: var(--amber-hi); line-height: 1.5;
+  }
+  .sim-alert b { color: var(--amber-hi); font-weight: 700; }
+  .sim-reco { background: var(--navy); border-radius: 12px; padding: 14px 16px; margin: 16px 0; }
+  .sim-reco .k { font: 700 10px var(--body); letter-spacing: .12em; text-transform: uppercase; color: var(--amber); display: block; margin-bottom: 6px; }
+  .sim-reco .big { font: 800 17px var(--num); color: #ECE5D5; margin-bottom: 5px; }
+  .sim-reco p { font-size: 12.5px; color: #CFC6B4; line-height: 1.55; }
+  .sim-notes { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 13px; display: grid; gap: 9px; }
+  .sim-note { display: flex; gap: 8px; font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+  .sim-note b { color: var(--cream); font-weight: 600; }
+  .sim-empty { color: var(--muted); font-size: 13px; margin: 20px 0; line-height: 1.6; }
+
   /* ───── Funil ───── */
   .funnel { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
   .stage { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; min-width: 128px; }
@@ -309,6 +366,8 @@
   <main id="view"></main>
 
   <footer id="foot"></footer>
+
+  <div id="simRoot"></div>
 
 <script src="data.js"></script>
 <script src="painel.js"></script>
@@ -700,6 +759,8 @@
       });
     document.querySelectorAll(".camp-controls .seg button").forEach(b =>
       b.onclick = () => { state.campFilter = b.dataset.f; render(); });
+    document.querySelectorAll("[data-sim]").forEach(b =>
+      b.onclick = () => abreEscala(b.dataset.sim));
     const q = document.getElementById("campQuery");
     if (q) {
       q.oninput = () => {
@@ -782,6 +843,142 @@
   }
 
   /* ══════════ ABA CLIENTE ══════════ */
+  /* ══════════ SIMULADOR DE ESCALA ══════════
+     Projeta +20% / +30% / dobrar a verba com RENDIMENTO DECRESCENTE:
+     o volume cresce por m^e (e<1), o custo unitário sobe por m^(1-e).
+     Régua conservadora e=0,632 → dobrar a verba ≈ +55% de resultado. */
+  const ESCALA_E = 0.632;
+  const ESCALA_CEN = [
+    { lbl: "Hoje", m: 1, hot: false },
+    { lbl: "+20%", m: 1.2, hot: false },
+    { lbl: "+30%", m: 1.3, hot: false },
+    { lbl: "Dobrar", m: 2, hot: true },
+  ];
+  const svgTrend = () => `<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg>`;
+  const svgWarn = () => `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>`;
+  const svgInfo = () => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>`;
+
+  const base30 = (client) => { const per = ((PBY[client] || {}).periods) || {}; return per.last_30d || per.this_month || {}; };
+  function escalavel(p) { return !!(p && p.folga != null && p.folga >= 1 && (p.vendas || 0) > 0 && (p.gasto || 0) > 0); }
+
+  function escalaCenarios(b) {
+    const g0 = b.gasto || 0, v0 = b.vendas || 0, f0 = b.faturamento || 0;
+    const cq0 = b.cliques || 0, cv0 = b.conversas || 0, co0 = b.consultas || 0;
+    const fraca = v0 <= 2;                     // 1–2 vendas não formam taxa confiável
+    return ESCALA_CEN.map(c => {
+      const fv = Math.pow(c.m, ESCALA_E), g = g0 * c.m;
+      const fat = f0 * fv, vendas = v0 * fv;
+      return {
+        lbl: c.lbl, hot: c.hot, m: c.m, gasto: g,
+        cliques: cq0 * fv, conversas: cv0 * fv, consultas: co0 * fv,
+        vendas: fraca ? null : vendas,
+        faturamento: fraca ? null : fat,
+        custo_clique: cq0 ? g / (cq0 * fv) : null,
+        custo_conversa: cv0 ? g / (cv0 * fv) : null,
+        custo_venda: (!fraca && v0) ? g / vendas : null,
+        folga: (!fraca && g) ? fat / g : null,
+        d_fat: (!fraca && f0) ? (fat - f0) / f0 : null,
+      };
+    });
+  }
+
+  function recoEscala(b, cens, acc) {
+    if ((b.vendas || 0) <= 2)
+      return { alvo: "+20%", txt: "Poucos dados de venda pra prever com segurança. Suba pouco — +20% — e reavalie no mês que vem, quando houver mais fechamentos pra medir a taxa real." };
+    if (acc.receita_esperada)
+      return { alvo: "+30%", txt: "A receita aqui é esperada (honorários em caso de êxito), não caixa. Cresça firme, mas sem apostar alto numa entrada condicional: +30% é o passo seguro." };
+    const dob = cens.find(c => c.m === 2);
+    if (dob && dob.folga != null && dob.folga >= 1.5)
+      return { alvo: "Dobrar", txt: "A folga sobra mesmo dobrando a verba. Dá pra ir agressivo — mas suba em duas etapas e confira o custo por conversa a cada passo." };
+    return { alvo: "+30%", txt: "+30% mantém a margem confortável; dobrar já aperta a folga além do seguro." };
+  }
+
+  function renderEscala(client) {
+    const a = ACCTS.find(x => x.client === client) || {};
+    const acc = PBY[client] || {};
+    const cur = a.currency || "BRL";
+    const b = base30(client);
+    const head = `<div class="sim-head"><div><div class="sim-title">${svgTrend()} Simulador de escala</div>
+      <div class="sim-sub">${esc(a.label || client)} · base: últimos 30 dias · projeção mensal</div></div>
+      <button class="sim-close" id="simClose" aria-label="Fechar">✕</button></div>`;
+
+    if (!(b.gasto > 0) || !(b.vendas > 0)) {
+      return `<div class="sim-panel" role="dialog" aria-label="Simulador de escala">${head}
+        <div class="sim-empty">Nos últimos 30 dias não houve gasto e venda suficientes pra projetar uma escala com honestidade. Quando a mídia e as vendas do mês estiverem rodando, os cenários aparecem aqui.</div></div>`;
+    }
+
+    const cens = escalaCenarios(b);
+    const fraca = (b.vendas || 0) <= 2;
+    const consultaLbl = acc.consulta_label ? (PLURAL[acc.consulta_label] || acc.consulta_label + "s") : null;
+    const dob = cens.find(c => c.m === 2);
+
+    const thead = `<tr><th></th>${cens.map(c => `<th class="${c.hot ? "sim-col-hot" : ""}">${c.lbl}</th>`).join("")}</tr>`;
+    const row = (label, fn, strong) => `<tr class="${strong ? "sim-strong" : ""}"><td>${label}</td>${
+      cens.map(c => `<td class="${c.hot ? "sim-col-hot" : ""}">${fn(c)}</td>`).join("")}</tr>`;
+    const up = ` <span class="sim-up">▲</span>`;
+
+    const rows = [];
+    rows.push(row("Orçamento/mês", c => fMoney(c.gasto, cur)));
+    if (b.cliques) rows.push(row("Cliques", c => fInt(Math.round(c.cliques))));
+    if (b.conversas) rows.push(row("Conversas", c => fInt(Math.round(c.conversas))));
+    if (b.consultas && consultaLbl) rows.push(row(consultaLbl, c => fInt(Math.round(c.consultas))));
+    rows.push(row("Vendas", c => c.vendas == null ? "—" : fInt(Math.round(c.vendas))));
+    rows.push(row("Faturamento/mês", c => c.faturamento == null ? "—"
+      : fMoney(c.faturamento, cur) + (c.d_fat ? `<span class="sim-delta">+${Math.round(c.d_fat * 100)}%</span>` : ""), true));
+    if (b.cliques) rows.push(row("Custo por clique" + up, c => c.custo_clique == null ? "—" : fMoney(c.custo_clique, cur)));
+    if (b.conversas) rows.push(row("Custo por conversa" + up, c => c.custo_conversa == null ? "—" : fMoney(c.custo_conversa, cur)));
+    rows.push(row("Custo por venda" + up, c => c.custo_venda == null ? "—" : fMoney(c.custo_venda, cur)));
+    rows.push(row("Folga até o teto", c => c.folga == null ? "—" : fX(c.folga)));
+
+    const lead = fraca
+      ? `Só <b>${fInt(b.vendas)}</b> venda no período — poucos dados pra projetar faturamento com honestidade. Mostro o crescimento das <b>conversas</b> (que respondem ao gasto); a venda fica pra reavaliar com mais histórico.`
+      : `Dobrando a verba (+100%) o faturamento sobe <b>~${Math.round((dob.d_fat || 0) * 100)}%</b>, não 100% — cada conversa nova custa mais caro.`;
+
+    const alerts = [];
+    if (!fraca && dob && dob.vendas != null)
+      alerts.push(`Dobrar projeta <b>~${fInt(Math.round(dob.vendas))} vendas/mês</b> (hoje ~${fInt(Math.round(cens[0].vendas))}). Confira se a operação dá conta do atendimento antes de escalar.`);
+
+    const notes = [];
+    notes.push(`<b>Rendimento decrescente embutido:</b> cada real novo traz menos conversa, por isso a verba dobra mas o faturamento não.`);
+    if (acc.receita_esperada) notes.push(`<b>Receita esperada:</b> os valores são honorários em caso de êxito, não caixa garantido.`);
+    notes.push(`<b>Projeção otimista:</b> assume a mesma taxa de fechamento de hoje; escalar rápido costuma piorar o custo por conversa.`);
+
+    const reco = recoEscala(b, cens, acc);
+    return `<div class="sim-panel" role="dialog" aria-label="Simulador de escala — ${esc(client)}">
+      ${head}
+      <div class="sim-lead">${lead}</div>
+      <div class="sim-tw"><table class="sim-table"><thead>${thead}</thead><tbody>${rows.join("")}</tbody></table></div>
+      ${alerts.map(t => `<div class="sim-alert">${svgWarn()}<span>${t}</span></div>`).join("")}
+      <div class="sim-reco"><span class="k">Recomendação</span><div class="big">${esc(reco.alvo)}</div><p>${reco.txt}</p></div>
+      <div class="sim-notes">${notes.map(n => `<div class="sim-note">${svgInfo()}<span>${n}</span></div>`).join("")}</div>
+    </div>`;
+  }
+
+  let _simEsc = null;
+  function abreEscala(client) {
+    const root = document.getElementById("simRoot");
+    if (!root) return;
+    root.innerHTML = `<div class="sim-overlay" id="simOverlay">${renderEscala(client)}</div>`;
+    const ov = document.getElementById("simOverlay");
+    document.body.style.overflow = "hidden";
+    requestAnimationFrame(() => ov && ov.classList.add("open"));
+    const cl = document.getElementById("simClose");
+    if (cl) cl.onclick = fechaEscala;
+    ov.addEventListener("click", (e) => {
+      // clique real borbulha DEPOIS do render; se o alvo já saiu do DOM, não é clique-fora
+      if (!(e.target instanceof Element) || !e.target.isConnected) return;
+      if (!e.target.closest(".sim-panel")) fechaEscala();
+    });
+    _simEsc = (e) => { if (e.key === "Escape") fechaEscala(); };
+    document.addEventListener("keydown", _simEsc);
+  }
+  function fechaEscala() {
+    const ov = document.getElementById("simOverlay");
+    document.body.style.overflow = "";
+    if (_simEsc) { document.removeEventListener("keydown", _simEsc); _simEsc = null; }
+    if (ov) { ov.classList.remove("open"); setTimeout(() => { const r = document.getElementById("simRoot"); if (r) r.innerHTML = ""; }, 200); }
+  }
+
   function renderClient(clientName) {
     const a = ACCTS.find(x => x.client === clientName);
     if (!a) return "";
@@ -797,6 +994,11 @@
     /* insight em linguagem simples */
     const ins = insight(p, acc, cur);
     const insightHtml = ins ? `<div class="insight ${ins.tone || ""}"><span class="kicker">Leitura rápida</span>${ins.txt}</div>` : "";
+
+    /* CTA do simulador — só quando há folga pra escalar e venda-base pra projetar */
+    const escalaCta = escalavel(p)
+      ? `<div><button class="sim-cta" data-sim="${esc(clientName)}">${svgTrend()} Ver cenários de escala</button></div>`
+      : "";
 
     /* KPIs — mídia (Meta) */
     const kpi = (k, v, sub, srcDot) => `<div class="kpi"><div class="v">${v}</div><div class="k">${srcDot ? `<span class="src ${srcDot}"></span>` : ""}${k}</div>${sub ? `<div class="s">${sub}</div>` : ""}</div>`;
@@ -830,7 +1032,7 @@
     /* campanhas */
     const campArea = `<div id="campArea">${renderCamps(a)}</div>`;
 
-    return head + heroHtml + insightHtml + midia + vendas + funnelHtml + campArea;
+    return head + heroHtml + insightHtml + escalaCta + midia + vendas + funnelHtml + campArea;
   }
 
   /* ── herói da folga (com variantes honestas) ── */
@@ -881,7 +1083,7 @@
     const g = p.gasto || 0, f = p.faturamento || 0;
     if (!g && !f) return null;
     if (g && !f) {
-      return { tone: "bad", txt: `Investiu <b>${fMoney(g, cur)}</b> e teve <b>${fInt(p.conversas || 0)}</b> conversas${p.custo_conversa != null ? ` (<b>${fMoney(p.custo_conversa, cur)}</b> cada)` : ""} — nenhuma venda registrada no período.` };
+      return { tone: "bad", txt: `Investiu <b>${fMoney(g, cur)}</b> e teve <b>${fInt(p.conversas || 0)}</b> conversas${p.custo_conversa != null ? ` (<b>${fMoney(p.custo_conversa, cur)}</b> cada)` : ""} — nenhuma venda registrada no período. <b style="color:var(--red)">→ revisar a campanha: gasto sem retorno.</b>` };
     }
     const verbo = acc.receita_esperada ? "deve valer" : "valeu";
     const parts = [];
@@ -897,6 +1099,14 @@
     }
     if (p.teto_conversa != null && p.custo_conversa != null) {
       parts.push(`Dá pra pagar até <b>${fMoney(p.teto_conversa, cur)}</b> por conversa — hoje paga <b>${fMoney(p.custo_conversa, cur)}</b>, folga de <b>${fX(p.folga)}</b>.`);
+    }
+    // fecha aconselhando (não só descrevendo) — o "braço direito"
+    if (p.folga != null) {
+      parts.push(p.folga >= 1.5
+        ? `<b style="color:var(--green)">→ dá pra escalar o investimento aqui.</b>`
+        : p.folga >= 1
+        ? `<b style="color:var(--amber)">→ dá pra crescer, mas com margem apertada.</b>`
+        : `<b style="color:var(--red)">→ segure: no ritmo atual a conversa custa mais que o teto.</b>`);
     }
     if (acc.receita_esperada) parts.push(`<span style="color:var(--muted)">Receita esperada: honorários entram em caso de êxito.</span>`);
     return parts.length ? { txt: parts.join(" ") } : null;
