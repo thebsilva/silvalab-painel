@@ -1002,15 +1002,21 @@
 
     /* KPIs — mídia (Meta) */
     const kpi = (k, v, sub, srcDot) => `<div class="kpi"><div class="v">${v}</div><div class="k">${srcDot ? `<span class="src ${srcDot}"></span>` : ""}${k}</div>${sub ? `<div class="s">${sub}</div>` : ""}</div>`;
-    const bd = m.results_breakdown || [];
+    const bd = (m.results_breakdown || []).filter(b => b.label !== "Conversas");  // conversas têm cards próprios (iniciadas/realizadas)
+    const jDesde = p.janela_desde ? ` · desde ${fDate(p.janela_desde)}` : "";
+    const cardIniciadas = kpi("Conversas iniciadas", fInt(p.iniciadas || null),
+      p.iniciadas_fonte === "real" ? "quem começou — nosso webhook" + jDesde : "quem começou — Meta",
+      p.iniciadas_fonte === "real" ? "n" : "m");
+    const cardRealizadas = p.realizadas == null
+      ? kpi("Conversas realizadas", "—", "sem captura aqui — o webhook ligou depois", null)
+      : kpi("Conversas realizadas", fInt(p.realizadas || null), "trocou ≥ mín. de msgs — nosso webhook" + jDesde, "n");
     const midia = `<h2 class="section"><span class="src m"></span> Mídia — Meta</h2><div class="kpi-row">
       ${kpi("Gasto", fMoney(p.gasto != null ? p.gasto : m.spend, cur))}
-      ${bd.slice(0, 3).map(b => kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un` : ""), fInt(b.value))).join("") || kpi("Resultados", fInt(m.results))}
+      ${bd.slice(0, 3).map(b => kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un` : ""), fInt(b.value))).join("")}
+      ${cardIniciadas}
+      ${cardRealizadas}
       ${kpi("CTR", fPct(m.ctr, 2))}
       ${kpi("CPM", fMoney(m.cpm, cur))}
-      ${p.conversas_fonte === "real"
-        ? kpi("Conversas", fInt(p.conversas || null), "de verdade — ≥ mín. de msgs, do nosso webhook", "n")
-        : kpi("Conversas", fInt(p.conversas || null), "proxy da Meta até o webhook real", "m")}
     </div>`;
 
     /* KPIs — vendas (nosso) */
@@ -1115,13 +1121,13 @@
   /* ── funil + caminho por venda ── */
   function funnel(p, acc) {
     const vendas = p.vendas || 0, cur = acc.currency;
-    const convReal = p.conversas_fonte === "real";
-    const conversaTip = convReal
-      ? "Conversa de verdade: o contato mandou pelo menos o mínimo de mensagens espalhadas (nosso webhook), não a estimativa da Meta."
-      : "Hoje é a contagem da Meta (proxy). Quando o webhook próprio ligar, vira a conversa qualificada que combinamos — mínimo de mensagens espalhadas, sem contar rajada.";
+    const iniReal = p.iniciadas_fonte === "real";
+    const iniTip = iniReal
+      ? "Conversas iniciadas contadas pelo nosso webhook (quem mandou a 1ª mensagem)."
+      : "Conversas iniciadas pela contagem da Meta (proxy). Onde o webhook cobre o período, passa a ser a contagem própria.";
     const stages = [
       { k: "Cliques no link", v: p.cliques, src: "m" },
-      { k: "Conversas iniciadas", v: p.conversas, src: convReal ? "n" : "m", tip: conversaTip },
+      { k: "Conversas iniciadas", v: p.iniciadas, src: iniReal ? "n" : "m", tip: iniTip },
     ];
     const temConsulta = acc.consulta_label && (p.consultas || 0) > 0;
     if (temConsulta) stages.push({ k: PLURAL[acc.consulta_label] || acc.consulta_label + "s", v: p.consultas, src: "n", tip: acc.consulta_label + " agendada" });
@@ -1142,13 +1148,13 @@
 
     // (2) caminho POR VENDA — "quantos de cada pra fechar 1 venda"
     const pv = (x) => x == null ? "—" : (x >= 10 ? fInt(Math.round(x)) : fDec(Math.round(x * 10) / 10));
-    const coerente = vendas > 0 && (p.conversas || 0) >= vendas && (p.cliques || 0) >= (p.conversas || 0);
+    const coerente = vendas > 0 && (p.iniciadas || 0) >= vendas && (p.cliques || 0) >= (p.iniciadas || 0);
     let caminho = "";
     if (coerente) {
-      const temReuniao = acc.consulta_label && (p.consultas || 0) >= vendas && (p.consultas || 0) <= (p.conversas || 0);
+      const temReuniao = acc.consulta_label && (p.consultas || 0) >= vendas && (p.consultas || 0) <= (p.iniciadas || 0);
       const s = [`<div class="path-step money"><b>${fMoney(p.custo_venda, cur)}</b><span>em anúncio</span></div>`];
       if (p.cliques) s.push(`<div class="path-step"><b>${pv(p.cliques / vendas)}</b><span>cliques no link</span></div>`);
-      s.push(`<div class="path-step"><b>${pv(p.conversas / vendas)}</b><span>conversas iniciadas</span></div>`);
+      s.push(`<div class="path-step"><b>${pv(p.iniciadas / vendas)}</b><span>conversas iniciadas</span></div>`);
       if (temReuniao) s.push(`<div class="path-step"><b>${pv(p.consultas / vendas)}</b><span>${esc((PLURAL[acc.consulta_label] || acc.consulta_label + "s").toLowerCase())}</span></div>`);
       s.push(`<div class="path-step sale"><b>1</b><span>venda</span></div>`);
       caminho = `<div class="path-lead">Para fechar <b>1 venda</b>, o caminho no período:</div><div class="path">${s.join('<div class="path-arrow">→</div>')}</div>`;
