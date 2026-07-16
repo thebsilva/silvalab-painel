@@ -518,10 +518,10 @@
     return { consultas: c, vendas: v, faturamento: Math.round(f * 100) / 100 };
   }
 
-  function conversasReaisJanela(client) {         // conversas de VERDADE (webhook) somadas no range
+  function somaWebhook(client, campo, ini, fim) { // soma um campo do webhook (contatos=iniciadas, conversas=realizadas) no range
     const dias = (CVBY[client] || {}).dias || {};
     let c = 0;
-    for (const d in dias) if (emJanela(d)) c += dias[d].conversas || 0;
+    for (const d in dias) if (d >= ini && d <= fim) c += dias[d][campo] || 0;
     return c;
   }
 
@@ -596,11 +596,22 @@
     const vazio = { am: {}, pm: {}, camps: [] };
     if (!dd) return (_cacheJanela[client] = vazio);
     const s = somaDias(dd.dias);
-    // conversa REAL só se o webhook COBRE a janela (início >= 1ª captura); senão proxy Meta.
+    // mesmas regras do build_painel: onde o webhook cobre, INICIADAS e REALIZADAS vêm ambas
+    // dele na MESMA janela; herói usa realizadas só com a janela TODA coberta (senão Meta).
     const cvDesde = (CVBY[client] || {}).desde || "9999";
-    const real = temConversaReal(client) && state.cIni >= cvDesde;
-    const conversas = real ? conversasReaisJanela(client) : s.conversas;
-    const fonte = real ? "real" : "meta";
+    const cobre = temConversaReal(client) && state.cFim >= cvDesde;
+    const totalCoberto = cobre && state.cIni >= cvDesde;
+    let iniciadas, iniFonte, realizadas, janelaDesde;
+    if (cobre) {
+      const j0 = state.cIni >= cvDesde ? state.cIni : cvDesde;
+      iniciadas = somaWebhook(client, "contatos", j0, state.cFim); iniFonte = "real";
+      realizadas = somaWebhook(client, "conversas", j0, state.cFim);
+      janelaDesde = state.cIni < cvDesde ? j0 : null;
+    } else {
+      iniciadas = s.conversas; iniFonte = "meta"; realizadas = null; janelaDesde = null;
+    }
+    const conversas = totalCoberto ? realizadas : s.conversas;
+    const fonte = totalCoberto ? "real" : "meta";
     const camps = Object.entries(dd.campanhas || {})
       .map(([cid, c]) => campSintetica(cid, c, dd.catalogo || {}))
       .filter(Boolean).sort((a, b) => b.spend - a.spend);
@@ -627,6 +638,9 @@
       consultas_por_venda: div(v.consultas, v.vendas), taxa_conversao_pct: pct(v.vendas, v.consultas),
       teto_conversa: teto, custo_conversa: custoConv,
       folga: (teto && custoConv) ? Math.round(teto / custoConv * 100) / 100 : null,
+      iniciadas: iniciadas, iniciadas_fonte: iniFonte,
+      realizadas: realizadas, realizadas_fonte: realizadas == null ? "nenhuma" : "real",
+      janela_desde: janelaDesde,
     };
     return (_cacheJanela[client] = { am, pm, camps });
   }
@@ -917,13 +931,61 @@
   const svgWarn = () => `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>`;
   const svgInfo = () => `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg>`;
 
-  const base30 = (client) => { const per = ((PBY[client] || {}).periods) || {}; return per.last_30d || per.this_month || {}; };
-  function escalavel(p) { return !!(p && p.folga != null && p.folga >= 1 && (p.vendas || 0) > 0 && (p.gasto || 0) > 0); }
+  function escalavel(p) {
+    if (!p || !(p.gasto > 0) || !((p.vendas || 0) > 0)) return false;
+    return p.folga == null || p.folga >= 1;   // folga medida e <1 = a leitura já manda segurar, sem CTA de escala
+  }
 
-  function escalaCenarios(b) {
+  // janela [ini, fim] de cada preset — espelho do janelas() do build_painel (last_Xd termina ONTEM)
+  function boundsPreset(p) {
+    const d = (iso, n) => { const t = new Date(iso + "T12:00:00"); t.setDate(t.getDate() + n); return t.toISOString().slice(0, 10); };
+    const ontem = d(hojeISO, -1), iniMes = hojeISO.slice(0, 8) + "01";
+    switch (p) {
+      case "today": return [hojeISO, hojeISO];
+      case "yesterday": return [ontem, ontem];
+      case "last_7d": return [d(hojeISO, -7), ontem];
+      case "last_14d": return [d(hojeISO, -14), ontem];
+      case "last_30d": return [d(hojeISO, -30), ontem];
+      case "this_month": return [iniMes, hojeISO];
+      case "last_month": { const fim = d(iniMes, -1); return [fim.slice(0, 8) + "01", fim]; }
+      default: return [DESDE, hojeISO];   // "tudo" -> recorta pro histórico diário (o que dá pra mensalizar)
+    }
+  }
+
+  // agrega o diário numa janela ARBITRÁRIA (reusa janelaDe trocando a janela do estado por um instante)
+  function aggJanela(client, ini, fim) {
+    const pi = state.cIni, pf = state.cFim, cacheAntes = _cacheJanela[client];
+    state.cIni = ini; state.cFim = fim; delete _cacheJanela[client];
+    const pm = janelaDe(client).pm;
+    state.cIni = pi; state.cFim = pf;
+    if (cacheAntes) _cacheJanela[client] = cacheAntes; else delete _cacheJanela[client];
+    return pm;
+  }
+
+  /* base do simulador: (1) últimos 30 dias se sustentam projeção; senão (2) o PERÍODO QUE O
+     BRUNO ESTÁ OLHANDO, mensalizado (média de 30 dias) — responde "estou filtrando o ano todo,
+     como não posso saber a escala?"; senão (3) null -> estado vazio honesto. */
+  function baseEscala(client) {
+    const p30 = (((PBY[client] || {}).periods) || {}).last_30d || {};
+    if ((p30.gasto || 0) > 0 && (p30.vendas || 0) > 0)
+      return { b: p30, vendasReais: p30.vendas, fator: 1, lbl: "últimos 30 dias" };
+    const [i0, fim] = state.period === "custom" ? [state.cIni, state.cFim] : boundsPreset(state.period);
+    const ini = i0 < DESDE ? DESDE : i0;
+    const bj = aggJanela(client, ini, fim);
+    if ((bj.gasto || 0) > 0 && (bj.vendas || 0) > 0) {
+      const dias = Math.max(1, Math.round((new Date(fim + "T12:00:00") - new Date(ini + "T12:00:00")) / 864e5) + 1);
+      const f = 30 / dias;
+      const b = { gasto: (bj.gasto || 0) * f, vendas: (bj.vendas || 0) * f, faturamento: (bj.faturamento || 0) * f,
+                  cliques: (bj.cliques || 0) * f, conversas: (bj.conversas || 0) * f, consultas: (bj.consultas || 0) * f };
+      return { b, vendasReais: bj.vendas, fator: f, lbl: `média mensal de ${fmtBR(ini)} → ${fmtBR(fim)}`, ini, fim };
+    }
+    return null;
+  }
+
+  function escalaCenarios(b, vendasReais) {
     const g0 = b.gasto || 0, v0 = b.vendas || 0, f0 = b.faturamento || 0;
     const cq0 = b.cliques || 0, cv0 = b.conversas || 0, co0 = b.consultas || 0;
-    const fraca = v0 <= 2;                     // 1–2 vendas não formam taxa confiável
+    const fraca = vendasReais <= 2;            // amostra = contagem CRUA do período (1–2 vendas não formam taxa)
     return ESCALA_CEN.map(c => {
       const fv = Math.pow(c.m, ESCALA_E), g = g0 * c.m;
       const fat = f0 * fv, vendas = v0 * fv;
@@ -941,8 +1003,8 @@
     });
   }
 
-  function recoEscala(b, cens, acc) {
-    if ((b.vendas || 0) <= 2)
+  function recoEscala(b, cens, acc, vendasReais) {
+    if (vendasReais <= 2)
       return { alvo: "+20%", txt: "Poucos dados de venda pra prever com segurança. Suba pouco — +20% — e reavalie no mês que vem, quando houver mais fechamentos pra medir a taxa real." };
     if (acc.receita_esperada)
       return { alvo: "+30%", txt: "A receita aqui é esperada (honorários em caso de êxito), não caixa. Cresça firme, mas sem apostar alto numa entrada condicional: +30% é o passo seguro." };
@@ -956,18 +1018,19 @@
     const a = ACCTS.find(x => x.client === client) || {};
     const acc = PBY[client] || {};
     const cur = a.currency || "BRL";
-    const b = base30(client);
-    const head = `<div class="sim-head"><div><div class="sim-title">${svgTrend()} Simulador de escala</div>
-      <div class="sim-sub">${esc(a.label || client)} · base: últimos 30 dias · projeção mensal</div></div>
+    const base = baseEscala(client);
+    const head = (lbl) => `<div class="sim-head"><div><div class="sim-title">${svgTrend()} Simulador de escala</div>
+      <div class="sim-sub">${esc(a.label || client)} · base: ${lbl} · projeção mensal</div></div>
       <button class="sim-close" id="simClose" aria-label="Fechar">✕</button></div>`;
 
-    if (!(b.gasto > 0) || !(b.vendas > 0)) {
-      return `<div class="sim-panel" role="dialog" aria-label="Simulador de escala">${head}
-        <div class="sim-empty">Nos últimos 30 dias não houve gasto e venda suficientes pra projetar uma escala com honestidade. Quando a mídia e as vendas do mês estiverem rodando, os cenários aparecem aqui.</div></div>`;
+    if (!base) {
+      return `<div class="sim-panel" role="dialog" aria-label="Simulador de escala">${head("—")}
+        <div class="sim-empty">Não achei gasto e venda juntos nem nos últimos 30 dias, nem no período que você está olhando (${periodoLabel()}). Quando houver venda registrada num período com mídia, os cenários aparecem aqui.</div></div>`;
     }
 
-    const cens = escalaCenarios(b);
-    const fraca = (b.vendas || 0) <= 2;
+    const b = base.b;
+    const cens = escalaCenarios(b, base.vendasReais);
+    const fraca = base.vendasReais <= 2;
     const consultaLbl = acc.consulta_label ? (PLURAL[acc.consulta_label] || acc.consulta_label + "s") : null;
     const dob = cens.find(c => c.m === 2);
 
@@ -981,16 +1044,20 @@
     if (b.cliques) rows.push(row("Cliques", c => fInt(Math.round(c.cliques))));
     if (b.conversas) rows.push(row("Conversas", c => fInt(Math.round(c.conversas))));
     if (b.consultas && consultaLbl) rows.push(row(consultaLbl, c => fInt(Math.round(c.consultas))));
-    rows.push(row("Vendas", c => c.vendas == null ? "—" : fInt(Math.round(c.vendas))));
-    rows.push(row("Faturamento/mês", c => c.faturamento == null ? "—"
-      : fMoney(c.faturamento, cur) + (c.d_fat ? `<span class="sim-delta">+${Math.round(c.d_fat * 100)}%</span>` : ""), true));
+    if (!fraca) {
+      rows.push(row("Vendas", c => fInt(Math.round(c.vendas))));
+      rows.push(row("Faturamento/mês", c =>
+        fMoney(c.faturamento, cur) + (c.d_fat ? `<span class="sim-delta">+${Math.round(c.d_fat * 100)}%</span>` : ""), true));
+    }
     if (b.cliques) rows.push(row("Custo por clique" + up, c => c.custo_clique == null ? "—" : fMoney(c.custo_clique, cur)));
     if (b.conversas) rows.push(row("Custo por conversa" + up, c => c.custo_conversa == null ? "—" : fMoney(c.custo_conversa, cur)));
-    rows.push(row("Custo por venda" + up, c => c.custo_venda == null ? "—" : fMoney(c.custo_venda, cur)));
-    rows.push(row("Folga até o teto", c => c.folga == null ? "—" : fX(c.folga)));
+    if (!fraca) {
+      rows.push(row("Custo por venda" + up, c => fMoney(c.custo_venda, cur)));
+      rows.push(row("Folga até o teto", c => fX(c.folga)));
+    }
 
     const lead = fraca
-      ? `Só <b>${fInt(b.vendas)}</b> venda no período — poucos dados pra projetar faturamento com honestidade. Mostro o crescimento das <b>conversas</b> (que respondem ao gasto); a venda fica pra reavaliar com mais histórico.`
+      ? `Só <b>${fInt(base.vendasReais)}</b> ${base.vendasReais === 1 ? "venda" : "vendas"} no período — poucos dados pra projetar faturamento com honestidade. Mostro o crescimento das <b>conversas</b> (que respondem ao gasto); a venda fica pra reavaliar com mais histórico.`
       : `Dobrando a verba (+100%) o faturamento sobe <b>~${Math.round((dob.d_fat || 0) * 100)}%</b>, não 100% — cada conversa nova custa mais caro.`;
 
     const alerts = [];
@@ -998,13 +1065,14 @@
       alerts.push(`Dobrar projeta <b>~${fInt(Math.round(dob.vendas))} vendas/mês</b> (hoje ~${fInt(Math.round(cens[0].vendas))}). Confira se a operação dá conta do atendimento antes de escalar.`);
 
     const notes = [];
+    if (base.fator !== 1) notes.push(`<b>Base mensalizada:</b> não houve venda nos últimos 30 dias, então usei o período que você está olhando (${fmtBR(base.ini)} → ${fmtBR(base.fim)}) dividido em média de 30 dias — o ritmo médio dele.`);
     notes.push(`<b>Rendimento decrescente embutido:</b> cada real novo traz menos conversa, por isso a verba dobra mas o faturamento não.`);
     if (acc.receita_esperada) notes.push(`<b>Receita esperada:</b> os valores são honorários em caso de êxito, não caixa garantido.`);
     notes.push(`<b>Projeção otimista:</b> assume a mesma taxa de fechamento de hoje; escalar rápido costuma piorar o custo por conversa.`);
 
-    const reco = recoEscala(b, cens, acc);
+    const reco = recoEscala(b, cens, acc, base.vendasReais);
     return `<div class="sim-panel" role="dialog" aria-label="Simulador de escala — ${esc(client)}">
-      ${head}
+      ${head(base.lbl)}
       <div class="sim-lead">${lead}</div>
       <div class="sim-tw"><table class="sim-table"><thead>${thead}</thead><tbody>${rows.join("")}</tbody></table></div>
       ${alerts.map(t => `<div class="sim-alert">${svgWarn()}<span>${t}</span></div>`).join("")}
