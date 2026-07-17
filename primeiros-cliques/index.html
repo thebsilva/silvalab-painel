@@ -965,6 +965,23 @@ src="https://www.facebook.com/tr?id=1899576980715245&ev=PageView&noscript=1"
     });
   });
 })();
+
+/* Meta Pixel: tempo na página (marcos 15/30/60/120s, só com a aba visível, dispara 1x cada) */
+(function(){
+  var marcos=[15,30,60,120], vivid=0, fired={};
+  setInterval(function(){
+    if(document.visibilityState!=='visible') return;
+    vivid++;
+    marcos.forEach(function(m){
+      if(vivid>=m && !fired[m]){
+        fired[m]=true;
+        if(typeof fbq==='function'){
+          fbq('trackCustom','TimeOnPage'+m+'s',{content_name:'Primeiros Cliques'});
+        }
+      }
+    });
+  },1000);
+})();
 </script>
 
 </body>
