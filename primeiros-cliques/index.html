@@ -922,6 +922,21 @@
   },{threshold:.1,rootMargin:'0px 0px -5% 0px'});
   els.forEach(function(e){io.observe(e);});
 })();
+
+/* Repassa parâmetros de rastreio (UTM, fbclid, gclid) do anúncio pro checkout — atribuição não se perde na troca de domínio */
+(function(){
+  try{
+    var allow=['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid'];
+    var cur=new URLSearchParams(window.location.search), pass=new URLSearchParams();
+    allow.forEach(function(k){ if(cur.has(k)) pass.set(k,cur.get(k)); });
+    var qs=pass.toString();
+    if(!qs) return;
+    document.querySelectorAll('a.cta[href*="lastlink.com"]').forEach(function(a){
+      var h=a.getAttribute('href');
+      a.setAttribute('href', h + (h.indexOf('?')>-1?'&':'?') + qs);
+    });
+  }catch(e){}
+})();
 </script>
 
 </body>
