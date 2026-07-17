@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#141E2E">
+<title>Primeiros Cliques — fotos lindas do seu bebê com o celular</title>
+<meta name="description" content="Em menos de 1 hora, você aprende a transformar a luz de casa em fotos lindas no celular — hoje mesmo.">
+<style>
+  /* ============ SILVA LAB · DESIGN SYSTEM ============ */
+  :root{
+    --navy:#141E2E;
+    --navy2:#1B2740;
+    --cream:#ECE5D5;
+    --amber:#C88A40;
+    --amber-hi:#D89A50;
+    --cyan:#2BA9DB;
+    --paper:#FBF8F1;
+    --ink:#141E2E;
+    --ink-soft:rgba(20,30,46,.74);
+    --ink-faint:rgba(20,30,46,.46);
+    --line:rgba(20,30,46,.14);
+    --cream-soft:rgba(236,229,213,.85);
+    --cream-faint:rgba(236,229,213,.6);
+    --cream-line:rgba(236,229,213,.16);
+    --amber-soft:#F3E7D2;
+    --sora:'Sora','Avenir Next','Avenir','Helvetica Neue',-apple-system,sans-serif;
+    --inter:'Inter','Avenir Next','Helvetica Neue',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--inter);
+    background:var(--navy);
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.65;
+    overflow-x:hidden;
+  }
+  img,svg{max-width:100%;display:block;}
+  a{color:inherit;}
+  ::selection{background:var(--amber);color:#fff;}
+
+  .wrap{max-width:620px;margin:0 auto;padding:0 22px;}
+  .wide{max-width:1060px;}
+
+  section{padding:64px 0 72px;}
+  .sec-navy{background:var(--navy);color:var(--cream-soft);}
+  .sec-cream{background:var(--cream);color:var(--ink-soft);}
+
+  /* ---- typography ---- */
+  .h1{
+    font-family:var(--sora);font-weight:800;
+    font-size:clamp(29px,7.6vw,46px);
+    line-height:1.14;letter-spacing:-.02em;color:#fff;
+  }
+  .h2{
+    font-family:var(--sora);font-weight:800;
+    font-size:clamp(25px,6.8vw,36px);
+    line-height:1.16;letter-spacing:-.02em;
+  }
+  .sec-navy .h2{color:#fff;}
+  .sec-cream .h2{color:var(--navy);}
+
+  .eyebrow{
+    font-family:var(--sora);font-size:11.5px;font-weight:700;
+    letter-spacing:.26em;text-transform:uppercase;color:var(--amber);
+    display:flex;align-items:center;gap:10px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:"";width:26px;height:4px;border-radius:2px;background:var(--amber);flex:0 0 auto;}
+
+  .punch{
+    font-family:var(--sora);font-weight:700;font-size:17.5px;line-height:1.5;
+    border-left:4px solid var(--amber);padding-left:16px;letter-spacing:-.005em;
+  }
+  .sec-navy .punch{color:#fff;}
+  .sec-cream .punch{color:var(--navy);}
+
+  /* ---- wordmark ---- */
+  .wm{font-family:var(--sora);font-weight:700;letter-spacing:.28em;}
+  .wm .dot{color:var(--amber);}
+
+  /* ---- CTA ---- */
+  .cta{
+    display:flex;align-items:center;justify-content:center;gap:12px;
+    width:100%;max-width:440px;
+    background:var(--amber);color:var(--navy);
+    font-family:var(--sora);font-weight:800;font-size:15px;line-height:1.3;
+    letter-spacing:.045em;text-align:center;text-decoration:none;
+    padding:19px 24px;border-radius:16px;
+    box-shadow:0 14px 30px rgba(200,138,64,.32), inset 0 -3px 0 rgba(20,30,46,.18);
+    transition:transform .18s ease, background .18s ease, box-shadow .18s ease;
+  }
+  .cta:hover{background:var(--amber-hi);transform:translateY(-2px);box-shadow:0 18px 36px rgba(200,138,64,.4), inset 0 -3px 0 rgba(20,30,46,.18);}
+  .cta:active{transform:translateY(0) scale(.985);}
+  .cta svg{flex:0 0 auto;}
+  .cta-micro{
+    margin-top:12px;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+    font-family:var(--sora);font-weight:600;text-align:center;max-width:440px;
+  }
+  .sec-navy .cta-micro{color:var(--cream-faint);}
+  .sec-cream .cta-micro{color:var(--ink-faint);}
+  .cta-block{display:flex;flex-direction:column;align-items:center;}
+
+  /* ============ 1 · HERO ============ */
+  .hero{padding:0 0 74px;}
+  .topbar{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:20px 0 0;font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--cream-faint);
+  }
+  .topbar .wm{font-size:12px;color:var(--cream);}
+  .badge{
+    display:inline-flex;align-items:flex-start;gap:9px;
+    margin-top:34px;padding:10px 15px;border:1px solid rgba(200,138,64,.5);
+    border-radius:14px;background:rgba(200,138,64,.1);
+    font-size:12.5px;line-height:1.5;color:var(--cream-soft);
+  }
+  .badge .bdot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex:0 0 auto;margin-top:5px;}
+  .hero .h1{margin-top:20px;}
+  .brand-name{
+    font-family:var(--sora);font-weight:800;color:var(--amber);
+    font-size:clamp(34px,9.6vw,58px);line-height:1.05;letter-spacing:-.02em;
+    margin-top:14px;
+  }
+  .brand-rule{width:56px;height:5px;border-radius:3px;background:var(--amber);margin:18px 0 0;}
+  .hero .sub{
+    margin-top:18px;font-family:var(--sora);font-weight:600;
+    font-size:17.5px;line-height:1.55;color:#fff;
+  }
+  .hero .para{margin-top:16px;font-size:15.5px;color:rgba(236,229,213,.8);}
+  .hero-art{margin:34px auto 0;max-width:250px;}
+  .hero-art svg{width:100%;height:auto;}
+
+  /* ============ 2 · PROMESSA ============ */
+  .checks{list-style:none;display:grid;gap:10px;margin-top:26px;}
+  .checks li{
+    display:flex;gap:12px;align-items:flex-start;
+    background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:14px 16px;font-size:15px;color:var(--ink);line-height:1.5;
+  }
+  .checks li svg{flex:0 0 auto;margin-top:2px;}
+
+  /* ============ 3 · MECANISMO ============ */
+  .mech-window{width:132px;margin:0 auto 22px;opacity:.95;}
+  .trio3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px;}
+  .trio3 .cell{
+    border:1px solid rgba(236,229,213,.24);border-radius:12px;
+    padding:13px 6px;text-align:center;
+    font-family:var(--sora);font-weight:800;font-size:11.5px;
+    letter-spacing:.16em;color:var(--amber);
+  }
+  .mech-list{list-style:none;margin-top:26px;display:grid;gap:14px;}
+  .mech-list li{
+    position:relative;padding-left:24px;font-size:15.5px;line-height:1.55;
+    color:rgba(236,229,213,.9);
+  }
+  .mech-list li::before{
+    content:"";position:absolute;left:0;top:8px;width:9px;height:9px;
+    border-radius:50%;background:var(--amber);
+  }
+  .mech-intro{margin-top:18px;font-size:16px;color:rgba(236,229,213,.86);}
+  .mech-intro strong{color:#fff;font-weight:600;}
+
+  /* ============ 4 · PÚBLICO ============ */
+  .who-cols{display:grid;gap:16px;margin-top:8px;}
+  .who{border-radius:20px;padding:24px 22px;}
+  .who h3{
+    font-family:var(--sora);font-weight:800;font-size:13px;
+    letter-spacing:.22em;text-transform:uppercase;margin-bottom:16px;
+    display:flex;align-items:center;gap:9px;
+  }
+  .who ul{list-style:none;display:grid;gap:12px;}
+  .who li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;line-height:1.55;}
+  .who li svg{flex:0 0 auto;margin-top:2px;}
+  .who-yes{background:var(--navy);color:rgba(236,229,213,.92);box-shadow:0 18px 40px rgba(20,30,46,.22);}
+  .who-yes h3{color:var(--amber);}
+  .who-no{background:#fff;border:1px solid var(--line);color:var(--ink-soft);}
+  .who-no h3{color:var(--ink-faint);}
+
+  /* ============ 5 · COMO FUNCIONA ============ */
+  .steps6{display:grid;gap:14px;margin-top:28px;counter-reset:stp;}
+  .step{
+    background:var(--navy2);border:1px solid var(--cream-line);border-radius:18px;
+    padding:20px 18px;display:flex;gap:16px;align-items:flex-start;
+  }
+  .step .icon{
+    flex:0 0 auto;width:54px;height:54px;border-radius:50%;
+    background:rgba(200,138,64,.13);border:1px solid rgba(200,138,64,.45);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step .icon svg{width:32px;height:32px;}
+  .step .num{
+    font-family:var(--sora);font-weight:800;font-size:11px;letter-spacing:.24em;
+    color:var(--amber);text-transform:uppercase;display:block;margin-bottom:4px;
+  }
+  .step h3{font-family:var(--sora);font-weight:700;font-size:16.5px;color:#fff;line-height:1.3;margin-bottom:5px;letter-spacing:-.01em;}
+  .step p{font-size:14px;color:rgba(236,229,213,.78);line-height:1.55;}
+
+  .angles-strip{
+    display:flex;gap:14px;margin:30px -22px 4px;padding:12px 22px 18px;
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x mandatory;scrollbar-width:none;
+  }
+  .angles-strip::-webkit-scrollbar{display:none;}
+  .angle-card{flex:0 0 116px;scroll-snap-align:center;}
+  .angle-card svg{
+    width:116px;height:auto;border-radius:10px;
+    filter:drop-shadow(0 12px 20px rgba(0,0,0,.35));
+  }
+  .angle-card:nth-child(odd) svg{transform:rotate(-1.6deg);}
+  .angle-card:nth-child(even) svg{transform:rotate(1.4deg);}
+  .angle-card figcaption{
+    text-align:center;margin-top:10px;font-family:var(--sora);font-weight:600;
+    font-size:12px;color:var(--cream-faint);letter-spacing:.06em;
+  }
+
+  /* ============ 6 · BENEFÍCIOS ============ */
+  .bene-grid{display:grid;gap:14px;margin-top:26px;}
+  .bene{
+    background:#fff;border:1px solid var(--line);border-top:5px solid var(--amber);
+    border-radius:16px;padding:20px 19px 18px;
+  }
+  .bene .bicon{
+    width:42px;height:42px;border-radius:12px;background:var(--amber-soft);
+    display:flex;align-items:center;justify-content:center;margin-bottom:13px;
+  }
+  .bene .bicon svg{width:26px;height:26px;}
+  .bene h3{font-family:var(--sora);font-weight:700;font-size:15.5px;color:var(--navy);line-height:1.35;margin-bottom:6px;letter-spacing:-.01em;}
+  .bene p{font-size:13.5px;color:var(--ink-soft);line-height:1.55;}
+
+  /* ============ 7 · PROVA SOCIAL ============ */
+  .testi-grid{display:grid;gap:14px;margin-top:26px;}
+  .testi{
+    position:relative;background:var(--navy2);
+    border:1px dashed rgba(200,138,64,.45);border-radius:18px;
+    padding:24px 20px 20px;
+  }
+  .testi .q{
+    font-family:var(--sora);font-weight:800;font-size:44px;line-height:.6;
+    color:var(--amber);display:block;margin-bottom:12px;
+  }
+  .testi p{font-size:15px;color:rgba(236,229,213,.92);line-height:1.6;}
+  .testi .name{
+    margin-top:14px;font-family:var(--sora);font-weight:600;font-size:12.5px;
+    color:var(--cream-faint);display:flex;align-items:center;gap:8px;
+  }
+  .testi .name::before{content:"";width:16px;height:2px;background:var(--amber);flex:0 0 auto;}
+  .ph-tag{
+    position:absolute;top:13px;right:13px;
+    font-family:var(--sora);font-weight:600;font-size:8.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:rgba(200,138,64,.9);
+    border:1px dashed rgba(200,138,64,.55);border-radius:999px;padding:3px 9px;
+  }
+
+  /* ============ 8 · PREÇO ============ */
+  .offer-card{
+    background:#fff;border:1px solid var(--line);border-radius:24px;
+    padding:30px 24px 26px;margin-top:24px;
+    box-shadow:0 30px 70px rgba(20,30,46,.16);
+    max-width:520px;margin-left:auto;margin-right:auto;
+  }
+  .offer-head{
+    font-family:var(--sora);font-weight:700;font-size:12px;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--amber);text-align:center;
+  }
+  .price-anchor{
+    text-align:center;margin-top:16px;font-family:var(--sora);font-weight:600;
+    font-size:19px;color:var(--ink-faint);text-decoration:line-through;
+    text-decoration-color:rgba(200,138,64,.75);text-decoration-thickness:2.5px;
+  }
+  .price-big{
+    text-align:center;font-family:var(--sora);font-weight:800;
+    font-size:clamp(58px,19vw,88px);line-height:1;letter-spacing:-.035em;
+    color:var(--amber);margin-top:4px;
+  }
+  .price-micro{
+    text-align:center;margin-top:8px;font-family:var(--sora);font-weight:600;
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);
+  }
+  .price-line{margin-top:16px;font-size:14.5px;color:var(--ink-soft);text-align:center;line-height:1.6;}
+  .price-line strong{color:var(--navy);font-weight:600;}
+
+  .stack{margin-top:26px;border-top:1px solid var(--line);padding-top:22px;}
+  .stack-title{
+    font-family:var(--sora);font-weight:700;font-size:11.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--navy);margin-bottom:16px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .stack-title::after{content:"";flex:1;height:1px;background:var(--line);}
+  .stack-item{display:flex;gap:13px;align-items:flex-start;padding:9px 0;}
+  .stack-item .gicon{
+    flex:0 0 auto;width:36px;height:36px;border-radius:10px;background:var(--amber-soft);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .stack-item .gicon svg{width:20px;height:20px;}
+  .stack-item .stx{flex:1;min-width:0;}
+  .stack-item h4{font-family:var(--sora);font-weight:700;font-size:14px;color:var(--navy);line-height:1.35;}
+  .stack-item p{font-size:12.5px;color:var(--ink-soft);line-height:1.5;margin-top:2px;}
+  .stack-item .sp{
+    flex:0 0 auto;font-family:var(--sora);font-weight:700;font-size:13px;
+    color:var(--amber);white-space:nowrap;margin-top:2px;
+  }
+  .stack-total{
+    display:flex;justify-content:space-between;align-items:center;gap:12px;
+    border-top:1px dashed rgba(20,30,46,.25);margin-top:12px;padding-top:14px;
+  }
+  .stack-total .lbl{font-family:var(--sora);font-weight:600;font-size:13.5px;color:var(--navy);}
+  .stack-total .val{font-family:var(--sora);font-weight:800;font-size:17px;color:var(--amber);}
+
+  .urgency{
+    display:flex;gap:11px;align-items:flex-start;
+    background:var(--amber-soft);border-radius:14px;padding:14px 15px;margin-top:22px;
+    font-size:13.5px;color:var(--ink);line-height:1.5;
+  }
+  .urgency svg{flex:0 0 auto;margin-top:2px;}
+  .urgency strong{font-weight:700;}
+  .offer-card .cta-block{margin-top:22px;}
+
+  /* ============ 9 · FECHAMENTO ============ */
+  .guarantee{
+    background:var(--navy2);border:1px solid rgba(200,138,64,.4);border-radius:20px;
+    padding:26px 22px;display:flex;flex-direction:column;gap:16px;align-items:flex-start;
+  }
+  .guarantee .gshield{flex:0 0 auto;width:62px;height:62px;}
+  .guarantee h3{
+    font-family:var(--sora);font-weight:800;font-size:19px;color:#fff;
+    letter-spacing:-.01em;line-height:1.3;
+  }
+  .guarantee p{font-size:14.5px;color:rgba(236,229,213,.88);line-height:1.62;}
+  .guarantee p strong{color:#fff;font-weight:600;}
+
+  .signature{
+    margin-top:26px;border-left:4px solid var(--amber);padding:4px 0 4px 18px;
+    font-size:16.5px;line-height:1.65;color:rgba(236,229,213,.92);
+  }
+
+  .faq{margin-top:44px;}
+  .faq h3.faq-t{
+    font-family:var(--sora);font-weight:800;font-size:21px;color:#fff;
+    letter-spacing:-.015em;margin-bottom:18px;
+  }
+  .faq details{
+    background:var(--navy2);border:1px solid var(--cream-line);
+    border-radius:14px;margin-bottom:10px;overflow:hidden;
+  }
+  .faq summary{
+    list-style:none;cursor:pointer;display:flex;justify-content:space-between;
+    align-items:flex-start;gap:14px;padding:16px 18px;
+    font-family:var(--sora);font-weight:600;font-size:14.5px;color:#fff;line-height:1.45;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{
+    content:"+";font-family:var(--sora);font-weight:700;font-size:21px;line-height:1;
+    color:var(--amber);flex:0 0 auto;margin-top:1px;transition:transform .25s ease;
+  }
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .faq-a{padding:0 18px 17px;font-size:14px;color:rgba(236,229,213,.82);line-height:1.62;}
+
+  .final-msg{
+    margin-top:48px;font-size:17.5px;line-height:1.75;color:rgba(236,229,213,.92);
+  }
+  .final-msg strong{color:#fff;font-weight:700;}
+  .final-msg .no-filter{
+    display:block;margin-top:16px;font-family:var(--sora);font-weight:700;
+    font-size:19px;line-height:1.5;color:#fff;
+  }
+  .final-cta{margin-top:34px;}
+
+  footer{
+    background:var(--navy);border-top:1px solid var(--cream-line);
+    padding:30px 22px 38px;text-align:center;
+  }
+  footer .wm{font-size:12px;color:var(--cream);}
+  footer .fline{
+    margin-top:8px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:rgba(236,229,213,.42);
+  }
+
+  /* ---- reveal animations ---- */
+  .js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease;}
+  .js .rv.on{opacity:1;transform:none;}
+  .js .rv-kids>*{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease;}
+  .js .rv-kids.on>*{opacity:1;transform:none;}
+  .js .rv-kids.on>*:nth-child(2){transition-delay:.07s;}
+  .js .rv-kids.on>*:nth-child(3){transition-delay:.14s;}
+  .js .rv-kids.on>*:nth-child(4){transition-delay:.21s;}
+  .js .rv-kids.on>*:nth-child(5){transition-delay:.28s;}
+  .js .rv-kids.on>*:nth-child(6){transition-delay:.35s;}
+  .js .rv-kids.on>*:nth-child(7){transition-delay:.42s;}
+  .js .rv-kids.on>*:nth-child(8){transition-delay:.49s;}
+  .d1{transition-delay:.08s !important;}
+  .d2{transition-delay:.16s !important;}
+  .d3{transition-delay:.24s !important;}
+  @media (prefers-reduced-motion:reduce){
+    .js .rv,.js .rv-kids>*{opacity:1 !important;transform:none !important;transition:none !important;}
+    .cta{transition:none;}
+  }
+
+  /* ---- desktop ---- */
+  @media (min-width:760px){
+    section{padding:88px 0 96px;}
+    .hero{padding-bottom:96px;}
+    .checks{grid-template-columns:1fr 1fr;}
+    .who-cols{grid-template-columns:1fr 1fr;align-items:start;}
+    .steps6{grid-template-columns:1fr 1fr;}
+    .bene-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr));}
+    .testi-grid{grid-template-columns:1fr 1fr;}
+    .angles-strip{justify-content:center;margin:34px 0 4px;padding:12px 0 18px;overflow:visible;}
+    .guarantee{flex-direction:row;gap:22px;align-items:center;}
+    .offer-card{padding:38px 40px 34px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 1 · HERO (navy) ==================== -->
+<section class="hero sec-navy" id="s1">
+  <div class="wrap">
+    <div class="topbar">
+      <span class="wm">SILVA<span class="dot">·</span>LAB</span>
+      <span>Fotografia de bebê com celular</span>
+    </div>
+
+    <div class="badge rv">
+      <span class="bdot"></span>
+      <span>Guia digital · Método Luz, Ângulo e Momento</span>
+    </div>
+
+    <h1 class="h1 rv">Suas fotos do bebê não fazem jus a essa fase?</h1>
+
+    <div class="brand-name rv d1">Primeiros Cliques</div>
+    <div class="brand-rule rv d1"></div>
+
+    <p class="sub rv d2">Em menos de 1 hora, você transforma a luz de casa em fotos lindas — no celular que já está na sua mão.</p>
+
+    <div class="cta-block rv d2" style="margin-top:26px;">
+      <a class="cta" href="https://lastlink.com/p/C79F07709/checkout-payment/">
+        QUERO TIRAR FOTOS LINDAS HOJE
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#141E2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="cta-micro">R$ 9,90 · Pix ou cartão · acesso imediato por e-mail</p>
+    </div>
+
+    <div class="hero-art rv">
+      <svg viewBox="0 0 560 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="216,242 344,242 452,470 108,470" fill="#C88A40" opacity="0.10"/>
+        <polygon points="238,242 322,242 396,470 164,470" fill="#C88A40" opacity="0.14"/>
+        <path d="M216 242 L216 118 Q216 44 280 44 Q344 44 344 118 L344 242 Z" fill="#1B2740" stroke="#ECE5D5" stroke-width="4.5"/>
+        <line x1="280" y1="52" x2="280" y2="242" stroke="#ECE5D5" stroke-width="3.5"/>
+        <line x1="218" y1="150" x2="342" y2="150" stroke="#ECE5D5" stroke-width="3.5"/>
+        <line x1="216" y1="242" x2="344" y2="242" stroke="#ECE5D5" stroke-width="5"/>
+        <circle cx="200" cy="330" r="4" fill="#C88A40" opacity=".7"/>
+        <circle cx="356" cy="304" r="3" fill="#C88A40" opacity=".55"/>
+        <circle cx="322" cy="368" r="2.6" fill="#ECE5D5" opacity=".5"/>
+        <path d="M196 420 Q196 400 220 400 L340 400 Q364 400 364 420 L358 448 Q356 462 340 462 L220 462 Q204 462 202 448 Z" fill="#1B2740" stroke="#ECE5D5" stroke-width="4.5"/>
+        <path d="M236 400 Q262 384 300 392 Q334 398 340 400 L338 414 Q300 404 262 410 Q244 413 238 416 Z" fill="#C88A40" opacity=".9"/>
+        <circle cx="226" cy="392" r="17" fill="#ECE5D5"/>
+        <path d="M219 390 q3 -4 7 -1" stroke="#141E2E" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <path d="M230 390 q3 -4 7 -1" stroke="#141E2E" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        <line x1="120" y1="470" x2="440" y2="470" stroke="#ECE5D5" stroke-width="3" opacity=".4" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 2 · PROMESSA (cream) ==================== -->
+<section class="sec-cream" id="s2">
+  <div class="wrap">
+    <h2 class="h2 rv">Isso funciona mesmo que…</h2>
+    <ul class="checks rv-kids">
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>você só tenha o celular do dia a dia e nenhuma câmera profissional</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>você ache que sua casa é escura demais para foto bonita</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>você nunca tenha estudado fotografia na vida</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>você tenha pouco tempo entre mamada, colo e rotina</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>seu bebê não pare quieto por muito tempo</span></li>
+      <li><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>você tenha medo de fazer pose errada ou insegura</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 3 · MECANISMO (navy) ==================== -->
+<section class="sec-navy" id="s3">
+  <div class="wrap">
+    <div class="mech-window rv">
+      <svg viewBox="0 0 200 126" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <polygon points="78,66 122,66 152,124 48,124" fill="#C88A40" opacity=".16"/>
+        <polygon points="88,66 112,66 128,124 72,124" fill="#C88A40" opacity=".18"/>
+        <path d="M76 66 L76 40 Q76 17 100 17 Q124 17 124 40 L124 66 Z" fill="#1B2740" stroke="#ECE5D5" stroke-width="3.5"/>
+        <line x1="100" y1="21" x2="100" y2="66" stroke="#ECE5D5" stroke-width="3"/>
+        <line x1="77" y1="44" x2="123" y2="44" stroke="#ECE5D5" stroke-width="3"/>
+        <circle cx="66" cy="98" r="2.4" fill="#C88A40" opacity=".7"/>
+        <circle cx="134" cy="90" r="2" fill="#C88A40" opacity=".55"/>
+      </svg>
+    </div>
+    <div class="eyebrow rv" style="justify-content:center;"><span style="letter-spacing:.26em;">O método</span></div>
+    <h2 class="h2 rv" style="text-align:center;">Método Luz, Ângulo e Momento</h2>
+
+    <div class="trio3 rv-kids">
+      <div class="cell">LUZ</div>
+      <div class="cell">ÂNGULO</div>
+      <div class="cell">MOMENTO</div>
+    </div>
+
+    <p class="mech-intro rv">As fotos ruins quase nunca são culpa do celular. O problema é mirar no bebê e esquecer <strong>a luz, o ângulo e o instante certo</strong>. Esse método corrige a ordem e simplifica tudo.</p>
+
+    <ul class="mech-list rv-kids">
+      <li>Ensina a usar a luz natural da casa, sem flash agressivo</li>
+      <li>Mostra ângulos que valorizam o bebê sem pose arriscada</li>
+      <li>Entrega edição simples no celular, sem app pago</li>
+      <li>Traz checklist e referências prontas, na língua da mãe real — zero teoria</li>
+    </ul>
+
+    <p class="punch rv" style="margin-top:32px;">Enquanto outros complicam com técnica e equipamento, nós focamos no que muda a foto no mesmo dia.</p>
+  </div>
+</section>
+
+<!-- ==================== 4 · PÚBLICO IDEAL (cream) ==================== -->
+<section class="sec-cream" id="s4">
+  <div class="wrap wide">
+    <div class="who-cols">
+      <div class="who who-yes rv">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#2BA9DB"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Para quem é</h3>
+        <ul>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="#2BA9DB" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#2BA9DB" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>para a mãe que olha o rolo da câmera e sente que as fotos não fazem jus ao bebê</span></li>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="#2BA9DB" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#2BA9DB" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>para quem quer registrar os primeiros meses sem contratar ensaio toda hora</span></li>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="#2BA9DB" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#2BA9DB" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>para a mãe que quer imprimir, emoldurar e mandar foto bonita pra família</span></li>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="#2BA9DB" stroke-width="2"/><path d="M7 12.5 L10.5 16 L17 8.5" stroke="#2BA9DB" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>para quem já tentou tirar foto e só conseguiu imagem tremida, escura ou sem vida</span></li>
+        </ul>
+      </div>
+      <div class="who who-no rv d1">
+        <h3><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="rgba(20,30,46,.4)" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="rgba(20,30,46,.5)" stroke-width="2.2" stroke-linecap="round"/></svg>Para quem não é</h3>
+        <ul>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="rgba(20,30,46,.32)" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="rgba(20,30,46,.45)" stroke-width="2.2" stroke-linecap="round"/></svg><span>não é para quem quer virar fotógrafa profissional</span></li>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="rgba(20,30,46,.32)" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="rgba(20,30,46,.45)" stroke-width="2.2" stroke-linecap="round"/></svg><span>não é para quem busca poses rebuscadas e produção de estúdio</span></li>
+          <li><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="none" stroke="rgba(20,30,46,.32)" stroke-width="2"/><path d="M8.5 8.5l7 7M15.5 8.5l-7 7" stroke="rgba(20,30,46,.45)" stroke-width="2.2" stroke-linecap="round"/></svg><span>não é para quem não quer colocar nada em prática</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="wrap" style="padding:0;">
+      <p class="punch rv" style="margin-top:34px;">Se você se identificou, você está pronto para transformar o celular em memória de verdade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 5 · COMO FUNCIONA (navy) ==================== -->
+<section class="sec-navy" id="s5">
+  <div class="wrap">
+    <div class="eyebrow rv">Passo a passo</div>
+    <h2 class="h2 rv">Como funciona</h2>
+  </div>
+  <div class="wrap wide">
+    <div class="steps6 rv-kids">
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 35V21q0-11 7-11t7 11v14Z"/><line x1="24" y1="11.5" x2="24" y2="35"/><line x1="17.6" y1="23" x2="30.4" y2="23"/><g stroke="#C88A40"><line x1="34.5" y1="17" x2="40" y2="14"/><line x1="35.5" y1="25" x2="41.5" y2="25"/><line x1="34.5" y1="33" x2="40" y2="36"/></g></svg></div>
+        <div>
+          <span class="num">Passo 01</span>
+          <h3>Encontrar a luz certa</h3>
+          <p>Como localizar a melhor janela da casa e o horário em que a foto ganha vida.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 26q0-4 5-4h19q5 0 5 4l-1.4 6.5q-.6 3-4 3H15q-3.4 0-4-3Z"/><path d="M15 22q6-5 14-3.5" stroke="#C88A40"/><circle cx="36" cy="14" r="1.6" fill="#C88A40" stroke="none"/></svg></div>
+        <div>
+          <span class="num">Passo 02</span>
+          <h3>Montar o cantinho em 2 minutos</h3>
+          <p>Como criar um cenário bonito com manta, lençol e objetos que você já tem.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="17" width="30" height="20" rx="5"/><path d="M17.5 17l2.6-4.4h7.8L30.5 17"/><circle cx="24" cy="27" r="6.2"/><circle cx="34.5" cy="22" r="1.5" fill="#C88A40" stroke="none"/></svg></div>
+        <div>
+          <span class="num">Passo 03</span>
+          <h3>Usar os 5 ângulos que emocionam</h3>
+          <p>Como enquadrar mãozinha, pezinho, cílios, colo e bocejo do jeito certo.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="24" cy="27" r="11.5"/><path d="M24 20.5V27l4.6 3"/><path d="M20.5 10h7"/><g stroke="#C88A40"><path d="M38.5 15.5l3-3"/><path d="M9.5 15.5l-3-3"/></g></svg></div>
+        <div>
+          <span class="num">Passo 04</span>
+          <h3>Capturar o instante perfeito</h3>
+          <p>Como fotografar sem perder o momento e sem inventar pose perigosa.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 9l3.1 11L38 23l-10.9 3L24 37l-3.1-11L10 23l10.9-3Z"/><g stroke="#C88A40"><path d="M37 9v6M34 12h6"/></g></svg></div>
+        <div>
+          <span class="num">Passo 05</span>
+          <h3>Fazer a edição simples no celular</h3>
+          <p>Como aplicar 3 ajustes rápidos para deixar a foto mais limpa, quente e bonita.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="icon"><svg viewBox="0 0 48 48" fill="none" stroke="#ECE5D5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 27.5a11 11 0 0 1 18.6-10.6"/><path d="M33 10.5l.3 6.9-6.9-.4" stroke="#C88A40"/><path d="M34.5 20.5a11 11 0 0 1-18.6 10.6"/><path d="M15 37.5l-.3-6.9 6.9.4" stroke="#C88A40"/></svg></div>
+        <div>
+          <span class="num">Passo 06</span>
+          <h3>Repetir com segurança e constância</h3>
+          <p>Como usar o checklist e os presets para transformar o processo em rotina leve.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="angles-strip rv-kids" aria-label="Os 5 ângulos: mãozinha, pezinho, cílios, colo e bocejo">
+      <figure class="angle-card">
+        <svg viewBox="0 0 220 275" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="208" height="263" rx="12" fill="#FDFBF6" stroke="#141E2E" stroke-width="4"/>
+          <g stroke="#2BA9DB" stroke-width="1.2" opacity=".28"><line x1="75" y1="8" x2="75" y2="267"/><line x1="145" y1="8" x2="145" y2="267"/><line x1="8" y1="94" x2="212" y2="94"/><line x1="8" y1="181" x2="212" y2="181"/></g>
+          <rect x="18" y="118" width="132" height="44" rx="22" fill="#F3E7D2" stroke="#141E2E" stroke-width="5"/>
+          <circle cx="148" cy="140" r="37" fill="#FDFBF6" stroke="#141E2E" stroke-width="5"/>
+          <g fill="#FDFBF6" stroke="#141E2E" stroke-width="4"><circle cx="122" cy="115" r="9"/><circle cx="140" cy="107" r="9"/><circle cx="158" cy="107" r="9"/><circle cx="174" cy="114" r="9"/></g>
+          <path d="M118 152 q10 12 26 13" fill="none" stroke="#141E2E" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="185" cy="146" r="6" fill="#C88A40"/>
+        </svg>
+        <figcaption>mãozinha</figcaption>
+      </figure>
+      <figure class="angle-card">
+        <svg viewBox="0 0 220 275" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="208" height="263" rx="12" fill="#FDFBF6" stroke="#141E2E" stroke-width="4"/>
+          <g stroke="#2BA9DB" stroke-width="1.2" opacity=".28"><line x1="75" y1="8" x2="75" y2="267"/><line x1="145" y1="8" x2="145" y2="267"/><line x1="8" y1="94" x2="212" y2="94"/><line x1="8" y1="181" x2="212" y2="181"/></g>
+          <g fill="#FDFBF6" stroke="#141E2E" stroke-width="5"><rect x="62" y="78" width="42" height="118" rx="21"/><rect x="118" y="86" width="42" height="118" rx="21"/></g>
+          <g fill="#FDFBF6" stroke="#141E2E" stroke-width="3.6"><circle cx="70" cy="74" r="6"/><circle cx="82" cy="70" r="6.6"/><circle cx="95" cy="72" r="7"/><circle cx="126" cy="82" r="6"/><circle cx="138" cy="78" r="6.6"/><circle cx="151" cy="80" r="7"/></g>
+          <path d="M46 226 q64 22 130 0" stroke="#C88A40" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>
+          <path d="M40 240 q70 22 142 0" stroke="#C88A40" stroke-width="4" fill="none" stroke-linecap="round" opacity=".45"/>
+        </svg>
+        <figcaption>pezinho</figcaption>
+      </figure>
+      <figure class="angle-card">
+        <svg viewBox="0 0 220 275" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="208" height="263" rx="12" fill="#FDFBF6" stroke="#141E2E" stroke-width="4"/>
+          <g stroke="#2BA9DB" stroke-width="1.2" opacity=".28"><line x1="75" y1="8" x2="75" y2="267"/><line x1="145" y1="8" x2="145" y2="267"/><line x1="8" y1="94" x2="212" y2="94"/><line x1="8" y1="181" x2="212" y2="181"/></g>
+          <g stroke="#C88A40" stroke-width="4" stroke-linecap="round" opacity=".8"><line x1="196" y1="72" x2="158" y2="86"/><line x1="200" y1="110" x2="160" y2="114"/><line x1="196" y1="148" x2="158" y2="140"/></g>
+          <path d="M132 52 Q84 54 74 100 Q60 108 70 118 Q60 130 72 136 Q66 152 88 158 Q96 190 132 196" fill="none" stroke="#141E2E" stroke-width="5" stroke-linecap="round"/>
+          <path d="M132 52 Q168 60 172 110 Q174 160 132 196" fill="none" stroke="#141E2E" stroke-width="5" stroke-linecap="round" opacity=".35"/>
+          <path d="M88 104 q10 8 22 4" fill="none" stroke="#141E2E" stroke-width="4.4" stroke-linecap="round"/>
+          <g stroke="#141E2E" stroke-width="3.4" stroke-linecap="round"><line x1="88" y1="104" x2="80" y2="98"/><line x1="93" y1="108" x2="86" y2="104"/><line x1="99" y1="110" x2="93" y2="107"/></g>
+          <circle cx="94" cy="132" r="5" fill="#C88A40" opacity=".7"/>
+        </svg>
+        <figcaption>cílios</figcaption>
+      </figure>
+      <figure class="angle-card">
+        <svg viewBox="0 0 220 275" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="208" height="263" rx="12" fill="#FDFBF6" stroke="#141E2E" stroke-width="4"/>
+          <g stroke="#2BA9DB" stroke-width="1.2" opacity=".28"><line x1="75" y1="8" x2="75" y2="267"/><line x1="145" y1="8" x2="145" y2="267"/><line x1="8" y1="94" x2="212" y2="94"/><line x1="8" y1="181" x2="212" y2="181"/></g>
+          <path d="M14 258 Q36 130 128 108 Q170 100 206 118" fill="none" stroke="#141E2E" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="104" cy="164" r="40" fill="#FDFBF6" stroke="#141E2E" stroke-width="5"/>
+          <path d="M92 162 q5 -6 11 -1" fill="none" stroke="#141E2E" stroke-width="3.6" stroke-linecap="round"/>
+          <path d="M112 164 q4 4 9 3" fill="none" stroke="#141E2E" stroke-width="3.4" stroke-linecap="round" opacity=".8"/>
+          <path d="M56 216 Q104 236 168 208 L176 244 Q108 268 48 246 Z" fill="#C88A40" opacity=".22" stroke="#141E2E" stroke-width="4"/>
+        </svg>
+        <figcaption>colo</figcaption>
+      </figure>
+      <figure class="angle-card">
+        <svg viewBox="0 0 220 275" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="6" y="6" width="208" height="263" rx="12" fill="#FDFBF6" stroke="#141E2E" stroke-width="4"/>
+          <g stroke="#2BA9DB" stroke-width="1.2" opacity=".28"><line x1="75" y1="8" x2="75" y2="267"/><line x1="145" y1="8" x2="145" y2="267"/><line x1="8" y1="94" x2="212" y2="94"/><line x1="8" y1="181" x2="212" y2="181"/></g>
+          <circle cx="110" cy="136" r="62" fill="#FDFBF6" stroke="#141E2E" stroke-width="5"/>
+          <path d="M62 96 q14 -18 34 -14" fill="none" stroke="#141E2E" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+          <path d="M124 82 q16 -6 26 6" fill="none" stroke="#141E2E" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+          <path d="M82 124 q9 7 19 2" fill="none" stroke="#141E2E" stroke-width="4.4" stroke-linecap="round"/>
+          <path d="M120 126 q9 7 19 2" fill="none" stroke="#141E2E" stroke-width="4.4" stroke-linecap="round"/>
+          <ellipse cx="110" cy="166" rx="13" ry="17" fill="#141E2E"/>
+          <circle cx="74" cy="150" r="6" fill="#C88A40" opacity=".55"/>
+          <circle cx="146" cy="150" r="6" fill="#C88A40" opacity=".55"/>
+        </svg>
+        <figcaption>bocejo</figcaption>
+      </figure>
+    </div>
+
+    <p class="punch rv" style="margin-top:28px;">Ao final, você terá fotos bonitas do seu bebê, feitas por você, com o celular que já tem e em menos de 1 hora de aprendizado.</p>
+
+    <div class="cta-block rv" style="margin-top:32px;">
+      <a class="cta" href="https://lastlink.com/p/C79F07709/checkout-payment/">
+        QUERO TIRAR FOTOS LINDAS HOJE
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#141E2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="cta-micro">R$ 9,90 · acesso ao método completo</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 6 · BENEFÍCIOS (cream) ==================== -->
+<section class="sec-cream" id="s6">
+  <div class="wrap">
+    <div class="eyebrow rv">Benefícios</div>
+    <h2 class="h2 rv">O que muda nas suas fotos — e em você</h2>
+  </div>
+  <div class="wrap wide">
+    <div class="bene-grid rv-kids">
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 21c-3.6-2.7-7.5-5.2-7.5-9A4.2 4.2 0 0 1 14 9.6 4.2 4.2 0 0 1 21.5 12c0 3.8-3.9 6.3-7.5 9Z"/><circle cx="22" cy="6.5" r="2" fill="#C88A40" stroke="none"/></svg></div>
+        <h3>Guardar a fase do jeito que ela merece</h3>
+        <p>você para de olhar fotos sem graça e começa a registrar momentos que dão vontade de sorrir toda vez que vê.</p>
+      </div>
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 21V12.8Q9.5 7 14 7t4.5 5.8V21Z"/><line x1="14" y1="8" x2="14" y2="21"/><line x1="10" y1="14.5" x2="18" y2="14.5"/><g stroke="#C88A40"><path d="M21.5 11l3-1.5"/><path d="M21.5 15h3.5"/><path d="M21.5 19l3 1.5"/></g></svg></div>
+        <h3>Foto bonita usando só a luz de casa</h3>
+        <p>você aprende a achar a janela certa e usar a luz natural para mudar completamente o resultado.</p>
+      </div>
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9V7.5A2.5 2.5 0 0 1 7.5 5H9"/><path d="M19 5h1.5A2.5 2.5 0 0 1 23 7.5V9"/><path d="M23 19v1.5a2.5 2.5 0 0 1-2.5 2.5H19"/><path d="M9 23H7.5A2.5 2.5 0 0 1 5 20.5V19"/><circle cx="14" cy="14" r="2.4" fill="#C88A40" stroke="none"/></svg></div>
+        <h3>5 ângulos que sempre funcionam</h3>
+        <p>você sai do chute e passa a repetir enquadramentos que valorizam mãozinha, pezinho, cílios e colo.</p>
+      </div>
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="14" r="8.5"/><path d="M10.4 12.4q1.2 1 2.4 0"/><path d="M15.2 12.4q1.2 1 2.4 0"/><path d="M10.5 16.6q3.5 2.7 7 0"/><circle cx="8.8" cy="15" r="1.2" fill="#C88A40" stroke="none"/><circle cx="19.2" cy="15" r="1.2" fill="#C88A40" stroke="none"/></svg></div>
+        <h3>Menos frustração, mais orgulho</h3>
+        <p>você deixa de acumular fotos ruins e passa a pensar: eu consegui fazer isso sozinha.</p>
+      </div>
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 13.5 23 5.5l-5.5 17-4-6.5Z"/><path d="M23 5.5 13.5 16.5" stroke="#C88A40"/></svg></div>
+        <h3>Foto para mandar pra família sem vergonha</h3>
+        <p>você ganha imagens que dá orgulho de compartilhar no WhatsApp e nas redes.</p>
+      </div>
+      <div class="bene">
+        <div class="bicon"><svg viewBox="0 0 28 28" fill="none" stroke="#141E2E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9.5h16"/><path d="M6 14h16"/><path d="M6 18.5h16"/><circle cx="17" cy="9.5" r="2.4" fill="#F3E7D2"/><circle cx="10" cy="14" r="2.4" fill="#F3E7D2"/><circle cx="15" cy="18.5" r="2.4" fill="#F3E7D2" stroke="#C88A40"/></svg></div>
+        <h3>Edição simples no celular</h3>
+        <p>com 3 ajustes, suas fotos ganham acabamento mais limpo, quente e bonito.</p>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="punch rv" style="margin-top:34px;">Você deixa de ser a mãe frustrada com o rolo da câmera e se torna a mãe que registra essa fase com orgulho.</p>
+    <div class="cta-block rv">
+      <a class="cta" href="https://lastlink.com/p/C79F07709/checkout-payment/">
+        QUERO COMEÇAR HOJE
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#141E2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="cta-micro">R$ 9,90 · Pix ou cartão</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 7 · PROVA SOCIAL (navy) ==================== -->
+<section class="sec-navy" id="s7">
+  <div class="wrap">
+    <div class="eyebrow rv">Depoimentos</div>
+    <h2 class="h2 rv">Mães que saíram do borrado</h2>
+  </div>
+  <div class="wrap wide">
+    <div class="testi-grid rv-kids">
+      <div class="testi">
+        <span class="ph-tag">ilustrativo</span>
+        <span class="q">“</span>
+        <p>Eu achava que meu celular era ruim. Descobri que era a luz. As fotos mudaram na mesma tarde.</p>
+        <span class="name">Juliana, mãe de primeira viagem</span>
+      </div>
+      <div class="testi">
+        <span class="ph-tag">ilustrativo</span>
+        <span class="q">“</span>
+        <p>Eu vivia apagando foto porque saía tudo tremido. Agora eu sei esperar o momento certo.</p>
+        <span class="name">Camila, mãe com bebê de 3 meses</span>
+      </div>
+      <div class="testi">
+        <span class="ph-tag">ilustrativo</span>
+        <span class="q">“</span>
+        <p>Eu tinha zero tempo e queria só registrar a fase. Foi prático demais, sem enrolação.</p>
+        <span class="name">Fernanda, mãe que trabalha fora</span>
+      </div>
+      <div class="testi">
+        <span class="ph-tag">ilustrativo</span>
+        <span class="q">“</span>
+        <p>Pela primeira vez eu mandei foto do meu bebê com orgulho. Parecia foto de capa, mas fui eu que fiz.</p>
+        <span class="name">Patrícia, mãe que gosta de compartilhar com a família</span>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="punch rv" style="margin-top:32px;">Junte-se a mães que já transformaram fotos comuns em lembranças que emocionam.</p>
+  </div>
+</section>
+
+<!-- ==================== 8 · PREÇO E OFERTA (cream) ==================== -->
+<section class="sec-cream" id="s8">
+  <div class="wrap">
+    <div class="eyebrow rv" style="justify-content:center;"><span>Oferta de lançamento</span></div>
+    <h2 class="h2 rv" style="text-align:center;">Tudo isso por menos que um lanche</h2>
+
+    <div class="offer-card rv">
+      <div class="offer-head">Primeiros Cliques</div>
+      <div class="price-anchor">R$ 124,00</div>
+      <div class="price-big">R$ 9,90</div>
+      <div class="price-micro">menos de 2 fotos reveladas</div>
+
+      <p class="price-line">Você investe <strong>R$ 9,90</strong> e recebe um jeito prático de criar fotos que emocionam sempre que quiser.</p>
+
+      <div class="stack">
+        <div class="stack-title">O que vem junto</div>
+        <div class="stack-item">
+          <div class="gicon"><svg viewBox="0 0 24 24" fill="none" stroke="#C88A40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9" rx="1.8"/><line x1="12" y1="10.5" x2="12" y2="19.5"/><path d="M12 10.5c-1.2-3.4-5.4-3.4-5.4-.9 0 1.8 3.4 1.4 5.4.9Zm0 0c1.2-3.4 5.4-3.4 5.4-.9 0 1.8-3.4 1.4-5.4.9Z"/></svg></div>
+          <div class="stx">
+            <h4>Guia de 20 Poses Seguras</h4>
+            <p>referências visuais para copiar em casa, com foco em momentos bonitos e seguros.</p>
+          </div>
+          <span class="sp">R$ 27,00</span>
+        </div>
+        <div class="stack-item">
+          <div class="gicon"><svg viewBox="0 0 24 24" fill="none" stroke="#C88A40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9" rx="1.8"/><line x1="12" y1="10.5" x2="12" y2="19.5"/><path d="M12 10.5c-1.2-3.4-5.4-3.4-5.4-.9 0 1.8 3.4 1.4 5.4.9Zm0 0c1.2-3.4 5.4-3.4 5.4-.9 0 1.8-3.4 1.4-5.4.9Z"/></svg></div>
+          <div class="stx">
+            <h4>Presets de 1 Toque</h4>
+            <p>ajustes prontos para dar mais vida, calor e consistência às fotos no celular.</p>
+          </div>
+          <span class="sp">R$ 19,00</span>
+        </div>
+        <div class="stack-item">
+          <div class="gicon"><svg viewBox="0 0 24 24" fill="none" stroke="#C88A40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9" rx="1.8"/><line x1="12" y1="10.5" x2="12" y2="19.5"/><path d="M12 10.5c-1.2-3.4-5.4-3.4-5.4-.9 0 1.8 3.4 1.4 5.4.9Zm0 0c1.2-3.4 5.4-3.4 5.4-.9 0 1.8-3.4 1.4-5.4.9Z"/></svg></div>
+          <div class="stx">
+            <h4>Checklist Antes do Clique</h4>
+            <p>uma página direta para conferir luz, cenário e segurança antes de fotografar.</p>
+          </div>
+          <span class="sp">R$ 17,00</span>
+        </div>
+        <div class="stack-item">
+          <div class="gicon"><svg viewBox="0 0 24 24" fill="none" stroke="#C88A40" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9" rx="1.8"/><line x1="12" y1="10.5" x2="12" y2="19.5"/><path d="M12 10.5c-1.2-3.4-5.4-3.4-5.4-.9 0 1.8 3.4 1.4 5.4.9Zm0 0c1.2-3.4 5.4-3.4 5.4-.9 0 1.8-3.4 1.4-5.4.9Z"/></svg></div>
+          <div class="stx">
+            <h4>Mini Guia da Luz da Janela</h4>
+            <p>atalho prático para achar a melhor luz natural sem complicação.</p>
+          </div>
+          <span class="sp">R$ 24,00</span>
+        </div>
+        <div class="stack-total">
+          <span class="lbl">Valor total dos bônus</span>
+          <span class="val">R$ 87,00</span>
+        </div>
+      </div>
+
+      <div class="urgency">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C88A40" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.2"/><path d="M12 7.6V12l3 2"/></svg>
+        <span><strong>Oferta de lançamento por tempo limitado.</strong> Depois, o valor volta ao preço cheio.</span>
+      </div>
+
+      <div class="cta-block">
+        <a class="cta" href="https://lastlink.com/p/C79F07709/checkout-payment/">
+          QUERO MEU ACESSO AGORA
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#141E2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <p class="cta-micro">de R$ 124,00 por R$ 9,90 · Pix ou cartão · acesso imediato por e-mail</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 9 · FECHAMENTO (navy) ==================== -->
+<section class="sec-navy" id="s9" style="padding-bottom:84px;">
+  <div class="wrap">
+    <div class="guarantee rv">
+      <svg class="gshield" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 L20 5.5 V11 C20 16.5 16.6 20.6 12 22 C7.4 20.6 4 16.5 4 11 V5.5 Z" stroke="#C88A40" stroke-width="1.6" fill="rgba(200,138,64,.12)"/><path d="M8.5 12 L11 14.5 L15.5 9.5" stroke="#ECE5D5" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h3>Garantia de 7 dias</h3>
+        <p style="margin-top:8px;">Você tem 7 dias para testar com calma. Se perceber que o material não faz sentido pra você, basta pedir a devolução. <strong>Se em 7 dias você não conseguir tirar fotos mais bonitas do seu bebê usando o celular e a luz de casa, devolvemos 100% do valor.</strong></p>
+      </div>
+    </div>
+
+    <p class="signature rv">Montamos esse material para simplificar a vida da mãe real: pouco tempo, bebê no colo e vontade de guardar tudo com carinho.<br><span style="display:block;margin-top:10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(236,229,213,.55);">Silva·Lab — estúdio que cuida da divulgação de fotógrafos especializados em gestantes e recém-nascidos</span></p>
+
+    <div class="faq rv">
+      <h3 class="faq-t">Perguntas frequentes</h3>
+      <details>
+        <summary>Preciso saber fotografia para conseguir usar?</summary>
+        <p class="faq-a">Não. O método foi pensado para mãe ocupada, não para fotógrafa. Você só precisa seguir os passos e repetir os cenários simples do guia.</p>
+      </details>
+      <details>
+        <summary>Meu bebê é recém-nascido, isso é seguro?</summary>
+        <p class="faq-a">Sim. Tudo é baseado em segurança, posição confortável e clique sem pose arriscada. Nada de invenção de internet.</p>
+      </details>
+      <details>
+        <summary>E se eu só tiver o celular que já uso todo dia?</summary>
+        <p class="faq-a">Perfeito. Esse é o ponto. Você aprende a fazer foto bonita com o aparelho que já está na sua mão.</p>
+      </details>
+      <details>
+        <summary>Preciso comprar luz, fundo ou acessório?</summary>
+        <p class="faq-a">Não. O foco é usar a luz da casa e montar cenários com o que você já tem, em minutos.</p>
+      </details>
+      <details>
+        <summary>E se meu bebê nunca para quieto?</summary>
+        <p class="faq-a">Você vai aprender a fotografar no instante certo: bocejo, sono, mãozinha, colo e aqueles segundos que emocionam de verdade.</p>
+      </details>
+      <details>
+        <summary>Vai parecer foto profissional mesmo sem edição avançada?</summary>
+        <p class="faq-a">Vai. Com 3 ajustes simples no celular, a imagem ganha clareza, calor e acabamento muito mais bonito.</p>
+      </details>
+      <details>
+        <summary>Quais são as formas de pagamento?</summary>
+        <p class="faq-a">Pix ou cartão de crédito, pelo checkout seguro da Lastlink.</p>
+      </details>
+      <details>
+        <summary>Como recebo o material?</summary>
+        <p class="faq-a">Na hora. Assim que o pagamento é confirmado, chega um e-mail com o seu acesso ao guia. Qualquer dúvida, é só responder esse e-mail que a gente ajuda.</p>
+      </details>
+    </div>
+
+    <p class="final-msg rv">Você tem 2 caminhos: <strong>continuar salvando fotos que te frustram</strong> ou <strong>começar a criar memórias que dão orgulho</strong>. Daqui a alguns meses, você não vai querer lembrar de filtros. Vai querer lembrar do sorriso, do bocejo e da fase viva — do jeito que ela era.
+      <span class="no-filter">Não deixa essas lembranças virarem só um monte de foto sem emoção.</span>
+    </p>
+
+    <div class="cta-block rv final-cta">
+      <a class="cta" href="https://lastlink.com/p/C79F07709/checkout-payment/">
+        QUERO REGISTRAR ESSA FASE DO JEITO CERTO
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="#141E2E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="cta-micro">R$ 9,90 · garantia de 7 dias</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wm">SILVA<span class="dot">·</span>LAB</div>
+  <div class="fline">Primeiros Cliques · 2026</div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var els=document.querySelectorAll('.rv,.rv-kids');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on');});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('on');io.unobserve(en.target);}
+    });
+  },{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+  els.forEach(function(e){io.observe(e);});
+})();
+</script>
+
+</body>
+</html>
