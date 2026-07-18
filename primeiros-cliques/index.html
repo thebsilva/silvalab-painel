@@ -968,15 +968,16 @@ src="https://www.facebook.com/tr?id=1899576980715245&ev=PageView&noscript=1"
     tempos.forEach(function(m){ if(seg>=m && !tOK[m]){ tOK[m]=1; ev('Tempo_'+m+'s'); } });
   },1000);
 
-  /* 2) SCROLL / deslizamento — profundidade em %, cada marco 1x */
-  var prof=[25,50,75,90,100], sOK={};
+  /* 2) SCROLL / deslizamento (%) + chegou na oferta — cada marco 1x (sem rAF: roda sempre) */
+  var prof=[25,50,75,90,100], sOK={}, oferta=document.querySelector('.offer-card'), ofertaOK=false;
   function scroll(){
-    var el=document.documentElement;
+    var el=document.documentElement, y=window.pageYOffset||el.scrollTop;
     var max=Math.max(el.scrollHeight, document.body.scrollHeight) - window.innerHeight;
-    var pct=max>0 ? Math.round((window.pageYOffset||el.scrollTop)/max*100) : 100;
+    var pct=max>0 ? Math.round(y/max*100) : 100;
     prof.forEach(function(m){ if(pct>=m && !sOK[m]){ sOK[m]=1; ev('Scroll_'+m); } });
+    if(oferta && !ofertaOK && (y + window.innerHeight >= oferta.getBoundingClientRect().top + y + 80)){ ofertaOK=1; ev('Viu_Oferta'); }
   }
-  window.addEventListener('scroll', function(){ requestAnimationFrame(scroll); }, {passive:true});
+  window.addEventListener('scroll', scroll, {passive:true});
   scroll();
 
   /* 3) CLIQUES nos CTAs — InitiateCheckout (padrão) + Clique_CTA por posição */
@@ -989,12 +990,7 @@ src="https://www.facebook.com/tr?id=1899576980715245&ev=PageView&noscript=1"
     });
   });
 
-  /* 4) SEÇÕES-chave — chegou na oferta / abriu uma dúvida */
-  var oferta=document.querySelector('.offer-card');
-  if('IntersectionObserver' in window && oferta){
-    var vistoOferta=false;
-    new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting && !vistoOferta){ vistoOferta=true; ev('Viu_Oferta'); } }); }, {threshold:.4}).observe(oferta);
-  }
+  /* 4) FAQ — abriu uma dúvida (1x) */
   var duvidaOK=false;
   document.querySelectorAll('details').forEach(function(d){
     d.addEventListener('toggle', function(){ if(d.open && !duvidaOK){ duvidaOK=true; ev('Abriu_Duvida'); } });
