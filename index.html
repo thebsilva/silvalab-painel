@@ -113,6 +113,57 @@
   .tabs button:hover { color: var(--cream); }
   .tabs button.active { color: var(--cream); background: var(--panel); border-color: var(--line); border-bottom-color: var(--panel); }
   .tabs button.agencia.active, .tabs button.agencia:hover { color: var(--amber-hi); }
+  .tabs button.criativos.active, .tabs button.criativos:hover { color: var(--cyan-hi); }
+
+  /* ───── Aba Criativos (esteira de teste + fila do IG) ───── */
+  body.criativos-on .cal-wrap, body.criativos-on .custom-note { display: none; }
+  .cri-quando { color: var(--muted-2); font-size: 11.5px; margin-left: auto; }
+  .cri-cab { margin-top: 14px; display: flex; flex-direction: column; gap: 4px; }
+  .cri-reguas, .cri-campteste { font-size: 12.5px; color: var(--muted); }
+  .cri-status.on { color: var(--green-hi); font-weight: 600; white-space: nowrap; }
+  .cri-status.off { color: var(--amber-hi); font-weight: 600; white-space: nowrap; }
+  .cri-hero { margin-top: 12px; }
+  .cri-titulo { font: 700 11.5px var(--body); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: 9px; }
+  .cri-frases { list-style: none; display: flex; flex-direction: column; gap: 7px; font-size: 13.5px; }
+  .cri-frases .ok { color: var(--green-hi); } .cri-frases .mira { color: var(--red-hi); }
+  .cri-lista { display: flex; flex-direction: column; gap: 10px; }
+  .cri-item { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .cri-topo { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 8px; }
+  .cri-badge { display: inline-flex; align-items: center; gap: 5px; font: 600 11px var(--body); color: var(--sc); border: 1px solid var(--sc); border-radius: 99px; padding: 2px 9px; white-space: nowrap; }
+  .cri-badge i { font-style: normal; }
+  .cri-nome { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: min(560px, 58vw); }
+  .cri-off { color: var(--muted-2); font-size: 11.5px; }
+  .cri-aviso { color: var(--amber-hi); font-size: 11.5px; font-weight: 600; }
+  .cri-ver { margin-left: auto; font-size: 12px; white-space: nowrap; }
+  .cri-barra { position: relative; height: 8px; background: var(--line-soft); border-radius: 5px; }
+  .cri-barra b { display: block; height: 100%; border-radius: 5px; min-width: 2px; }
+  .cri-tick { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--navy); opacity: .5; }
+  .cri-estouro { font: 600 11px var(--body); color: var(--red-hi); }
+  .cri-nums { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+  .cri-nums b { font: 600 13px var(--num); color: var(--cream); font-variant-numeric: tabular-nums; }
+  .cri-aset { font-style: normal; color: var(--muted-2); }
+  .cri-fila { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .cri-post { display: flex; flex-direction: column; gap: 7px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--amber); border-radius: 12px; padding: 11px 13px; text-decoration: none; color: var(--cream); transition: .13s; }
+  .cri-post:hover { border-color: var(--amber); }
+  .cri-post-meta { display: flex; gap: 8px; align-items: baseline; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+  .cri-post-meta b { color: var(--amber-hi); font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .cri-eng { margin-left: auto; }
+  .cri-post p { font-size: 12.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .cri-abrir { font-size: 11.5px; color: var(--cyan-hi); margin-top: auto; }
+  .cri-mais { margin: 14px 0; }
+  .cri-mais summary { cursor: pointer; color: var(--muted); font-size: 12.5px; }
+  .cri-vazio { background: var(--panel); border: 1px dashed var(--line); border-radius: 12px; padding: 16px; color: var(--muted); font-size: 13px; }
+  .cri-nota { font-size: 12px; color: var(--muted); margin: 8px 0; }
+  .cri-wrap, .cri-wrap .controls, .cri-wrap .seg { max-width: 100%; }
+  .cri-quando { overflow-wrap: anywhere; }
+  .cri-topo > * { min-width: 0; }
+  @media (max-width: 640px) {
+    .cri-nome { max-width: 100%; white-space: normal; }
+    .cri-ver { margin-left: 0; }
+    .cri-quando { margin-left: 0; flex-basis: 100%; }
+    .cri-fila { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 430px) { .cri-fila { grid-template-columns: 1fr; } }
 
   h2.section { font: 700 11.5px var(--body); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 26px 0 10px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   h2.section .cnt { color: var(--muted-2); font-weight: 500; letter-spacing: 0; text-transform: none; }
@@ -407,6 +458,8 @@
 <script src="painel.js"></script>
 <script src="diario.js"></script>
 <script src="conversas.js"></script>
+<script src="criativos.js"></script>
+<script src="criativos_render.js"></script>
 <script>
 (function () {
   "use strict";
@@ -497,7 +550,7 @@
     const h = decodeURIComponent(location.hash.slice(1));
     if (h) {
       const [t, p] = h.split("|");
-      if (t && (t === "__agencia__" || ACCTS.some(a => a.client === t))) state.tab = t;
+      if (t && (t === "__agencia__" || t === "__criativos__" || ACCTS.some(a => a.client === t))) state.tab = t;
       if (p && p.startsWith("c:") && DD) {
         const [, i, f] = p.split(":");
         if (i && f) { state.period = "custom"; state.cIni = i; state.cFim = f; }
@@ -773,6 +826,7 @@
     };
     mk("__agencia__", "Visão geral", "agencia");
     ACCTS.forEach(a => mk(a.client, a.client));
+    if (window.CRIATIVOS_DATA) mk("__criativos__", "Criativos", "criativos");
 
     // rodapé
     const notas = [];
@@ -800,7 +854,11 @@
     if (calLbl) calLbl.textContent = periodoLabel();
     const hp = custom ? `c:${state.cIni}:${state.cFim}` : state.period;
     try { history.replaceState(null, "", "#" + encodeURIComponent(state.tab) + "|" + hp); } catch (e) {}
-    document.getElementById("view").innerHTML = state.tab === "__agencia__" ? renderAgencia() : renderClient(state.tab);
+    const ehCriativos = state.tab === "__criativos__";
+    document.body.classList.toggle("criativos-on", ehCriativos);  // esconde o período (não se aplica: vida inteira)
+    const view = document.getElementById("view");
+    if (ehCriativos && window.renderCriativosTab) { window.renderCriativosTab(view); return; }
+    view.innerHTML = state.tab === "__agencia__" ? renderAgencia() : renderClient(state.tab);
     wire();
   }
 
