@@ -305,6 +305,18 @@
   .path-lead { font-size: 13.5px; color: var(--cream); margin: 16px 0 9px; max-width: 940px; }
   .path-lead b { font-weight: 600; }
 
+  /* ── funil POR FRENTE (cliente com mais de uma linha de negócio) ── */
+  .frente { margin: 4px 0 22px; padding-left: 13px; border-left: 2px solid var(--line); }
+  .frente.tem-venda { border-left-color: var(--green); }
+  .frente-cab { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 2px; }
+  .frente-cab b { font: 600 13.5px var(--body); color: var(--cream); letter-spacing: .02em; }
+  .frente-cab .canal { font-size: 11px; color: var(--muted-2); border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
+  .frente-cab .verba { font: 500 12px var(--num); color: var(--muted); font-variant-numeric: tabular-nums; }
+  .frente .funnel { margin: 9px 0 0; }
+  .frente-lead { font-size: 13px; color: var(--cream); margin-top: 10px; max-width: 940px; }
+  .frente-lead b { font-weight: 600; }
+  .frente-lead.vazio { color: var(--muted); }
+
   /* ───── Pills / badges ───── */
   .pill { font-size: 10.5px; color: var(--muted); display: block; font-weight: 400; }
   .tag { display: inline-block; font: 600 10.5px var(--body); padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); vertical-align: 2px; }
@@ -580,8 +592,47 @@
   function vendasJanela(client) {                 // vendas_dia do painel.js -> {consultas, vendas, faturamento}
     const dias = (PBY[client] || {}).vendas_dia || {};
     let c = 0, v = 0, f = 0;
-    for (const d in dias) if (emJanela(d)) { c += dias[d].c || 0; v += dias[d].v || 0; f += dias[d].f || 0; }
-    return { consultas: c, vendas: v, faturamento: Math.round(f * 100) / 100 };
+    const prod = {};                              // venda por PRODUTO/frente (espelho do por_produto)
+    for (const d in dias) if (emJanela(d)) {
+      c += dias[d].c || 0; v += dias[d].v || 0; f += dias[d].f || 0;
+      const pp = dias[d].p || {};
+      for (const k in pp) {
+        const e = prod[k] || (prod[k] = { vendas: 0, faturamento: 0 });
+        e.vendas += pp[k].v || 0; e.faturamento += pp[k].f || 0;
+      }
+    }
+    for (const k in prod) prod[k].faturamento = Math.round(prod[k].faturamento * 100) / 100;
+    return { consultas: c, vendas: v, faturamento: Math.round(f * 100) / 100, por_produto: prod };
+  }
+
+  /* frentes na JANELA LIVRE — mesma regra do frentes_periodo() do build_painel */
+  function frentesJanela(client, camps, v, iniciadas, realizadas) {
+    const cfg = (PBY[client] || {}).frentes_cfg;
+    if (!cfg) return null;
+    const div = (a, b) => b > 0 ? Math.round(a / b * 100) / 100 : null;
+    const sobra = Object.assign({}, v.por_produto || {});
+    const usados = new Set();
+    const out = cfg.map(f => {
+      const rx = f.campanhas ? new RegExp(f.campanhas, "i") : null;
+      let gasto = 0, cliques = 0;
+      camps.forEach((c, i) => {
+        if (rx && rx.test(c.name || "")) { usados.add(i); gasto += c.spend || 0; cliques += c.link_clicks || 0; }
+      });
+      const pv = sobra[f.nome] || {}; delete sobra[f.nome];
+      const vendas = pv.vendas || 0;
+      const item = { nome: f.nome, gasto: Math.round(gasto * 100) / 100, cliques: cliques,
+        vendas: vendas, faturamento: pv.faturamento || 0,
+        custo_venda: div(gasto, vendas), cliques_por_venda: div(cliques, vendas) };
+      if (f.canal === "whatsapp") { item.iniciadas = iniciadas; item.realizadas = realizadas; }
+      return item;
+    });
+    let gR = 0, cR = 0;
+    camps.forEach((c, i) => { if (!usados.has(i)) { gR += c.spend || 0; cR += c.link_clicks || 0; } });
+    const vR = Object.values(sobra).reduce((a, x) => a + (x.vendas || 0), 0);
+    const fR = Object.values(sobra).reduce((a, x) => a + (x.faturamento || 0), 0);
+    if (gR > 0 || vR > 0) out.push({ nome: "Não classificado", gasto: Math.round(gR * 100) / 100, cliques: cR,
+      vendas: vR, faturamento: Math.round(fR * 100) / 100, custo_venda: div(gR, vR), cliques_por_venda: div(cR, vR), resto: true });
+    return out;
   }
 
   function somaWebhook(client, campo, ini, fim) { // soma um campo do webhook (contatos=iniciadas, conversas=realizadas) no range
@@ -708,6 +759,8 @@
       realizadas: realizadas, realizadas_fonte: realizadas == null ? "nenhuma" : "real",
       janela_desde: janelaDesde,
     };
+    const fr = frentesJanela(client, camps, v, iniciadas, realizadas);
+    if (fr) pm.frentes = fr;
     return (_cacheJanela[client] = { am, pm, camps });
   }
 
@@ -1322,9 +1375,78 @@
     return parts.length ? { txt: parts.join(" ") } : null;
   }
 
+  /* ── uma cadeia: etapas + % que passa + chip "por venda" (usada solta e por frente) ── */
+  function cadeia(stages, vendas, custoVenda, cur) {
+    const pv = (x) => x == null ? "—" : (x >= 10 ? fInt(Math.round(x)) : fDec(Math.round(x * 10) / 10));
+    // só mostra "por venda" quando a corrente fecha: tem venda E cada etapa cabe na anterior
+    const coerente = vendas > 0 && stages.every((s, i) => i === 0 || (s.v || 0) <= (stages[i - 1].v || 0));
+    const parts = [];
+    stages.forEach((s, i) => {
+      if (i > 0) {
+        const from = stages[i - 1].v || 0, to = s.v || 0;
+        const okPct = from > 0 && to <= from;
+        parts.push(`<div class="pass">${okPct ? `<b>${fPct(to / from * 100, to / from < 0.1 ? 1 : 0)}</b>` : "<b>—</b>"}passam${!okPct && to > from ? `<span title="as vendas do período não nascem só das conversas do período (ciclo longo / receita esperada)"> †</span>` : ""}</div>`);
+      }
+      let chip = "";
+      if (coerente) {
+        if (s.alvo) chip = custoVenda != null
+          ? `<div class="spv"><i>custou ${fMoney(custoVenda, cur)}<small>em anúncio</small></i></div>`
+          : `<div class="spv"><i>1<small>o alvo</small></i></div>`;
+        else if ((s.v || 0) >= vendas) chip = `<div class="spv"><i>${pv(s.v / vendas)}<small>por venda</small></i></div>`;
+      }
+      parts.push(`<div class="stage${s.alvo ? " alvo" : ""}"><div class="sv">${fInt(s.v || 0)}</div><div class="sk"><span class="src ${s.src}"></span>${esc(s.k)}${s.tip ? ` <span title="${esc(s.tip)}" style="cursor:help">ⓘ</span>` : ""}</div>${chip}</div>`);
+    });
+    return { html: `<div class="funnel">${parts.join("")}</div>`, coerente };
+  }
+
+  /* ── funil POR FRENTE: cliente com 2+ linhas de negócio (ex. Bruna: Juros no site, Aéreo no
+       WhatsApp). Sem isso o funil somava clique de uma frente com venda da outra. ── */
+  function funnelFrentes(fr, p, acc) {
+    const cur = acc.currency;
+    const iniReal = p.iniciadas_fonte === "real";
+    const jd = p.janela_desde ? ` Medidas desde ${fDate(p.janela_desde)} (início do webhook).` : "";
+    // sobra irrelevante (ex.: campanha encerrada sem nome no catálogo da janela livre) não vira
+    // bloco — mas NUNCA some calada: vira a nota do rodapé.
+    const total = fr.reduce((a, f) => a + (f.gasto || 0), 0);
+    const miudo = fr.filter(f => f.resto && !(f.vendas > 0) && (f.gasto || 0) < total * 0.01);
+    const mostra = fr.filter(f => !miudo.includes(f));
+    const blocos = mostra.map(f => {
+      const stages = [{ k: "Cliques no link", v: f.cliques, src: "m" }];
+      if (f.iniciadas != null) {
+        stages.push({ k: "Conversas iniciadas", v: f.iniciadas, src: iniReal ? "n" : "m",
+          tip: iniReal ? "Conversas iniciadas contadas pelo nosso webhook (quem mandou a 1ª mensagem)."
+                       : "Conversas iniciadas pela contagem da Meta (proxy)." });
+        if (f.realizadas != null) stages.push({ k: "Conversas realizadas", v: f.realizadas, src: "n",
+          tip: "Trocou pelo menos o mínimo de mensagens espalhadas — nosso webhook." + jd });
+      }
+      stages.push({ k: "Vendas", v: f.vendas || 0, src: "n", alvo: true });
+
+      const c = cadeia(stages, f.vendas || 0, f.custo_venda, cur);
+      const canal = f.iniciadas != null ? "WhatsApp" : (f.resto ? "" : "site");
+      const cab = `<div class="frente-cab"><b>${esc(f.nome)}</b>${canal ? `<span class="canal">${canal}</span>` : ""}` +
+                  `<span class="verba">${fMoney(f.gasto, cur)} investidos</span></div>`;
+      // a resposta que o funil existe pra dar: o que custa UMA venda nesta frente
+      const lead = f.resto
+        ? `<div class="frente-lead vazio">Campanhas <b>sem frente no nome</b> (em geral as antigas) — ficam fora dos caminhos acima até serem renomeadas ou mapeadas.</div>`
+        : (f.vendas > 0 && c.coerente)
+        ? `<div class="frente-lead">1 venda = <b>${f.cliques_por_venda >= 10 ? fInt(Math.round(f.cliques_por_venda)) : fDec(Math.round(f.cliques_por_venda * 10) / 10)} cliques</b> · <b>${fMoney(f.custo_venda, cur)}</b> em anúncio.</div>`
+        : (f.vendas > 0
+            ? `<div class="frente-lead">Cada venda custou <b>${fMoney(f.custo_venda, cur)}</b> em anúncio. <span style="color:var(--muted)">As vendas do período não nascem só das conversas dele (ciclo longo), então o caminho conversa→venda não fecha aqui.</span></div>`
+            : `<div class="frente-lead vazio">Ainda <b>sem venda registrada</b> nesta frente — o caminho para antes do fim.</div>`);
+      return `<div class="frente${f.vendas > 0 ? " tem-venda" : ""}">${cab}${c.html}${lead}</div>`;
+    });
+    const gm = miudo.reduce((a, f) => a + (f.gasto || 0), 0);
+    const notaMiudo = gm > 0
+      ? `<div class="frente-lead vazio" style="margin-top:2px">+ ${fMoney(gm, cur)} fora das frentes — campanha sem frente no nome ou diferença da própria Meta entre conta e campanhas.</div>`
+      : "";
+    return `<h2 class="section">Funil do período <span class="cnt">· por frente, o caminho pra fechar 1 venda</span></h2>${blocos.join("")}${notaMiudo}`;
+  }
+
   /* ── funil do período — número + % que passa + "por venda", num bloco só ── */
   function funnel(p, acc) {
     const vendas = p.vendas || 0, cur = acc.currency;
+    const frentes = (p.frentes || []).filter(f => (f.gasto || 0) > 0 || (f.vendas || 0) > 0);
+    if (frentes.length > 1) return funnelFrentes(frentes, p, acc);
     const iniReal = p.iniciadas_fonte === "real";
     const iniTip = iniReal
       ? "Conversas iniciadas contadas pelo nosso webhook (quem mandou a 1ª mensagem)."
@@ -1341,33 +1463,14 @@
     stages.push({ k: "Vendas", v: vendas, src: "n", alvo: true });
     if (!stages.some(s => s.v)) return "";
 
-    // "por venda" (a antiga cadeia) entra como chip em cada etapa — só quando a conta fecha
-    const pv = (x) => x == null ? "—" : (x >= 10 ? fInt(Math.round(x)) : fDec(Math.round(x * 10) / 10));
-    const coerente = vendas > 0 && (p.iniciadas || 0) >= vendas && (p.cliques || 0) >= (p.iniciadas || 0);
-
-    const parts = [];
-    stages.forEach((s, i) => {
-      if (i > 0) {
-        const from = stages[i - 1].v || 0, to = s.v || 0;
-        const okPct = from > 0 && to <= from;
-        parts.push(`<div class="pass">${okPct ? `<b>${fPct(to / from * 100, to / from < 0.1 ? 1 : 0)}</b>` : "<b>—</b>"}passam${!okPct && to > from ? `<span title="as vendas do período não nascem só das conversas do período (ciclo longo / receita esperada)"> †</span>` : ""}</div>`);
-      }
-      let chip = "";
-      if (coerente) {
-        if (s.alvo) chip = p.custo_venda != null
-          ? `<div class="spv"><i>custou ${fMoney(p.custo_venda, cur)}<small>em anúncio</small></i></div>`
-          : `<div class="spv"><i>1<small>o alvo</small></i></div>`;
-        else if ((s.v || 0) >= vendas) chip = `<div class="spv"><i>${pv(s.v / vendas)}<small>por venda</small></i></div>`;
-      }
-      parts.push(`<div class="stage${s.alvo ? " alvo" : ""}"><div class="sv">${fInt(s.v || 0)}</div><div class="sk"><span class="src ${s.src}"></span>${esc(s.k)}${s.tip ? ` <span title="${esc(s.tip)}" style="cursor:help">ⓘ</span>` : ""}</div>${chip}</div>`);
-    });
+    const c = cadeia(stages, vendas, p.custo_venda, cur);
 
     // venda que não nasce do funil do período (ciclo longo / receita esperada): sem chips, com a nota
-    const nota = (!coerente && vendas > 0)
+    const nota = (!c.coerente && vendas > 0)
       ? `<div class="path-lead">Cada venda custou <b>${fMoney(p.custo_venda, cur)}</b> em anúncio. <span style="color:var(--muted)">As vendas deste período não vêm só das conversas registradas nele (ciclo longo / receita esperada), então o caminho conversa→venda não fecha aqui.</span></div>`
       : "";
 
-    return `<h2 class="section">Funil do período${coerente ? ' <span class="cnt">· e o caminho pra fechar 1 venda</span>' : ""}</h2><div class="funnel">${parts.join("")}</div>${nota}`;
+    return `<h2 class="section">Funil do período${c.coerente ? ' <span class="cnt">· e o caminho pra fechar 1 venda</span>' : ""}</h2>${c.html}${nota}`;
   }
 
   /* ── campanhas (nível Gerenciador) ── */
