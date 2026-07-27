@@ -8,16 +8,28 @@
   "use strict";
   const C = window.CRIATIVOS_DATA || null;
 
+  /* Estados = as 4 MARCAÇÕES do MODELO § 5.1.4 + os de andamento.
+     A marcação vem do PREFIXO do nome do anúncio (decisão humana) e vence o
+     cálculo por número. Acessibilidade: sempre ícone + rótulo, nunca só cor. */
   const ESTADOS = {
-    aprovado:   { icone: "✔", rotulo: "aprovado",        cor: "var(--green-hi)" },
-    graduado:   { icone: "🎓", rotulo: "graduado",        cor: "var(--green-hi)" },
-    rodando:    { icone: "▶", rotulo: "rodando",         cor: "var(--cyan-hi)" },
-    na_mira:    { icone: "✂", rotulo: "na mira",         cor: "var(--red-hi)" },
-    sem_volume: { icone: "◌", rotulo: "sem volume",      cor: "var(--muted-2)" },
-    destino:    { icone: "→", rotulo: "direto no destino", cor: "var(--muted)" },
+    aprovado:    { icone: "🎓", rotulo: "graduado",          cor: "var(--green-hi)" },
+    graduado:    { icone: "🎓", rotulo: "graduado (no destino)", cor: "var(--green-hi)" },
+    rodando:     { icone: "▶", rotulo: "em teste",           cor: "var(--cyan-hi)" },
+    na_mira:     { icone: "✂", rotulo: "na mira",            cor: "var(--red-hi)" },
+    reprovado:   { icone: "✂", rotulo: "reprovado",          cor: "var(--red-hi)" },
+    sem_entrega: { icone: "🔄", rotulo: "sem entrega · volta pra fila", cor: "var(--amber-hi)" },
+    sem_volume:  { icone: "◌", rotulo: "sem volume",         cor: "var(--muted-2)" },
+    vetado:      { icone: "🚫", rotulo: "vetado",            cor: "var(--red-hi)" },
+    destino:     { icone: "→", rotulo: "direto no destino",  cor: "var(--muted)" },
   };
-  const ORDEM_ESTEIRA = ["aprovado", "rodando", "na_mira", "sem_volume"];
-  const TIPO_MIDIA = { VIDEO: "Reels", CAROUSEL_ALBUM: "Carrossel", IMAGE: "Foto" };
+  /* ordem de leitura da esteira: quem precisa de decisão primeiro */
+  const ORDEM_ESTEIRA = ["aprovado", "rodando", "na_mira", "reprovado", "sem_volume", "sem_entrega", "vetado"];
+  const TIPO_MIDIA = { VIDEO: "🎬 Vídeo", CAROUSEL_ALBUM: "🎠 Carrossel", IMAGE: "🖼 Post único" };
+  const FAIXAS = {
+    fresco:  { rot: "🟢 Fresco",  sub: "≤ 30 dias · material da agência nova" },
+    maduro:  { rot: "🟡 Maduro",  sub: "31–120 dias" },
+    arquivo: { rot: "🔵 Arquivo", sub: "> 120 dias" },
+  };
 
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -57,9 +69,22 @@
     const nome = (x) => `“${esc(x.nome.length > 52 ? x.nome.slice(0, 52) + "…" : x.nome)}”`;
     const teste = c.criativos.filter(x => ORDEM_ESTEIRA.includes(x.estado));
     c.criativos.filter(x => x.estado === "aprovado").forEach(x =>
-      fr.push(`<b class="ok">✔ ${nome(x)}</b> bateu a régua (${fR$(x.gasto_teste)} · CTR ${fPct(x.ctr)}${x.custo_visita ? ` · ${fR$(x.custo_visita)}/visita` : ""}) — <b>decidir graduação</b>.`));
+      fr.push(`<b class="ok">🎓 ${nome(x)}</b> bateu a régua (${fR$(x.gasto_teste)} · CTR ${fPct(x.ctr)}${x.custo_visita ? ` · ${fR$(x.custo_visita)}/visita` : ""}) — <b>graduado</b>; vai pro banco de reserva, entra no destino só se o destino cair.`));
     c.criativos.filter(x => x.estado === "na_mira").forEach(x =>
       fr.push(`<b class="mira">✂ ${nome(x)}</b> venceu o checkpoint com CTR ${fPct(x.ctr)} (corte ${fPct(c.corte_ctr)}) — candidato a corte.`));
+    /* vagas por ad set: a esteira é 2 POR AD SET (decisão do Bruno, 27/07) */
+    const porAdset = {};
+    c.criativos.filter(x => x.ativo_teste && x.adset_teste).forEach(x =>
+      (x.adset_teste.split(", ")).forEach(a => { porAdset[a] = (porAdset[a] || 0) + 1; }));
+    Object.entries(porAdset).forEach(([a, n]) => {
+      if (n < 2) fr.push(`🎯 Ad set <b>${esc(a)}</b> com ${n} ativo(s) — <b>${2 - n} vaga(s)</b> livre(s) (teto: 2 por ad set).`);
+      if (n > 2) fr.push(`⚠ Ad set <b>${esc(a)}</b> com <b>${n} ativos</b> — acima do teto de 2; o CBO vai concentrar e o resto não recebe entrega.`);
+    });
+    const se = c.criativos.filter(x => x.estado === "sem_entrega");
+    if (se.length) {
+      const melhor = se.slice().sort((a, b) => (a.falta_para_regua || 0) - (b.falta_para_regua || 0))[0];
+      fr.push(`🔄 <b>${se.length}</b> voltaram por falta de entrega e <b>entram antes</b> de post novo. Primeiro da vez: ${nome(melhor)} (${fR$(melhor.gasto_teste)} já gastos, falta ${fR$(melhor.falta_para_regua)}).`);
+    }
     teste.filter(x => x.estado === "rodando" && x.falta_para_regua <= c.regua * 0.25).forEach(x =>
       fr.push(`⏳ ${nome(x)} a <b>${fR$(x.falta_para_regua)}</b> da régua (CTR ${fPct(x.ctr)}).`));
     const ct = c.campanha_teste;
@@ -93,11 +118,21 @@
     </div>`;
   }
 
+  /* Card da fila: JANELA (a data é o balizador) + formato + curtidas/views.
+     COMENTÁRIO NÃO APARECE — em perfil pequeno é amigo apoiando, não sinal
+     (regra do Bruno, 27/07). A taxa ♥/views ordena dentro da faixa. */
   function cardFila(f) {
+    const tipo = f.product_type === "REELS" ? "🎬 Reels"
+      : (TIPO_MIDIA[f.media_type] || "🖼 Post único");
+    const met = [
+      f.views != null ? `${fInt(f.views)} views` : null,
+      `♥ ${fInt(f.likes)}`,
+      f.taxa != null ? `<b>${fPct(f.taxa)}</b>` : null,
+    ].filter(Boolean).join(" · ");
     return `<a class="cri-post" href="${esc(f.permalink)}" target="_blank" rel="noopener">
-      <div class="cri-post-meta"><b>${TIPO_MIDIA[f.media_type] || f.product_type || "Post"}</b>
-        <span>${diasAtras(f.timestamp) || ""}</span>
-        <span class="cri-eng">♥ ${fInt(f.likes)} · 💬 ${fInt(f.comments)}</span></div>
+      <div class="cri-post-meta"><b>${tipo}</b>
+        <span title="${esc(f.timestamp || "")}">${fData(f.timestamp)}</span>
+        <span class="cri-eng" title="curtidas ÷ visualizações — comentário não entra">${met}</span></div>
       <p>${esc(f.caption_curta)}</p>
       <span class="cri-abrir">testar este ↗</span></a>`;
   }
@@ -107,7 +142,10 @@
       return `<div class="cri-vazio">Coleta do cliente falhou: <code>${esc(c.motivo || "?")}</code>. Roda de novo no próximo ciclo (2h).</div>`;
     }
     const ct = c.campanha_teste;
-    const esteira = ORDEM_ESTEIRA.flatMap(e => c.criativos.filter(x => x.estado === e));
+    /* a esteira mostra só quem está EM JOGO — sem_entrega e vetado ganham
+       seções próprias (prioridade e arquivo morto) mais abaixo */
+    const ESTEIRA_VIVA = ["aprovado", "rodando", "na_mira", "reprovado", "sem_volume"];
+    const esteira = ESTEIRA_VIVA.flatMap(e => c.criativos.filter(x => x.estado === e));
     const grad = c.criativos.filter(x => x.estado === "graduado");
     const dest = c.criativos.filter(x => x.estado === "destino");
     const filaViva = c.fila.filter(f => !f.sazonal);
@@ -149,14 +187,43 @@
       </div>`).join("") + `</div>`;
     }
 
-    h += `<h2 class="section">Fila do Instagram <span class="cnt">nunca viraram anúncio — o estoque da próxima janela</span></h2>`;
-    h += filaRec.length
-      ? `<div class="cri-fila">${filaRec.map(cardFila).join("")}</div>`
-      : `<div class="cri-vazio">Nenhum post novo sem anúncio nos últimos ${RECENTE} dias${filaVelha.length ? " — só o estoque antigo abaixo" : ""}. <b>Sem post novo, a esteira seca.</b></div>`;
-    if (filaVelha.length)
-      h += `<details class="cri-mais"><summary>estoque mais antigo (${filaVelha.length})</summary><div class="cri-fila">${filaVelha.map(cardFila).join("")}</div></details>`;
+    /* 🥇 PRIORIDADE: os [SEM ENTREGA] entram ANTES de post inédito (MODELO § 5.1.1
+       passo 2.5). Já têm gasto acumulado, já foram escolhidos, e nunca receberam
+       chance de provar — é o veredito mais barato de fechar. */
+    const semEnt = c.criativos.filter(x => x.estado === "sem_entrega")
+      .sort((a, b) => (a.falta_para_regua || 0) - (b.falta_para_regua || 0));
+    if (semEnt.length) {
+      h += `<h2 class="section">🥇 Voltaram pra fila — entram primeiro
+        <span class="cnt">${semEnt.length} · sem entrega pra provar nada, não foram reprovados</span></h2>
+        <p class="cri-nota">O gasto <b>não zera</b>: quem volta continua de onde parou. Ordem = mais perto do próximo marco.</p>
+        <div class="cri-lista">${semEnt.map(x => cardCriativo(x, c)).join("")}</div>`;
+    }
+
+    /* Fila do IG agrupada pelas 3 FAIXAS DE JANELA — a data é o balizador da busca */
+    h += `<h2 class="section">Fila do Instagram <span class="cnt">${filaViva.length} nunca viraram anúncio · a régua ORDENA, não elimina</span></h2>`;
+    if (!filaViva.length) {
+      h += `<div class="cri-vazio">Nenhum post sem anúncio. <b>Sem post novo, a esteira seca.</b></div>`;
+    } else {
+      ["fresco", "maduro", "arquivo"].forEach((fx, i) => {
+        const g = filaViva.filter(f => f.faixa === fx);
+        if (!g.length) return;
+        const meta = FAIXAS[fx];
+        const bloco = `<div class="cri-faixa"><b>${meta.rot}</b> <span>${meta.sub} · ${g.length} post(s)</span></div>
+          <div class="cri-fila">${g.map(cardFila).join("")}</div>`;
+        h += i === 0
+          ? bloco
+          : `<details class="cri-mais"${i === 1 ? " open" : ""}><summary>${meta.rot} — ${meta.sub} (${g.length})</summary>${bloco}</details>`;
+      });
+      const semFaixa = filaViva.filter(f => !f.faixa);
+      if (semFaixa.length)
+        h += `<details class="cri-mais"><summary>sem data legível (${semFaixa.length})</summary><div class="cri-fila">${semFaixa.map(cardFila).join("")}</div></details>`;
+    }
     if (sazonais.length)
-      h += `<details class="cri-mais"><summary>sazonais vencidos (${sazonais.length}) — reaproveitar só na próxima data</summary><div class="cri-fila">${sazonais.map(cardFila).join("")}</div></details>`;
+      h += `<details class="cri-mais"><summary>🗓 sazonais vencidos (${sazonais.length}) — fora da fila até a próxima data</summary><div class="cri-fila">${sazonais.map(cardFila).join("")}</div></details>`;
+    const vetados = c.criativos.filter(x => x.estado === "vetado");
+    if (vetados.length)
+      h += `<details class="cri-mais"><summary>🚫 vetados (${vetados.length}) — decisão do cliente, só volta com ok dele</summary>
+        <div class="cri-lista">${vetados.map(x => cardCriativo(x, c)).join("")}</div></details>`;
 
     if (dest.length) {
       h += `<details class="cri-mais"><summary>Direto no destino, sem passar pelo teste (${dest.length})</summary>
