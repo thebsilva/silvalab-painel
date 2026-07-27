@@ -215,6 +215,14 @@
   .kpi .k { font-size: 11.5px; color: var(--muted); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
   .kpi .s { font-size: 11px; color: var(--muted-2); margin-top: 2px; }
 
+  /* ───── delta vs período anterior ───── */
+  .kpi .v .dlt { font: 600 11.5px var(--body); margin-left: 7px; letter-spacing: 0; vertical-align: 2px; }
+  .dlt.up   { color: #4ade80; }
+  .dlt.down { color: #f87171; }
+  .dlt.flat { color: var(--muted-2); }
+  .cmp-nota { font-size: 11.5px; color: var(--muted-2); margin: -2px 0 10px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .cmp-nota b { color: var(--muted); font-weight: 600; }
+
   /* ───── Insight ───── */
   .insight {
     background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--amber);
@@ -546,8 +554,22 @@
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   /* ── estado ── */
-  const ACCTS = D && Array.isArray(D.accounts) ? D.accounts.filter(a => a.ok !== false) : [];
+  // ok:false NÃO esconde mais o cliente — em 27/07 uma falha transitória de coleta fez a
+  // Bruna sumir do painel inteiro, em silêncio. Cliente só fica de fora se NUNCA coletou
+  // (periods vazio, ex: conta sem token). Falha transitória = mostra o último dado bom
+  // (o watchdog avisa a falha no Telegram; esconder aba não avisa nada).
+  const ACCTS = D && Array.isArray(D.accounts)
+    ? D.accounts.filter(a => a.periods && Object.keys(a.periods).length)
+    : [];
   const PBY = {}; ((P && P.accounts) || []).forEach(a => { PBY[a.client] = a; });
+
+  /* Rótulo da etapa intermediária do cliente (Avaliação / Reunião / Análise) no número certo.
+     Existe porque venda=0 COM etapa cumprida é funil andando, não gasto sem retorno. */
+  function etapaLabel(client, n) {
+    const l = (PBY[client] || {}).consulta_label;
+    if (!l) return n === 1 ? "etapa do funil" : "etapas do funil";
+    return (n === 1 ? l : (PLURAL[l] || l + "s")).toLowerCase();
+  }
   const PERIODS = ((P && P.periods) || (D && D.periods) || []).slice();
   if (DD && !PERIODS.includes("custom")) PERIODS.push("custom");  // janela livre
   const hojeISO = new Date().toISOString().slice(0, 10);
@@ -587,6 +609,65 @@
     s.spend = Math.round(s.spend * 100) / 100;
     s.conversion_value = Math.round(s.conversion_value * 100) / 100;
     return s;
+  }
+
+  /* ══ COMPARAÇÃO COM O PERÍODO ANTERIOR ══
+     Janela imediatamente anterior, MESMA duração em dias. Tudo vem do diário
+     (diario.js), que cobre todos os dias — por isso não precisa de espelho no
+     Python: preset e janela livre usam este mesmo caminho.
+     ⚠️ alcance e frequência NÃO entram: não somam por dia. */
+  function janelaAtual() {                        // preset OU janela livre -> [ini, fim]
+    return state.period === "custom" ? [state.cIni, state.cFim] : boundsPreset(state.period);
+  }
+
+  function janelaAnterior() {
+    const [a, b] = janelaAtual();
+    if (!a || !b) return null;
+    const ms = 86400000, iso = (t) => new Date(t).toISOString().slice(0, 10);
+    const ini = new Date(a + "T12:00:00Z").getTime(), fim = new Date(b + "T12:00:00Z").getTime();
+    const dias = Math.round((fim - ini) / ms) + 1;
+    if (!(dias > 0)) return null;
+    return { ini: iso(ini - dias * ms), fim: iso(ini - ms), dias };
+  }
+
+  function somaDiasEntre(dias, ini, fim) {        // igual somaDias, mas em janela arbitrária
+    const s = {}; ((DD && DD.campos) || []).forEach(c => { s[c] = 0; });
+    for (const d in (dias || {})) if (d >= ini && d <= fim) {
+      const v = dias[d];
+      for (const c in DIDX) s[c] += v[DIDX[c]] || 0;
+    }
+    s.spend = Math.round(s.spend * 100) / 100;
+    return s;
+  }
+
+  /* métricas do período anterior de um cliente (null = sem base pra comparar) */
+  function anteriorDe(client) {
+    const j = janelaAnterior(), dd = DDBY[client];
+    if (!j || !dd) return null;
+    const s = somaDiasEntre(dd.dias, j.ini, j.fim);
+    if (!s.spend) return null;                    // sem gasto antes = comparação enganosa
+    const div = (a, b) => b > 0 ? a / b : null;
+    return {
+      _j: j,
+      spend: s.spend,
+      conversas: s.conversas,
+      link_clicks: s.link_clicks,
+      leads: s.leads,
+      ctr: div(s.clicks * 100, s.impressions),
+      cpm: div(s.spend * 1000, s.impressions),
+      custo_conversa: div(s.spend, s.conversas),
+      custo_clique: div(s.spend, s.link_clicks),
+    };
+  }
+
+  /* chip de variação. inverso=true quando MENOR é melhor (custo). */
+  function dlt(atual, anterior, inverso) {
+    if (atual == null || anterior == null || !isFinite(atual) || !isFinite(anterior) || anterior === 0) return "";
+    const v = (atual - anterior) / Math.abs(anterior) * 100;
+    if (Math.abs(v) < 1.5) return `<span class="dlt flat" title="praticamente igual ao período anterior">≈</span>`;
+    const bom = inverso ? v < 0 : v > 0;
+    const txt = (v > 0 ? "+" : "") + (Math.abs(v) >= 100 ? v.toFixed(0) : v.toFixed(0)) + "%";
+    return `<span class="dlt ${bom ? "up" : "down"}" title="vs. período anterior">${txt}</span>`;
   }
 
   function vendasJanela(client) {                 // vendas_dia do painel.js -> {consultas, vendas, faturamento}
@@ -965,7 +1046,13 @@
     all.forEach(({ a, p }) => {
       const g = p.gasto || 0, f = p.faturamento || 0;
       if (!g && !f) return;
-      if (g && !f) acoes.push({ pri: 0, ord: g, cls: "r", ic: "⚠", cli: a.client, txt: `${fMoney(g, a.currency)} gastos sem venda registrada — revisar` });
+      if (g && !f) {
+        // etapa do meio (avaliação/reunião/análise) conta: funil andando ≠ gasto sem retorno
+        const cons = p.consultas || 0;
+        const lbl = etapaLabel(a.client, cons);
+        if (cons > 0) acoes.push({ pri: 2, ord: cons, cls: "a", ic: "→", cli: a.client, txt: `${fInt(cons)} ${lbl} e nenhuma venda ainda — acompanhar o fechamento` });
+        else acoes.push({ pri: 0, ord: g, cls: "r", ic: "⚠", cli: a.client, txt: `${fMoney(g, a.currency)} gastos sem venda registrada — revisar` });
+      }
       else if (p.folga != null && p.folga >= 1.5) acoes.push({ pri: 1, ord: p.folga, cls: "g", ic: "↑", cli: a.client, txt: `folga de ${fX(p.folga)} — dá pra escalar` });
       else if (p.folga != null && p.folga >= 1) acoes.push({ pri: 2, ord: p.folga, cls: "a", ic: "→", cli: a.client, txt: `folga de ${fX(p.folga)} — crescer com cuidado` });
       else if (p.folga != null) acoes.push({ pri: 0, ord: g, cls: "r", ic: "✋", cli: a.client, txt: `conversa custa mais que o teto (${fX(p.folga)}) — segurar` });
@@ -1267,13 +1354,35 @@
     const cardRealizadas = p.realizadas == null
       ? kpi("Conversas realizadas", "—", "sem captura aqui — o webhook ligou depois", null)
       : kpi("Conversas realizadas", fInt(p.realizadas || null), "trocou ≥ mín. de msgs — nosso webhook" + jDesde, "n");
-    const midia = `<h2 class="section"><span class="src m"></span> Mídia — Meta</h2><div class="kpi-row">
-      ${kpi("Gasto", fMoney(p.gasto != null ? p.gasto : m.spend, cur))}
-      ${bd.slice(0, 3).map(b => kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un` : ""), fInt(b.value))).join("")}
-      ${cardIniciadas}
-      ${cardRealizadas}
-      ${kpi("CTR", fPct(m.ctr, 2))}
-      ${kpi("CPM", fMoney(m.cpm, cur))}
+    /* comparação com o período anterior (mesma duração, imediatamente antes) */
+    const ant = anteriorDe(clientName);
+    const cvD = (CVBY[clientName] || {}).desde || "9999";
+    // só compara conversa do webhook se o período ANTERIOR também estiver coberto por ele
+    const antCoberto = ant && ant._j.ini >= cvD;
+    const antIniciadas = antCoberto ? somaWebhook(clientName, "contatos", ant._j.ini, ant._j.fim) : null;
+    const antRealizadas = antCoberto ? somaWebhook(clientName, "conversas", ant._j.ini, ant._j.fim) : null;
+    // fontes diferentes não se comparam: webhook com webhook, Meta com Meta
+    const dIniciadas = !ant ? "" : (p.iniciadas_fonte === "real"
+      ? dlt(p.iniciadas, antIniciadas) : dlt(p.iniciadas, ant.conversas));
+    const cmpNota = ant
+      ? `<div class="cmp-nota">↔ comparando com <b>${fDate(ant._j.ini)} → ${fDate(ant._j.fim)}</b>
+         (${ant._j.dias} ${ant._j.dias === 1 ? "dia" : "dias"}, mesma duração) · gasto anterior ${fMoney(ant.spend, cur)}
+         ${antCoberto ? "" : "· <i>conversas do período anterior vêm da Meta (webhook não cobria)</i>"}</div>`
+      : `<div class="cmp-nota">↔ sem gasto no período anterior — nada a comparar</div>`;
+    const gastoAtual = p.gasto != null ? p.gasto : m.spend;
+
+    const midia = `<h2 class="section"><span class="src m"></span> Mídia — Meta</h2>${cmpNota}<div class="kpi-row">
+      ${kpi("Gasto", fMoney(gastoAtual, cur) + (ant ? dlt(gastoAtual, ant.spend) : ""))}
+      ${bd.slice(0, 3).map(b => {
+        const dCusto = ant && /clique/i.test(b.label) ? dlt(b.cost, ant.custo_clique, true) : "";
+        const dVal = ant && /clique/i.test(b.label) ? dlt(b.value, ant.link_clicks) : "";
+        return kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un ${dCusto}` : ""), fInt(b.value) + dVal);
+      }).join("")}
+      ${cardIniciadas.replace('</div><div class="k">', dIniciadas + '</div><div class="k">')}
+      ${cardRealizadas.replace('</div><div class="k">', (ant && antCoberto && p.realizadas != null ? dlt(p.realizadas, antRealizadas) : "") + '</div><div class="k">')}
+      ${kpi("CTR", fPct(m.ctr, 2) + (ant ? dlt(m.ctr, ant.ctr) : ""))}
+      ${kpi("CPM", fMoney(m.cpm, cur) + (ant ? dlt(m.cpm, ant.cpm, true) : ""))}
+      ${ant && p.custo_conversa != null ? kpi("Custo por conversa", fMoney(p.custo_conversa, cur) + dlt(p.custo_conversa, ant.custo_conversa, true)) : ""}
     </div>`;
 
     /* KPIs — vendas (nosso) */
@@ -1308,6 +1417,18 @@
       </div></section>`;
     }
     if (g && !f) {
+      /* Venda = 0 COM etapa intermediária cumprida (avaliação/reunião/análise) é FUNIL ANDANDO,
+         não gasto sem retorno: em ciclo com etapa do meio, a venda vem depois dela. Pedir
+         "revisar" aqui manda cortar justamente quando o funil está funcionando. */
+      const cons = p.consultas || 0;
+      if (cons > 0) {
+        const lbl = etapaLabel(acc.client, cons);
+        return `<section class="hero warn"><div class="hero-main">
+          <div class="hero-kicker">Funil andando — venda ainda não fechou</div>
+          <div class="hero-num">${fInt(cons)} <small style="font:500 15px var(--body)">${lbl}</small><small>${fMoney(g, cur)} investidos · ${fInt(c)} conversas${p.custo_conversa != null ? " · " + fMoney(p.custo_conversa, cur) + " por conversa" : ""}</small></div>
+          <div class="hero-sub">Nesse ciclo a venda vem <b>depois</b> dessa etapa — o funil está andando, não é gasto sem retorno. Acompanhar o fechamento.</div>
+        </div></section>`;
+      }
       return `<section class="hero bad"><div class="hero-main">
         <div class="hero-kicker">Gastando sem venda registrada</div>
         <div class="hero-num">${fMoney(g, cur)}<small>investidos · ${fInt(c)} conversas${p.custo_conversa != null ? " · " + fMoney(p.custo_conversa, cur) + " por conversa" : ""}</small></div>
@@ -1346,7 +1467,13 @@
     const g = p.gasto || 0, f = p.faturamento || 0;
     if (!g && !f) return null;
     if (g && !f) {
-      return { tone: "bad", txt: `Investiu <b>${fMoney(g, cur)}</b> e teve <b>${fInt(p.conversas || 0)}</b> conversas${p.custo_conversa != null ? ` (<b>${fMoney(p.custo_conversa, cur)}</b> cada)` : ""} — nenhuma venda registrada no período. <b style="color:var(--red)">→ revisar a campanha: gasto sem retorno.</b>` };
+      const cons = p.consultas || 0;
+      const base = `Investiu <b>${fMoney(g, cur)}</b> e teve <b>${fInt(p.conversas || 0)}</b> conversas${p.custo_conversa != null ? ` (<b>${fMoney(p.custo_conversa, cur)}</b> cada)` : ""}`;
+      // etapa do meio cumprida => o funil andou; só reprova quando não houve NEM etapa
+      if (cons > 0) {
+        return { tone: "warn", txt: `${base}, que viraram <b>${fInt(cons)} ${etapaLabel(acc.client, cons)}</b> — mas nenhuma venda lançada ainda. <b>→ o funil está andando; a venda é o próximo passo, não um corte.</b>` };
+      }
+      return { tone: "bad", txt: `${base} — nenhuma venda registrada no período. <b style="color:var(--red)">→ revisar a campanha: gasto sem retorno.</b>` };
     }
     const verbo = acc.receita_esperada ? "deve valer" : "valeu";
     const parts = [];
