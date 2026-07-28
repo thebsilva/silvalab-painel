@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-28T06:45:21+00:00",
+  "gerado_em": "2026-07-28T10:48:42+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -249,7 +249,7 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 0,
+          "iniciadas": 1,
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
@@ -374,7 +374,7 @@ window.PAINEL_DATA = {
           "teto_conversa": 0.0,
           "custo_conversa": 26.05,
           "folga": null,
-          "iniciadas": 76,
+          "iniciadas": 77,
           "iniciadas_fonte": "real",
           "realizadas": 38,
           "realizadas_fonte": "real",
@@ -424,7 +424,7 @@ window.PAINEL_DATA = {
           "teto_conversa": 0.0,
           "custo_conversa": 20.8,
           "folga": null,
-          "iniciadas": 156,
+          "iniciadas": 157,
           "iniciadas_fonte": "real",
           "realizadas": 86,
           "realizadas_fonte": "real",
@@ -1042,7 +1042,7 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 0,
+          "iniciadas": 1,
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
@@ -1065,7 +1065,7 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 0,
+              "iniciadas": 1,
               "realizadas": 0
             }
           ]
@@ -1277,7 +1277,7 @@ window.PAINEL_DATA = {
           "teto_conversa": 1206.52,
           "custo_conversa": 41.05,
           "folga": 29.39,
-          "iniciadas": 43,
+          "iniciadas": 44,
           "iniciadas_fonte": "real",
           "realizadas": 19,
           "realizadas_fonte": "real",
@@ -1300,7 +1300,7 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 43,
+              "iniciadas": 44,
               "realizadas": 19
             }
           ]
@@ -1381,7 +1381,7 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 43,
+          "iniciadas": 44,
           "iniciadas_fonte": "real",
           "realizadas": 19,
           "realizadas_fonte": "real",
@@ -1404,7 +1404,7 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 43,
+              "iniciadas": 44,
               "realizadas": 19
             },
             {
