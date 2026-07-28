@@ -989,6 +989,10 @@
     const notas = [];
     notas.push('<span class="leg"><span><span class="src m"></span> Meta (estimativa)</span><span><span class="src n"></span> Nosso (real)</span></span>');
     if (P && P.nota) notas.push(esc(P.nota));
+    // Marcos de instrumentação: datas em que a MEDIÇÃO mudou. Ficam à vista pra
+    // ninguém comparar antes×depois e ler mudança de medição como resultado.
+    (P && P.marcos || []).forEach(m => notas.push(
+      '<b>📍 ' + esc(m.data) + ' — ' + esc(m.cliente) + ': ' + esc(m.titulo) + '.</b> ' + esc(m.efeito)));
     notas.push("Fonte: API de Marketing do Meta + fontes de venda por cliente · atualização automática a cada 2h · clique no cabeçalho pra ordenar.");
     document.getElementById("foot").innerHTML = notas.join("<br>");
 

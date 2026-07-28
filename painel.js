@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-28T10:48:42+00:00",
+  "gerado_em": "2026-07-28T14:43:58+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -9,6 +9,14 @@ window.PAINEL_DATA = {
     "this_month",
     "last_month",
     "maximum"
+  ],
+  "marcos": [
+    {
+      "cliente": "Bruna Susanne",
+      "data": "2026-07-21",
+      "titulo": "Dualhook (coexistência do WhatsApp) entrou no ar",
+      "efeito": "Só a partir daqui a Meta e o nosso webhook enxergam as mensagens trocadas. Antes desta data, conversa realizada e profundidade não eram ZERO — eram CEGAS. NÃO comparar leads/conversas antes × depois: a diferença é de medição, não de desempenho. Vale também para julgar criativo: quem rodou antes de 21/07 pode ter gerado conversa e venda sem registro (ex.: 'Quanto da parcela abate a dívida')."
+    }
   ],
   "nota": "faturamento = caixa do cliente (não atribuído ≤7d); Bruna = receita esperada em caso de ganho; INICIADAS = quem começou a conversa (webhook onde cobre, senão Meta); REALIZADAS = trocou ≥N msgs (nosso webhook), na janela coberta — 'sem captura' antes do webhook ligar.",
   "accounts": [
@@ -1025,7 +1033,7 @@ window.PAINEL_DATA = {
       "periods": {
         "today": {
           "gasto": 67.59,
-          "conversas": 0,
+          "conversas": 2,
           "conversas_fonte": "real",
           "leads": 0,
           "cliques": 13,
@@ -1039,12 +1047,12 @@ window.PAINEL_DATA = {
           "roas_conta": 0.0,
           "consultas_por_venda": null,
           "taxa_conversao_pct": null,
-          "teto_conversa": null,
-          "custo_conversa": null,
+          "teto_conversa": 0.0,
+          "custo_conversa": 33.8,
           "folga": null,
-          "iniciadas": 1,
+          "iniciadas": 3,
           "iniciadas_fonte": "real",
-          "realizadas": 0,
+          "realizadas": 2,
           "realizadas_fonte": "real",
           "janela_desde": null,
           "frentes": [
@@ -1065,8 +1073,8 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 1,
-              "realizadas": 0
+              "iniciadas": 3,
+              "realizadas": 2
             }
           ]
         },
@@ -1136,9 +1144,9 @@ window.PAINEL_DATA = {
           "teto_conversa": 0.0,
           "custo_conversa": 12.98,
           "folga": null,
-          "iniciadas": 43,
+          "iniciadas": 41,
           "iniciadas_fonte": "real",
-          "realizadas": 19,
+          "realizadas": 17,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
           "frentes": [
@@ -1159,8 +1167,8 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 43,
-              "realizadas": 19
+              "iniciadas": 41,
+              "realizadas": 17
             }
           ]
         },
@@ -1183,9 +1191,9 @@ window.PAINEL_DATA = {
           "teto_conversa": 364.86,
           "custo_conversa": 25.74,
           "folga": 14.17,
-          "iniciadas": 43,
+          "iniciadas": 41,
           "iniciadas_fonte": "real",
-          "realizadas": 19,
+          "realizadas": 17,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
           "frentes": [
@@ -1206,8 +1214,8 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 43,
-              "realizadas": 19
+              "iniciadas": 41,
+              "realizadas": 17
             }
           ]
         },
@@ -1230,9 +1238,9 @@ window.PAINEL_DATA = {
           "teto_conversa": 1233.33,
           "custo_conversa": 44.77,
           "folga": 27.55,
-          "iniciadas": 43,
+          "iniciadas": 41,
           "iniciadas_fonte": "real",
-          "realizadas": 19,
+          "realizadas": 17,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
           "frentes": [
@@ -1253,8 +1261,8 @@ window.PAINEL_DATA = {
               "faturamento": 0.0,
               "custo_venda": null,
               "cliques_por_venda": null,
-              "iniciadas": 43,
-              "realizadas": 19
+              "iniciadas": 41,
+              "realizadas": 17
             }
           ]
         },
