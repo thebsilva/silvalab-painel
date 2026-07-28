@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-28T03:42:03+00:00",
+  "gerado_em": "2026-07-28T06:45:21+00:00",
   "periods": [
     "today",
     "yesterday",
