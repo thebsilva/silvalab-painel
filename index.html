@@ -230,8 +230,54 @@
   .gauge .tick { position: absolute; top: -5px; bottom: -5px; width: 2px; background: var(--cream); opacity: .85; }
   .gauge .tick label { position: absolute; top: 100%; margin-top: 6px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--muted); white-space: nowrap; }
 
+  /* ───── Layout de DESKTOP (27/07/2026) ─────
+     O painel nasceu mobile-first: uma coluna só, blocos de largura total empilhados.
+     No celular isso é o certo; num monitor de 1512px jogava fora o eixo horizontal e
+     custava 2,2 telas de rolagem por cliente (medido). Acima de 1200px vira duas
+     colunas: ESQUERDA decide (herói, leitura rápida, funil), DIREITA comprova (os
+     números). A tabela de campanhas fica FORA da grade, em largura cheia — ela é a
+     única coisa aqui que realmente precisa de largura. */
+  .cli-grid { display: grid; gap: 0 30px; }
+  @media (min-width: 1200px) {
+    .cli-grid { grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); align-items: start; }
+    .cli-grid > .col { min-width: 0; }
+    /* na coluna estreita o herói respira melhor empilhado */
+    .cli-grid .hero { flex-direction: column; gap: 14px; }
+    .cli-grid .hero-badge { align-self: flex-start; }
+    .cli-grid .insight, .cli-grid .hero-sub, .cli-grid .gauge,
+    .cli-grid .path-lead, .cli-grid .frente-lead { max-width: 100%; }
+    /* 4 números por linha na coluna estreita — com o mínimo de 196px eles quebravam
+       em 2 linhas (685px ÷ 196 = 3 colunas) e a altura economizada voltava toda. */
+    .cli-grid .kpi-row.principal { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .cli-grid .kpi-row.principal .kpi { padding: 14px 15px; }
+    .cli-grid .kpi-row.principal .kpi .v { font-size: 23px; }
+  }
+  /* funil em largura cheia: cada frente é um caminho, e caminho pede largura */
+  .funil-frentes { display: grid; gap: 14px; }
+  @media (min-width: 1100px) {
+    .funil-frentes { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); align-items: start; }
+  }
+
   /* ───── KPIs ───── */
   .kpi-row { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(164px, 1fr)); margin: 12px 0; }
+  /* Hierarquia (27/07): 15 cartões com o MESMO peso viravam parede de números — e num
+     cartão de 164px o rótulo ocupava mais pixels que o número. Agora os que mudam
+     decisão ficam grandes; o resto vai pro "mais números", recolhido. */
+  .kpi-row.principal { grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 12px; }
+  .kpi-row.principal .kpi { padding: 16px 18px; }
+  .kpi-row.principal .kpi .v { font-size: 27px; }
+  .kpi-row.principal .kpi .k { font-size: 12.5px; margin-top: 5px; }
+  details.mais { margin: 2px 0 14px; }
+  details.mais > summary {
+    cursor: pointer; font-size: 12px; color: var(--muted); list-style: none;
+    display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px;
+    border: 1px solid var(--line); border-radius: 999px; user-select: none;
+  }
+  details.mais > summary::-webkit-details-marker { display: none; }
+  details.mais > summary:hover { color: var(--cream); border-color: var(--line-soft); }
+  details.mais > summary::after { content: "▾"; font-size: 10px; opacity: .7; }
+  details.mais[open] > summary::after { content: "▴"; }
+  details.mais .kpi-row { margin-top: 10px; }
   .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 13px 15px; min-width: 0; }
   .kpi .v { font: 700 20px var(--num); letter-spacing: -.4px; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .kpi .v .u { font: 500 12px var(--body); color: var(--muted); }
@@ -441,6 +487,11 @@
     .hero-badge { align-self: stretch; display: flex; align-items: baseline; justify-content: center; gap: 10px; }
     .hero-num { font-size: 24px; }
     .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    /* os principais também 2 por linha no celular — o minmax(196px) do desktop
+       deixava 1 só, e 4 cartões grandes empilhados esticavam a tela à toa */
+    .kpi-row.principal { grid-template-columns: repeat(2, 1fr); }
+    .kpi-row.principal .kpi { padding: 13px 14px; }
+    .kpi-row.principal .kpi .v { font-size: 21px; }
     .funnel { flex-direction: column; }
     .pass { text-align: left; padding-left: 18px; min-width: 0; }
     .pass b { display: inline; margin-left: 6px; }
@@ -540,12 +591,15 @@
   };
 
   // Colunas da tabela de campanhas (nível Gerenciador — mostrar tudo)
+  /* As 24 colunas somavam 2.488px numa tela de 1.512 — 40% da tabela vivia escondida
+     atrás de rolagem horizontal, que é o pior esconderijo (você não sabe que tem algo lá).
+     `ess: true` marca as 8 que decidem; o resto entra pelo botão "todas as colunas". */
   const COLS = [
-    { key: "name",          label: "Campanha",        type: "text" },
-    { key: "status",        label: "Status",          type: "status" },
+    { key: "name",          label: "Campanha",        type: "text",   ess: true },
+    { key: "status",        label: "Status",          type: "status", ess: true },
     { key: "objective",     label: "Objetivo",        type: "obj" },
-    { key: "budget",        label: "Orçamento",       type: "budget" },
-    { key: "spend",         label: "Valor usado",     type: "money" },
+    { key: "budget",        label: "Orçamento",       type: "budget", ess: true },
+    { key: "spend",         label: "Valor usado",     type: "money",  ess: true },
     { key: "created",       label: "Criação",         type: "date" },
     { key: "frequency",     label: "Freq.",           type: "dec" },
     { key: "impressions",   label: "Impressões",      type: "int" },
@@ -555,17 +609,18 @@
     { key: "conversas",     label: "Conversas",       type: "int" },
     { key: "followers",     label: "Seguidores",      type: "int" },
     { key: "cpm",           label: "CPM",             type: "money" },
-    { key: "ctr",           label: "CTR",             type: "pct" },
-    { key: "cost_conversa", label: "Custo/conversa",  type: "money" },
-    { key: "results",       label: "Resultados",      type: "results" },
+    { key: "ctr",           label: "CTR",             type: "pct",    ess: true },
+    { key: "cost_conversa", label: "Custo/conversa",  type: "money",  ess: true },
+    { key: "results",       label: "Resultados",      type: "results",ess: true },
     { key: "leads",         label: "Leads",           type: "int" },
     { key: "compras",       label: "Compras",         type: "int" },
     { key: "conversion_value", label: "Valor conv.",  type: "money" },
-    { key: "roas",          label: "ROAS",            type: "x" },
+    { key: "roas",          label: "ROAS",            type: "x",      ess: true },
     { key: "cost_purchase", label: "Custo/compra",    type: "money" },
     { key: "profit",        label: "Lucro Vendas",    type: "money" },
     { key: "page_views",    label: "Visitas página",  type: "int" },
   ];
+  const colsVisiveis = () => state.campCols === "todas" ? COLS : COLS.filter(c => c.ess);
 
   /* ── formatação pt-BR ── */
   const fMoney = (v, cur) => v == null ? "—" : new Intl.NumberFormat("pt-BR", { style: "currency", currency: cur || "BRL" }).format(v);
@@ -598,6 +653,7 @@
   const hojeISO = new Date().toISOString().slice(0, 10);
   const DESDE = (DD && DD.desde) || "2026-01-01";
   const state = { period: "this_month", tab: "__agencia__", campFilter: "gasto", campQuery: "", sortCol: "spend", sortDir: -1,
+                  campCols: "essenciais",   // "todas" mostra as 24 (ver COLS / colsVisiveis)
                   cIni: hojeISO.slice(0, 8) + "01", cFim: hojeISO };
 
   if (!PERIODS.includes(state.period)) state.period = PERIODS[0] || "this_month";
@@ -1032,8 +1088,15 @@
         if (state.sortCol === c) state.sortDir = -state.sortDir; else { state.sortCol = c; state.sortDir = -1; }
         render();
       });
-    document.querySelectorAll(".camp-controls .seg button").forEach(b =>
+    // só os botões de FILTRO (data-f). O "todas as colunas" mora no mesmo .seg e sem
+    // este seletor virava campFilter=undefined — a lista de campanhas sumia.
+    document.querySelectorAll(".camp-controls .seg button[data-f]").forEach(b =>
       b.onclick = () => { state.campFilter = b.dataset.f; render(); });
+    const bc = document.getElementById("campCols");
+    if (bc) bc.onclick = () => {
+      state.campCols = state.campCols === "todas" ? "essenciais" : "todas";
+      renderCampArea();
+    };
     document.querySelectorAll("[data-sim]").forEach(b =>
       b.onclick = () => abreEscala(b.dataset.sim));
     document.querySelectorAll("[data-open]").forEach(b =>
@@ -1398,32 +1461,54 @@
       : `<div class="cmp-nota">↔ sem gasto no período anterior — nada a comparar</div>`;
     const gastoAtual = p.gasto != null ? p.gasto : m.spend;
 
-    const midia = `<h2 class="section"><span class="src m"></span> Mídia — Meta</h2>${cmpNota}<div class="kpi-row">
+    /* PRINCIPAIS = os que mudam decisão. O resto vai pro "mais números" (recolhido).
+       O custo por conversa entra aqui SEMPRE que existir: é a régua do Bruno ("não me
+       importa o custo por mensagem da Meta e sim o custo por clientes que realmente
+       conversam") — e desde 27/07 o denominador é a conversa REAL do nosso webhook,
+       com o gasto recortado na mesma janela quando ela é parcial. */
+    const bdMain = bd.slice(0, 1), bdResto = bd.slice(1, 3);
+    const cardBd = (b) => {
+      const dCusto = ant && /clique/i.test(b.label) ? dlt(b.cost, ant.custo_clique, true) : "";
+      const dVal = ant && /clique/i.test(b.label) ? dlt(b.value, ant.link_clicks) : "";
+      return kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un ${dCusto}` : ""), fInt(b.value) + dVal);
+    };
+    const jGasto = p.gasto_janela != null && p.janela_desde
+      ? `${fMoney(p.gasto_janela, cur)} ÷ ${fInt(p.realizadas)} conversas reais · desde ${fDate(p.janela_desde)}`
+      : "quem conversou de verdade — nosso webhook";
+    const cardCusto = p.custo_conversa != null
+      ? kpi("Custo por conversa" + (p.conversas_fonte === "real" ? ' <span class="tag esp" title="denominador = conversa de verdade do nosso webhook, não o clique que a Meta chama de conversa">real</span>' : ""),
+            fMoney(p.custo_conversa, cur) + (ant ? dlt(p.custo_conversa, ant.custo_conversa, true) : ""),
+            jGasto, p.conversas_fonte === "real" ? "n" : "m")
+      : "";
+    const midia = `<h2 class="section"><span class="src m"></span> Mídia — Meta</h2>${cmpNota}
+    <div class="kpi-row principal">
       ${kpi("Gasto", fMoney(gastoAtual, cur) + (ant ? dlt(gastoAtual, ant.spend) : ""))}
-      ${bd.slice(0, 3).map(b => {
-        const dCusto = ant && /clique/i.test(b.label) ? dlt(b.cost, ant.custo_clique, true) : "";
-        const dVal = ant && /clique/i.test(b.label) ? dlt(b.value, ant.link_clicks) : "";
-        return kpi(esc(b.label) + (b.cost != null ? ` · ${fMoney(b.cost, cur)}/un ${dCusto}` : ""), fInt(b.value) + dVal);
-      }).join("")}
-      ${cardIniciadas.replace('</div><div class="k">', dIniciadas + '</div><div class="k">')}
+      ${cardCusto}
       ${cardRealizadas.replace('</div><div class="k">', (ant && antCoberto && p.realizadas != null ? dlt(p.realizadas, antRealizadas) : "") + '</div><div class="k">')}
+      ${bdMain.map(cardBd).join("")}
+    </div>
+    <details class="mais"><summary>mais números da mídia</summary><div class="kpi-row">
+      ${cardIniciadas.replace('</div><div class="k">', dIniciadas + '</div><div class="k">')}
+      ${bdResto.map(cardBd).join("")}
       ${kpi("CTR", fPct(m.ctr, 2) + (ant ? dlt(m.ctr, ant.ctr) : ""))}
       ${kpi("CPM", fMoney(m.cpm, cur) + (ant ? dlt(m.cpm, ant.cpm, true) : ""))}
-      ${ant && p.custo_conversa != null ? kpi("Custo por conversa", fMoney(p.custo_conversa, cur) + dlt(p.custo_conversa, ant.custo_conversa, true)) : ""}
-    </div>`;
+    </div></details>`;
 
     /* KPIs — vendas (nosso) */
     const espTag = acc.receita_esperada ? ' <span class="tag esp" title="honorários em caso de êxito — receita esperada, não caixa">esperada</span>' : "";
     const consultaLbl = acc.consulta_label ? (PLURAL[acc.consulta_label] || acc.consulta_label + "s") : null;
-    const vendas = `<h2 class="section"><span class="src n"></span> Vendas — nosso dado</h2><div class="kpi-row">
+    const vendas = `<h2 class="section"><span class="src n"></span> Vendas — nosso dado</h2>
+    <div class="kpi-row principal">
       ${kpi("Faturamento" + espTag, fMoney(p.faturamento || null, cur), "caixa do período, não atribuído ao anúncio")}
       ${kpi("Vendas", fInt(p.vendas || null))}
+      ${kpi("Custo por venda", fMoney(p.custo_venda, cur))}
+      ${kpi("ROAS da conta", fX(p.roas_conta != null && p.roas_conta > 0 ? p.roas_conta : (p.faturamento ? p.roas_conta : null)))}
+    </div>
+    <details class="mais"><summary>mais números de venda</summary><div class="kpi-row">
       ${consultaLbl ? kpi(consultaLbl, fInt(p.consultas || null)) : ""}
       ${kpi("Ticket médio", fMoney(p.ticket, cur))}
-      ${kpi("Custo por venda", fMoney(p.custo_venda, cur))}
       ${kpi("Margem", p.margem_pct != null ? fPct(p.margem_pct) : "—", p.lucro != null ? "lucro " + fMoney(p.lucro, cur) : null)}
-      ${kpi("ROAS da conta", fX(p.roas_conta != null && p.roas_conta > 0 ? p.roas_conta : (p.faturamento ? p.roas_conta : null)))}
-    </div>`;
+    </div></details>`;
 
     /* funil */
     const funnelHtml = funnel(p, acc);
@@ -1431,7 +1516,14 @@
     /* campanhas */
     const campArea = `<div id="campArea">${renderCamps(a)}</div>`;
 
-    return head + pixelRef + heroHtml + insightHtml + escalaCta + midia + vendas + funnelHtml + campArea;
+    // Duas colunas no desktop: à esquerda o que DECIDE (herói, leitura rápida, funil),
+    // à direita o que COMPROVA (números de mídia e venda). Abaixo de 1200px o CSS
+    // devolve tudo pra uma coluna só, na mesma ordem de leitura do celular.
+    // Campanhas fica FORA da grade: é a única peça que precisa da largura inteira.
+    return head + pixelRef + `<div class="cli-grid">
+      <div class="col">${heroHtml}${insightHtml}${escalaCta}</div>
+      <div class="col">${midia}${vendas}</div>
+    </div>` + funnelHtml + campArea;
   }
 
   /* ── herói da folga (com variantes honestas) ── */
@@ -1593,7 +1685,10 @@
     const notaMiudo = gm > 0
       ? `<div class="frente-lead vazio" style="margin-top:2px">+ ${fMoney(gm, cur)} fora das frentes — campanha sem frente no nome ou diferença da própria Meta entre conta e campanhas.</div>`
       : "";
-    return `<h2 class="section">Funil do período <span class="cnt">· por frente, o caminho pra fechar 1 venda</span></h2>${blocos.join("")}${notaMiudo}`;
+    // frentes LADO A LADO no desktop: o funil é um caminho horizontal, empilhá-lo numa
+    // coluna estreita gastava 451px de altura pra mostrar dois caminhos de 230px.
+    return `<h2 class="section">Funil do período <span class="cnt">· por frente, o caminho pra fechar 1 venda</span></h2>
+      <div class="funil-frentes">${blocos.join("")}</div>${notaMiudo}`;
   }
 
   /* ── funil do período — número + % que passa + "por venda", num bloco só ── */
@@ -1651,8 +1746,13 @@
     });
 
     const segBtn = (f, lbl, n) => `<button data-f="${f}" class="${state.campFilter === f ? "on" : ""}">${lbl} <span style="opacity:.6">${n}</span></button>`;
+    const nOcultas = COLS.length - COLS.filter(c => c.ess).length;
+    const btnCols = `<button id="campCols" class="${state.campCols === "todas" ? "on" : ""}" title="${
+      state.campCols === "todas" ? "voltar às 8 colunas que decidem" : `mostrar as outras ${nOcultas} colunas`}">${
+      state.campCols === "todas" ? "Menos colunas" : `Todas as colunas <span style="opacity:.6">+${nOcultas}</span>`}</button>`;
     const controls = `<div class="camp-controls">
       <div class="seg">${segBtn("gasto", "Com gasto", nGasto)}${segBtn("ativas", "Ativas", nAtivas)}${segBtn("todas", "Todas", all.length)}</div>
+      <div class="seg">${btnCols}</div>
       <input type="search" id="campQuery" placeholder="Filtrar campanha…" value="${esc(state.campQuery)}">
     </div>`;
 
@@ -1677,9 +1777,10 @@
       }
     };
 
-    const ths = COLS.map(c =>
+    const cols = colsVisiveis();
+    const ths = cols.map(c =>
       `<th data-col="${c.key}">${c.label}${state.sortCol === c.key ? ` <span class="arrow">${state.sortDir < 0 ? "▼" : "▲"}</span>` : ""}</th>`).join("");
-    const rows = list.map(c => "<tr>" + COLS.map(col => `<td>${cell(c, col)}</td>`).join("") + "</tr>").join("");
+    const rows = list.map(c => "<tr>" + cols.map(col => `<td>${cell(c, col)}</td>`).join("") + "</tr>").join("");
     const table = list.length
       ? `<div class="table-wrap camp-table"><table><thead><tr>${ths}</tr></thead><tbody>${rows}</tbody></table></div>`
       : `<div class="empty">${state.campQuery ? "Nenhuma campanha bate com o filtro." : state.campFilter === "gasto" ? "Nenhuma campanha com gasto neste período." : "Nada aqui."}</div>`;
