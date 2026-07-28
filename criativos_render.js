@@ -121,7 +121,7 @@
   /* Card da fila: JANELA (a data é o balizador) + formato + curtidas/views.
      COMENTÁRIO NÃO APARECE — em perfil pequeno é amigo apoiando, não sinal
      (regra do Bruno, 27/07). A taxa ♥/views ordena dentro da faixa. */
-  function cardFila(f) {
+  function cardFila(f, ref) {
     const tipo = f.product_type === "REELS" ? "🎬 Reels"
       : (TIPO_MIDIA[f.media_type] || "🖼 Post único");
     const met = [
@@ -129,11 +129,19 @@
       `♥ ${fInt(f.likes)}`,
       f.taxa != null ? `<b>${fPct(f.taxa)}</b>` : null,
     ].filter(Boolean).join(" · ");
+    /* barra de taxa: onde este post está em relação ao MELHOR do acervo — dá
+       escala visual pra um número que sozinho não diz nada */
+    const barra = (ref && f.taxa != null && ref.melhor)
+      ? `<i class="cri-txbar" style="--w:${Math.min(100, f.taxa / ref.melhor * 100).toFixed(0)}%;--c:${
+          f.taxa >= ref.p75 ? "var(--green-hi)" : f.taxa >= ref.mediana ? "var(--cyan-hi)" : "var(--muted-2)"}"></i>` : "";
+    const pos = f.pos ? `<b class="cri-pos" title="posição na fila de teste">#${f.pos}</b>` : "";
     return `<a class="cri-post" href="${esc(f.permalink)}" target="_blank" rel="noopener">
-      <div class="cri-post-meta"><b>${tipo}</b>
+      <div class="cri-post-meta">${pos}<b>${tipo}</b>
         <span title="${esc(f.timestamp || "")}">${fData(f.timestamp)}</span>
-        <span class="cri-eng" title="curtidas ÷ visualizações — comentário não entra">${met}</span></div>
+        <span class="cri-eng" title="curtidas ÷ visualizações — comentário não entra (perfil pequeno = amigo apoiando)">${met}</span></div>
+      ${barra}
       <p>${esc(f.caption_curta)}</p>
+      ${f.motivo ? `<span class="cri-motivo">${esc(f.motivo)}</span>` : ""}
       <span class="cri-abrir">testar este ↗</span></a>`;
   }
 
@@ -199,8 +207,23 @@
         <div class="cri-lista">${semEnt.map(x => cardCriativo(x, c)).join("")}</div>`;
     }
 
-    /* Fila do IG agrupada pelas 3 FAIXAS DE JANELA — a data é o balizador da busca */
-    h += `<h2 class="section">Fila do Instagram <span class="cnt">${filaViva.length} nunca viraram anúncio · a régua ORDENA, não elimina</span></h2>`;
+    /* Fila do IG agrupada pelas 3 FAIXAS DE JANELA — a data é o balizador da busca.
+       O bloco de MÉTODO abaixo existe pra que a ordem se explique sozinha: quem
+       abre a aba entende POR QUE a lista está assim, sem abrir o MODELO. */
+    const ref = c.ref_taxa;
+    h += `<h2 class="section">Fila do Instagram <span class="cnt">${filaViva.length} nunca viraram anúncio</span></h2>`;
+    h += `<div class="cri-metodo">
+      <b>Como esta lista é ordenada</b>
+      <span>A régua <b>ordena</b>, não elimina — o objetivo é testar tudo que já foi pro feed. A <b>data</b> é o balizador.</span>
+      <ol>
+        <li>🥇 <b>Voltaram por falta de entrega</b> passam na frente — já têm gasto acumulado e nunca provaram nada.</li>
+        <li>🟢 <b>Fresco</b> (≤30d): entra direto, do mais novo pro mais antigo — é o material que a produção está fazendo agora.</li>
+        <li>🟡 <b>Maduro</b> (31–120d) e 🔵 <b>Arquivo</b> (&gt;120d): ordenados por <b>taxa</b>, do melhor pro pior.</li>
+      </ol>
+      <span class="cri-metrica"><b>Taxa = curtidas ÷ visualizações.</b> Comentário <b>não entra</b>: em perfil pequeno é amigo apoiando, não sinal de interesse.
+      ${ref ? `Referência deste acervo (${ref.n} posts, recalculada a cada ciclo): mediana <b>${fPct(ref.mediana)}</b> · top 25% acima de <b>${fPct(ref.p75)}</b> · melhor <b>${fPct(ref.melhor)}</b>.` : ""}</span>
+      <span class="cri-metrica">⚠️ A taxa <b>não elimina</b> ninguém: ela sobe junto com as visualizações (medido: correlação +0,62), então premiaria duas vezes quem já teve alcance. E em post pequeno 1 curtida move quase 0,2 ponto — ruído demais pra cortar.</span>
+    </div>`;
     if (!filaViva.length) {
       h += `<div class="cri-vazio">Nenhum post sem anúncio. <b>Sem post novo, a esteira seca.</b></div>`;
     } else {
@@ -208,18 +231,20 @@
         const g = filaViva.filter(f => f.faixa === fx);
         if (!g.length) return;
         const meta = FAIXAS[fx];
-        const bloco = `<div class="cri-faixa"><b>${meta.rot}</b> <span>${meta.sub} · ${g.length} post(s)</span></div>
-          <div class="cri-fila">${g.map(cardFila).join("")}</div>`;
+        const crit = fx === "fresco" ? "ordem: do mais novo pro mais antigo"
+          : `ordem: por taxa (melhor ${fPct(Math.max(...g.map(x => x.taxa || 0)))} → pior ${fPct(Math.min(...g.map(x => x.taxa == null ? 0 : x.taxa)))})`;
+        const bloco = `<div class="cri-faixa"><b>${meta.rot}</b> <span>${meta.sub} · ${g.length} post(s) · ${crit}</span></div>
+          <div class="cri-fila">${g.map(f => cardFila(f, ref)).join("")}</div>`;
         h += i === 0
           ? bloco
           : `<details class="cri-mais"${i === 1 ? " open" : ""}><summary>${meta.rot} — ${meta.sub} (${g.length})</summary>${bloco}</details>`;
       });
       const semFaixa = filaViva.filter(f => !f.faixa);
       if (semFaixa.length)
-        h += `<details class="cri-mais"><summary>sem data legível (${semFaixa.length})</summary><div class="cri-fila">${semFaixa.map(cardFila).join("")}</div></details>`;
+        h += `<details class="cri-mais"><summary>sem data legível (${semFaixa.length})</summary><div class="cri-fila">${semFaixa.map(f => cardFila(f, ref)).join("")}</div></details>`;
     }
     if (sazonais.length)
-      h += `<details class="cri-mais"><summary>🗓 sazonais vencidos (${sazonais.length}) — fora da fila até a próxima data</summary><div class="cri-fila">${sazonais.map(cardFila).join("")}</div></details>`;
+      h += `<details class="cri-mais"><summary>🗓 sazonais vencidos (${sazonais.length}) — fora da fila até a próxima data</summary><div class="cri-fila">${sazonais.map(f => cardFila(f, ref)).join("")}</div></details>`;
     const vetados = c.criativos.filter(x => x.estado === "vetado");
     if (vetados.length)
       h += `<details class="cri-mais"><summary>🚫 vetados (${vetados.length}) — decisão do cliente, só volta com ok dele</summary>

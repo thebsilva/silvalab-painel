@@ -154,6 +154,24 @@
   .cri-faixa b { font-size: 13px; color: var(--cream); }
   .cri-faixa span { font-size: 11.5px; color: var(--muted-2); }
   .cri-nota { font-size: 11.5px; color: var(--muted-2); margin: -4px 0 10px; }
+
+  /* bloco que EXPLICA a ordem da fila — o método visível no painel */
+  .cri-metodo {
+    background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--cyan);
+    border-radius: 10px; padding: 13px 15px; margin: 4px 0 14px; display: grid; gap: 7px;
+  }
+  .cri-metodo > b { font-size: 12.5px; color: var(--cream); }
+  .cri-metodo > span { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .cri-metodo ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
+  .cri-metodo li { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .cri-metodo b { color: var(--cream); font-weight: 600; }
+  .cri-metrica { font-size: 11.5px !important; color: var(--muted-2) !important; }
+  /* posição na fila + barra de taxa relativa ao melhor do acervo */
+  .cri-pos { font: 700 11px var(--num); color: var(--cyan-hi); background: rgba(43,169,219,.12);
+             border-radius: 5px; padding: 1px 5px; }
+  .cri-txbar { display: block; height: 3px; border-radius: 2px; background: var(--line); margin: 6px 0 2px; position: relative; }
+  .cri-txbar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--c); border-radius: 2px; }
+  .cri-motivo { display: block; font-size: 11px; color: var(--muted-2); margin-top: 5px; line-height: 1.4; }
   .cri-abrir { font-size: 11.5px; color: var(--cyan-hi); margin-top: auto; }
   .cri-mais { margin: 14px 0; }
   .cri-mais summary { cursor: pointer; color: var(--muted); font-size: 12.5px; }
