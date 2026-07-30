@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-30T06:45:41+00:00",
+  "gerado_em": "2026-07-30T10:37:25+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -257,7 +257,7 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 0,
+          "iniciadas": 1,
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
@@ -382,7 +382,7 @@ window.PAINEL_DATA = {
           "teto_conversa": 0.0,
           "custo_conversa": 24.15,
           "folga": null,
-          "iniciadas": 78,
+          "iniciadas": 79,
           "iniciadas_fonte": "real",
           "realizadas": 41,
           "realizadas_fonte": "real",
@@ -434,7 +434,7 @@ window.PAINEL_DATA = {
           "custo_conversa": 24.67,
           "folga": null,
           "gasto_janela": 2195.52,
-          "iniciadas": 158,
+          "iniciadas": 159,
           "iniciadas_fonte": "real",
           "realizadas": 89,
           "realizadas_fonte": "real",
