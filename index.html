@@ -1437,7 +1437,14 @@
     /* KPIs — mídia (Meta) */
     const kpi = (k, v, sub, srcDot) => `<div class="kpi"><div class="v">${v}</div><div class="k">${srcDot ? `<span class="src ${srcDot}"></span>` : ""}${k}</div>${sub ? `<div class="s">${sub}</div>` : ""}</div>`;
     const bd = (m.results_breakdown || []).filter(b => b.label !== "Conversas");  // conversas têm cards próprios (iniciadas/realizadas)
-    const jDesde = p.janela_desde ? ` · desde ${fDate(p.janela_desde)}` : "";
+    // A data de MEDIÇÃO aparece SEMPRE, não só quando a janela é parcial (pedido do Bruno,
+    // 30/07). Motivo: "conversas realizadas" parece número absoluto quando na verdade é
+    // "o que deu pra ver desde que o webhook ligou" — e a Marcelle mede desde 05/06
+    // enquanto a Bruna mede desde 23/07. Sem a data, comparar os dois engana.
+    const capt = acc.captura || null;
+    const jDesde = p.janela_desde
+      ? ` · desde ${fDate(p.janela_desde)}`                       // janela parcial: o corte real
+      : (capt ? ` · medindo desde ${fDate(capt.desde)}` : "");    // coberto: a data em que passamos a medir
     const cardIniciadas = kpi("Conversas iniciadas", fInt(p.iniciadas || null),
       p.iniciadas_fonte === "real" ? "quem começou — nosso webhook" + jDesde : "quem começou — Meta",
       p.iniciadas_fonte === "real" ? "n" : "m");
@@ -1488,6 +1495,9 @@
       ${bdMain.map(cardBd).join("")}
     </div>
     <details class="mais"><summary>mais números da mídia</summary><div class="kpi-row">
+      ${p.com_clid != null ? kpi("Com clique de anúncio",
+          fInt(p.com_clid) + (p.clid_pct != null ? ` <span class="u">${fPct(p.clid_pct, 0)}</span>` : ""),
+          "trouxeram o identificador do clique — o resto é orgânico ou clique que a Meta não identificou", "n") : ""}
       ${cardIniciadas.replace('</div><div class="k">', dIniciadas + '</div><div class="k">')}
       ${bdResto.map(cardBd).join("")}
       ${kpi("CTR", fPct(m.ctr, 2) + (ant ? dlt(m.ctr, ant.ctr) : ""))}

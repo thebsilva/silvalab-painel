@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-30T09:44:10-03:00",
+  "gerado_em": "2026-07-30T09:55:27-03:00",
   "periods": [
     "today",
     "yesterday",
@@ -51,7 +51,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "yesterday": {
           "gasto": 0,
@@ -76,7 +78,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_7d": {
           "gasto": 0,
@@ -101,7 +105,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_14d": {
           "gasto": 0,
@@ -126,7 +132,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_30d": {
           "gasto": 0,
@@ -151,7 +159,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "this_month": {
           "gasto": 0,
@@ -176,7 +186,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_month": {
           "gasto": 2376.22,
@@ -201,7 +213,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "maximum": {
           "gasto": 32716.46,
@@ -226,7 +240,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         }
       }
     },
@@ -261,7 +277,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": 0.0
         },
         "yesterday": {
           "gasto": 0,
@@ -286,7 +304,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": null
         },
         "last_7d": {
           "gasto": 340.74,
@@ -311,7 +331,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 13,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 7,
+          "clid_pct": 29.2
         },
         "last_14d": {
           "gasto": 735.73,
@@ -336,7 +358,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 31,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 22,
+          "clid_pct": 44.0
         },
         "last_30d": {
           "gasto": 1091.41,
@@ -361,7 +385,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 44,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 40,
+          "clid_pct": 48.2
         },
         "this_month": {
           "gasto": 1045.29,
@@ -386,7 +412,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 41,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 35,
+          "clid_pct": 44.3
         },
         "last_month": {
           "gasto": 1250.4,
@@ -412,7 +440,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 48,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-06-05"
+          "janela_desde": "2026-06-05",
+          "com_clid": 46,
+          "clid_pct": 57.5
         },
         "maximum": {
           "gasto": 12430.6,
@@ -438,8 +468,16 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 89,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-06-05"
+          "janela_desde": "2026-06-05",
+          "com_clid": 81,
+          "clid_pct": 50.9
         }
+      },
+      "captura": {
+        "desde": "2026-06-05",
+        "contatos": 159,
+        "com_clid": 81,
+        "clid_pct": 50.9
       }
     },
     {
@@ -489,7 +527,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": null
         },
         "yesterday": {
           "gasto": 52.99,
@@ -514,7 +554,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": 0.0
         },
         "last_7d": {
           "gasto": 332.87,
@@ -539,7 +581,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 5,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 2,
+          "clid_pct": 22.2
         },
         "last_14d": {
           "gasto": 698.93,
@@ -564,7 +608,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 13,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 8,
+          "clid_pct": 33.3
         },
         "last_30d": {
           "gasto": 1115.78,
@@ -590,7 +636,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 36,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-07-04"
+          "janela_desde": "2026-07-04",
+          "com_clid": 20,
+          "clid_pct": 32.8
         },
         "this_month": {
           "gasto": 1095.36,
@@ -616,7 +664,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 36,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-07-04"
+          "janela_desde": "2026-07-04",
+          "com_clid": 20,
+          "clid_pct": 32.8
         },
         "last_month": {
           "gasto": 1672.55,
@@ -641,7 +691,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "maximum": {
           "gasto": 6949.77,
@@ -667,8 +719,16 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 36,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-07-04"
+          "janela_desde": "2026-07-04",
+          "com_clid": 20,
+          "clid_pct": 32.8
         }
+      },
+      "captura": {
+        "desde": "2026-07-04",
+        "contatos": 61,
+        "com_clid": 20,
+        "clid_pct": 32.8
       }
     },
     {
@@ -803,7 +863,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": null
         },
         "yesterday": {
           "gasto": 54.12,
@@ -828,7 +890,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": 0.0
         },
         "last_7d": {
           "gasto": 404.39,
@@ -853,7 +917,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 3,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 2,
+          "clid_pct": 15.4
         },
         "last_14d": {
           "gasto": 896.79,
@@ -878,7 +944,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 5,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 8,
+          "clid_pct": 32.0
         },
         "last_30d": {
           "gasto": 1748.42,
@@ -903,7 +971,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 12,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 18,
+          "clid_pct": 32.7
         },
         "this_month": {
           "gasto": 1697.98,
@@ -928,7 +998,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 9,
           "realizadas_fonte": "real",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": 16,
+          "clid_pct": 32.7
         },
         "last_month": {
           "gasto": 1418.76,
@@ -954,7 +1026,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 5,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-06-19"
+          "janela_desde": "2026-06-19",
+          "com_clid": 3,
+          "clid_pct": 13.0
         },
         "maximum": {
           "gasto": 43606.06,
@@ -980,8 +1054,16 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "real",
           "realizadas": 14,
           "realizadas_fonte": "real",
-          "janela_desde": "2026-06-19"
+          "janela_desde": "2026-06-19",
+          "com_clid": 19,
+          "clid_pct": 26.4
         }
+      },
+      "captura": {
+        "desde": "2026-06-19",
+        "contatos": 72,
+        "com_clid": 19,
+        "clid_pct": 26.4
       }
     },
     {
@@ -1072,6 +1154,8 @@ window.PAINEL_DATA = {
           "realizadas": 0,
           "realizadas_fonte": "real",
           "janela_desde": null,
+          "com_clid": 0,
+          "clid_pct": 0.0,
           "frentes": [
             {
               "nome": "Juros",
@@ -1117,6 +1201,8 @@ window.PAINEL_DATA = {
           "realizadas": 0,
           "realizadas_fonte": "real",
           "janela_desde": null,
+          "com_clid": 2,
+          "clid_pct": 100.0,
           "frentes": [
             {
               "nome": "Juros",
@@ -1162,6 +1248,8 @@ window.PAINEL_DATA = {
           "realizadas": 21,
           "realizadas_fonte": "real",
           "janela_desde": null,
+          "com_clid": 20,
+          "clid_pct": 40.8,
           "frentes": [
             {
               "nome": "Juros",
@@ -1231,6 +1319,8 @@ window.PAINEL_DATA = {
           "realizadas": 21,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
+          "com_clid": 20,
+          "clid_pct": 40.8,
           "frentes": [
             {
               "nome": "Juros",
@@ -1300,6 +1390,8 @@ window.PAINEL_DATA = {
           "realizadas": 21,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
+          "com_clid": 20,
+          "clid_pct": 40.8,
           "frentes": [
             {
               "nome": "Juros",
@@ -1369,6 +1461,8 @@ window.PAINEL_DATA = {
           "realizadas": 21,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
+          "com_clid": 20,
+          "clid_pct": 40.0,
           "frentes": [
             {
               "nome": "Juros",
@@ -1437,6 +1531,8 @@ window.PAINEL_DATA = {
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
           "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null,
           "frentes": [
             {
               "nome": "Juros",
@@ -1495,6 +1591,8 @@ window.PAINEL_DATA = {
           "realizadas": 21,
           "realizadas_fonte": "real",
           "janela_desde": "2026-07-23",
+          "com_clid": 20,
+          "clid_pct": 40.0,
           "frentes": [
             {
               "nome": "Juros",
@@ -1540,6 +1638,12 @@ window.PAINEL_DATA = {
           ]
         }
       },
+      "captura": {
+        "desde": "2026-07-23",
+        "contatos": 50,
+        "com_clid": 20,
+        "clid_pct": 40.0
+      },
       "frentes_cfg": [
         {
           "nome": "Juros",
@@ -1584,7 +1688,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "yesterday": {
           "gasto": 0,
@@ -1609,7 +1715,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_7d": {
           "gasto": 0,
@@ -1634,7 +1742,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_14d": {
           "gasto": 43.92,
@@ -1659,7 +1769,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_30d": {
           "gasto": 43.92,
@@ -1684,7 +1796,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "this_month": {
           "gasto": 43.92,
@@ -1709,7 +1823,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "last_month": {
           "gasto": 0,
@@ -1734,7 +1850,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         },
         "maximum": {
           "gasto": 43.92,
@@ -1759,7 +1877,9 @@ window.PAINEL_DATA = {
           "iniciadas_fonte": "meta",
           "realizadas": null,
           "realizadas_fonte": "nenhuma",
-          "janela_desde": null
+          "janela_desde": null,
+          "com_clid": null,
+          "clid_pct": null
         }
       }
     }
