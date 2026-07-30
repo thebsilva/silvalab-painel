@@ -1445,19 +1445,12 @@
     const jDesde = p.janela_desde
       ? ` · desde ${fDate(p.janela_desde)}`                       // janela parcial: o corte real
       : (capt ? ` · medindo desde ${fDate(capt.desde)}` : "");    // coberto: a data em que passamos a medir
-    // Rótulos autoexplicativos (Bruno, 30/07: "essas etiquetas geram confusão").
-    // "iniciadas" e "realizadas" pareciam duas medidas da mesma coisa; e "≥ mín. de msgs"
-    // não dizia o número, que muda por cliente. Agora cada card diz o que conta.
-    const nMsgs = capt && capt.min_msgs ? capt.min_msgs : null;
-    const cardIniciadas = kpi("Pessoas que chamaram", fInt(p.iniciadas || null),
-      p.iniciadas_fonte === "real"
-        ? "mandaram ao menos 1 mensagem" + jDesde
-        : "cliques que abriram o WhatsApp — número da Meta, não dá pra saber quem falou",
+    const cardIniciadas = kpi("Conversas iniciadas", fInt(p.iniciadas || null),
+      p.iniciadas_fonte === "real" ? "quem começou — nosso webhook" + jDesde : "quem começou — Meta",
       p.iniciadas_fonte === "real" ? "n" : "m");
     const cardRealizadas = p.realizadas == null
-      ? kpi("Conversas de verdade", "—", "não dá pra saber: o webhook começou a medir depois deste período", null)
-      : kpi("Conversas de verdade", fInt(p.realizadas || null),
-            (nMsgs ? `trocaram ${nMsgs}+ mensagens` : "trocaram o mínimo de mensagens") + jDesde, "n");
+      ? kpi("Conversas realizadas", "—", "sem captura aqui — o webhook ligou depois", null)
+      : kpi("Conversas realizadas", fInt(p.realizadas || null), "trocou ≥ mín. de msgs — nosso webhook" + jDesde, "n");
     /* comparação com o período anterior (mesma duração, imediatamente antes) */
     const ant = anteriorDe(clientName);
     const cvD = (CVBY[clientName] || {}).desde || "9999";
@@ -1502,12 +1495,11 @@
       ${bdMain.map(cardBd).join("")}
     </div>
     <details class="mais"><summary>mais números da mídia</summary><div class="kpi-row">
-      ${p.com_clid != null ? kpi("Origem comprovada",
+      ${p.com_clid != null ? kpi("Com clique de anúncio",
           fInt(p.com_clid) + (p.clid_pct != null ? ` <span class="u">${fPct(p.clid_pct, 0)}</span>` : ""),
-          // CORREÇÃO do Bruno (30/07): não ter a etiqueta NÃO quer dizer orgânico. Quem viu o
-          // anúncio, foi no perfil e chamou pela bio veio da mídia igual — só não trouxe prova.
-          "chegaram com a etiqueta do clique, então dá pra ligar a conversa ao anúncio exato. "
-          + "As outras podem ter vindo do anúncio também — só não deu pra provar", "n") : ""}
+          // CORREÇÃO do Bruno (30/07): não ter a etiqueta NÃO quer dizer orgânico — quem viu o
+          // anúncio, foi no perfil e chamou pela bio veio da mídia igual, só não trouxe prova.
+          "trouxeram a etiqueta do clique. As outras podem ter vindo do anúncio também — só não deu pra provar", "n") : ""}
       ${cardIniciadas.replace('</div><div class="k">', dIniciadas + '</div><div class="k">')}
       ${bdResto.map(cardBd).join("")}
       ${kpi("CTR", fPct(m.ctr, 2) + (ant ? dlt(m.ctr, ant.ctr) : ""))}

@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-30T10:42:42-03:00",
+  "gerado_em": "2026-07-30T10:47:06-03:00",
   "periods": [
     "today",
     "yesterday",
@@ -477,8 +477,7 @@ window.PAINEL_DATA = {
         "desde": "2026-06-05",
         "contatos": 159,
         "com_clid": 81,
-        "clid_pct": 50.9,
-        "min_msgs": 3
+        "clid_pct": 50.9
       }
     },
     {
@@ -729,8 +728,7 @@ window.PAINEL_DATA = {
         "desde": "2026-07-04",
         "contatos": 61,
         "com_clid": 20,
-        "clid_pct": 32.8,
-        "min_msgs": 3
+        "clid_pct": 32.8
       }
     },
     {
@@ -1065,8 +1063,7 @@ window.PAINEL_DATA = {
         "desde": "2026-06-19",
         "contatos": 72,
         "com_clid": 19,
-        "clid_pct": 26.4,
-        "min_msgs": 6
+        "clid_pct": 26.4
       }
     },
     {
@@ -1645,8 +1642,7 @@ window.PAINEL_DATA = {
         "desde": "2026-07-23",
         "contatos": 50,
         "com_clid": 20,
-        "clid_pct": 40.0,
-        "min_msgs": 4
+        "clid_pct": 40.0
       },
       "frentes_cfg": [
         {
