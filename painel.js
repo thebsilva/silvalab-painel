@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-07-30T03:35:15+00:00",
+  "gerado_em": "2026-07-30T06:45:41+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -1067,7 +1067,7 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 0,
+          "iniciadas": 1,
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
@@ -1364,7 +1364,7 @@ window.PAINEL_DATA = {
           "custo_conversa": 15.09,
           "folga": 29.39,
           "gasto_janela": 316.79,
-          "iniciadas": 49,
+          "iniciadas": 50,
           "iniciadas_fonte": "real",
           "realizadas": 21,
           "realizadas_fonte": "real",
@@ -1407,7 +1407,7 @@ window.PAINEL_DATA = {
               "custo_venda": null,
               "cliques_por_venda": null,
               "resto": true,
-              "iniciadas": 31,
+              "iniciadas": 32,
               "realizadas": 7,
               "conversas_fonte": "texto"
             }
@@ -1490,7 +1490,7 @@ window.PAINEL_DATA = {
           "custo_conversa": 15.09,
           "folga": 14.29,
           "gasto_janela": 316.79,
-          "iniciadas": 49,
+          "iniciadas": 50,
           "iniciadas_fonte": "real",
           "realizadas": 21,
           "realizadas_fonte": "real",
@@ -1533,7 +1533,7 @@ window.PAINEL_DATA = {
               "custo_venda": null,
               "cliques_por_venda": null,
               "resto": true,
-              "iniciadas": 31,
+              "iniciadas": 32,
               "realizadas": 7,
               "conversas_fonte": "texto"
             }
