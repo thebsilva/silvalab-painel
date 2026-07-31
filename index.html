@@ -256,6 +256,15 @@
   .funil-frentes { display: grid; gap: 14px; }
   @media (min-width: 1100px) {
     .funil-frentes { grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); align-items: start; }
+    /* Lado a lado, cada funil tem ~716px — e a etapa de largura fixa pedia 830px. O flex
+       quebrava a linha e a ÚLTIMA etapa (a venda, justo o alvo) caía órfã embaixo. Aqui as
+       etapas passam a dividir a largura disponível (nunca quebram) e o separador encolhe. */
+    .funil-frentes .funnel { flex-wrap: nowrap; }
+    .funil-frentes .stage { flex: 1 1 0; min-width: 0; padding: 11px 12px; }
+    .funil-frentes .pass { min-width: 34px; }
+    /* o rótulo volta a fluir como texto: o ⓘ gruda na última palavra em vez de cair sozinho */
+    .funil-frentes .stage .sk { display: block; }
+    .funil-frentes .stage .sk .src { display: inline-block; vertical-align: 1px; margin-right: 5px; }
   }
 
   /* ───── KPIs ───── */
