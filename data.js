@@ -1,5 +1,5 @@
 window.DASHBOARD_DATA = {
-  "generated_at": "2026-08-09T14:56:58+00:00",
+  "generated_at": "2026-08-09T16:58:36+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -39149,7 +39149,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120237301466830013",
@@ -39183,7 +39183,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120251864988050013",
@@ -41206,7 +41206,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120237301466830013",
@@ -41240,7 +41240,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120251864988050013",
@@ -41274,7 +41274,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "PROFILE_AND_PAGE_ENGAGEMENT"
+              "opt_goal": "—"
             },
             {
               "id": "120250001984250013",
@@ -45308,7 +45308,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120237301466830013",
@@ -45342,7 +45342,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120251864988050013",
@@ -45376,7 +45376,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "PROFILE_AND_PAGE_ENGAGEMENT"
+              "opt_goal": "—"
             },
             {
               "id": "120244958105340013",
@@ -45410,7 +45410,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120250001984250013",
@@ -47307,9 +47307,9 @@ window.DASHBOARD_DATA = {
             "link_ctr": 0.72,
             "cpc": 1.11,
             "cpm": 11.56,
-            "result_type": "Conversas",
-            "results": 596,
-            "cpl": 19.04,
+            "result_type": "Compras",
+            "results": 11,
+            "cpl": 276.57,
             "page_views": 54,
             "conversas": 597,
             "cost_conversa": 20.82,
@@ -47323,14 +47323,24 @@ window.DASHBOARD_DATA = {
             "profit": -9290.57,
             "results_breakdown": [
               {
+                "label": "Compras",
+                "value": 11,
+                "cost": 276.57
+              },
+              {
                 "label": "Conversas",
-                "value": 596,
-                "cost": 19.04
+                "value": 412,
+                "cost": 19.42
+              },
+              {
+                "label": "Visitas à página",
+                "value": 1,
+                "cost": 273.57
               },
               {
                 "label": "Cliques no link",
-                "value": 2098,
-                "cost": 0.46
+                "value": 2123,
+                "cost": 0.52
               }
             ]
           },
@@ -47353,9 +47363,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.29,
               "cpc": 2.26,
               "cpm": 17.15,
-              "result_type": "Conversas",
-              "results": 173,
-              "cpl": 17.59,
+              "result_type": "Compras",
+              "results": 11,
+              "cpl": 276.57,
               "page_views": 43,
               "conversas": 173,
               "cost_conversa": 17.59,
@@ -47367,7 +47377,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": 276.57,
               "roas": 1.35,
               "profit": 97.74,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120237301466830013",
@@ -47401,7 +47411,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": 1.82,
               "profit": 2471.73,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120235059350760013",
@@ -47435,7 +47445,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": 3.06,
               "profit": 2646.65,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232783816040013",
@@ -47469,7 +47479,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120251863885300013",
@@ -47503,7 +47513,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120244238763840013",
@@ -47537,7 +47547,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": 0.45,
               "profit": -222.33,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120250001984250013",
@@ -47571,7 +47581,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": 1.4,
               "profit": 120.34,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120235619462980013",
@@ -47591,9 +47601,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 1.05,
               "cpc": 0.3,
               "cpm": 3.5,
-              "result_type": "Conversas",
-              "results": 10,
-              "cpl": 27.36,
+              "result_type": "Visitas à página",
+              "results": 1,
+              "cpl": 273.57,
               "page_views": 1,
               "conversas": 10,
               "cost_conversa": 27.36,
@@ -47605,7 +47615,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "LINK_CLICKS"
+              "opt_goal": "—"
             },
             {
               "id": "120236660409080013",
@@ -47639,7 +47649,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": 0.86,
               "profit": -30.23,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120247230461810013",
@@ -47673,7 +47683,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120234836006520013",
@@ -47707,7 +47717,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120246670997220013",
@@ -47741,7 +47751,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120251864988050013",
@@ -47775,7 +47785,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "PROFILE_AND_PAGE_ENGAGEMENT"
+              "opt_goal": "—"
             },
             {
               "id": "120233429950470013",
@@ -47809,7 +47819,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232749211290013",
@@ -47863,9 +47873,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.08,
               "cpc": 1.07,
               "cpm": 1.21,
-              "result_type": "Alcance",
-              "results": 45556,
-              "cpl": 0.0,
+              "result_type": "Conversas",
+              "results": 1,
+              "cpl": 100.29,
               "page_views": 0,
               "conversas": 1,
               "cost_conversa": 100.29,
@@ -47877,7 +47887,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "REACH"
+              "opt_goal": "—"
             },
             {
               "id": "120231716706890013",
@@ -47911,7 +47921,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232521881320013",
@@ -47979,7 +47989,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120234363997990013",
@@ -48013,7 +48023,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241937589990013",
@@ -48047,7 +48057,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241937628390013",
@@ -48081,7 +48091,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120234696654650013",
@@ -48115,7 +48125,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120231716659770013",
@@ -48169,9 +48179,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.1,
               "cpc": 16.3,
               "cpm": 49.43,
-              "result_type": "Conversas",
-              "results": 0,
-              "cpl": null,
+              "result_type": "Cliques no link",
+              "results": 1,
+              "cpl": 48.89,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -48183,7 +48193,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232749901760013",
@@ -48217,7 +48227,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120234414084660013",
@@ -48251,7 +48261,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120238730737830013",
@@ -48285,7 +48295,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120237725349750013",
@@ -48319,7 +48329,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120232749962620013",
@@ -48353,7 +48363,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120239715792760013",
@@ -48387,7 +48397,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120242678125230013",
@@ -48421,7 +48431,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232590789230013",
@@ -48455,7 +48465,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120242677951810013",
@@ -48489,7 +48499,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120242677917010013",
@@ -48523,7 +48533,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120242677847450013",
@@ -48557,7 +48567,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120232590770360013",
@@ -48591,7 +48601,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120242678231020013",
@@ -48625,7 +48635,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120231815306080013",
@@ -48659,7 +48669,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120238125056340013",
@@ -48693,7 +48703,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120234255497140013",
@@ -48727,7 +48737,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120242677884260013",
@@ -48761,7 +48771,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120233237859630013",
@@ -48795,7 +48805,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120233771629860013",
@@ -48829,7 +48839,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120236361379120013",
@@ -48863,7 +48873,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120241273728450013",
@@ -48897,7 +48907,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241273742240013",
@@ -48931,7 +48941,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241273700160013",
@@ -48965,7 +48975,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120236184278570013",
@@ -48999,7 +49009,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241518907300013",
@@ -49033,7 +49043,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120241518988110013",
@@ -49067,7 +49077,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120236712159740013",
@@ -49087,9 +49097,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.3,
               "cpc": 1.96,
               "cpm": 18.65,
-              "result_type": "Conversas",
-              "results": 2,
-              "cpl": 15.64,
+              "result_type": "Cliques no link",
+              "results": 5,
+              "cpl": 6.26,
               "page_views": 0,
               "conversas": 2,
               "cost_conversa": 15.64,
@@ -49101,7 +49111,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120231133941480013",
@@ -49135,7 +49145,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120230831818560013",
@@ -49169,7 +49179,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120231133934500013",
@@ -49203,7 +49213,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120230831727750013",
@@ -49237,7 +49247,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120235354702410013",
@@ -49271,7 +49281,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120237493142200013",
@@ -49291,9 +49301,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.2,
               "cpc": 5.5,
               "cpm": 14.63,
-              "result_type": "Conversas",
-              "results": 0,
-              "cpl": null,
+              "result_type": "Cliques no link",
+              "results": 3,
+              "cpl": 7.33,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -49305,7 +49315,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120231815194800013",
@@ -49339,7 +49349,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120231823518190013",
@@ -49359,9 +49369,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.3,
               "cpc": 1.78,
               "cpm": 8.26,
-              "result_type": "Alcance",
-              "results": 1487,
-              "cpl": 0.01,
+              "result_type": "Cliques no link",
+              "results": 7,
+              "cpl": 2.79,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -49373,7 +49383,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "REACH"
+              "opt_goal": "—"
             },
             {
               "id": "120236517771600013",
@@ -49393,9 +49403,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.39,
               "cpc": 2.3,
               "cpm": 8.99,
-              "result_type": "Conversas",
-              "results": 0,
-              "cpl": null,
+              "result_type": "Cliques no link",
+              "results": 8,
+              "cpl": 2.3,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -49407,7 +49417,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120232079237680013",
@@ -49441,7 +49451,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "VISIT_INSTAGRAM_PROFILE"
+              "opt_goal": "—"
             },
             {
               "id": "120231718027190013",
@@ -49461,9 +49471,9 @@ window.DASHBOARD_DATA = {
               "link_ctr": 0.15,
               "cpc": 3.33,
               "cpm": 14.61,
-              "result_type": "Conversas",
-              "results": 0,
-              "cpl": null,
+              "result_type": "Cliques no link",
+              "results": 1,
+              "cpl": 9.99,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -49475,7 +49485,7 @@ window.DASHBOARD_DATA = {
               "cost_purchase": null,
               "roas": null,
               "profit": null,
-              "opt_goal": "CONVERSATIONS"
+              "opt_goal": "—"
             },
             {
               "id": "120236733179780013",
@@ -49524,25 +49534,25 @@ window.DASHBOARD_DATA = {
       "periods": {
         "today": {
           "account": {
-            "spend": 11.62,
-            "impressions": 278,
-            "reach": 202,
-            "frequency": 1.38,
-            "clicks": 3,
-            "link_clicks": 2,
-            "ctr": 1.08,
-            "link_ctr": 0.72,
-            "cpc": 3.87,
-            "cpm": 41.8,
+            "spend": 28.07,
+            "impressions": 625,
+            "reach": 353,
+            "frequency": 1.77,
+            "clicks": 7,
+            "link_clicks": 3,
+            "ctr": 1.12,
+            "link_ctr": 0.48,
+            "cpc": 4.01,
+            "cpm": 44.91,
             "result_type": "—",
             "results": 0,
             "cpl": null,
             "page_views": 0,
-            "conversas": 0,
-            "cost_conversa": null,
+            "conversas": 1,
+            "cost_conversa": 28.07,
             "leads": 0,
             "profile_visits": 0,
-            "followers": 0,
+            "followers": 1,
             "compras": 0,
             "conversion_value": 0,
             "cost_purchase": null,
@@ -49559,16 +49569,16 @@ window.DASHBOARD_DATA = {
               "budget": 33.0,
               "budget_type": "diário",
               "created": "2026-07-22",
-              "spend": 11.62,
-              "impressions": 278,
-              "reach": 200,
-              "frequency": 1.39,
-              "clicks": 3,
+              "spend": 28.07,
+              "impressions": 625,
+              "reach": 353,
+              "frequency": 1.77,
+              "clicks": 7,
               "link_clicks": 2,
-              "ctr": 1.08,
-              "link_ctr": 0.72,
-              "cpc": 3.87,
-              "cpm": 41.8,
+              "ctr": 1.12,
+              "link_ctr": 0.32,
+              "cpc": 4.01,
+              "cpm": 44.91,
               "result_type": "Conversas",
               "results": 0,
               "cpl": null,
@@ -49577,7 +49587,7 @@ window.DASHBOARD_DATA = {
               "cost_conversa": null,
               "leads": 0,
               "profile_visits": 0,
-              "followers": 0,
+              "followers": 1,
               "compras": 0,
               "conversion_value": 0,
               "cost_purchase": null,
@@ -52869,25 +52879,25 @@ window.DASHBOARD_DATA = {
         },
         "this_month": {
           "account": {
-            "spend": 403.24,
-            "impressions": 22115,
-            "reach": 5318,
-            "frequency": 4.16,
-            "clicks": 238,
-            "link_clicks": 199,
+            "spend": 419.69,
+            "impressions": 22462,
+            "reach": 5414,
+            "frequency": 4.15,
+            "clicks": 242,
+            "link_clicks": 200,
             "ctr": 1.08,
-            "link_ctr": 0.9,
-            "cpc": 1.69,
-            "cpm": 18.23,
+            "link_ctr": 0.89,
+            "cpc": 1.73,
+            "cpm": 18.68,
             "result_type": "Conversas",
             "results": 10,
-            "cpl": 32.44,
+            "cpl": 34.08,
             "page_views": 0,
-            "conversas": 10,
-            "cost_conversa": 40.32,
+            "conversas": 11,
+            "cost_conversa": 38.15,
             "leads": 1,
             "profile_visits": 0,
-            "followers": 31,
+            "followers": 32,
             "compras": 0,
             "conversion_value": 0,
             "cost_purchase": null,
@@ -52897,7 +52907,7 @@ window.DASHBOARD_DATA = {
               {
                 "label": "Conversas",
                 "value": 10,
-                "cost": 32.44
+                "cost": 34.08
               },
               {
                 "label": "Cliques no link",
@@ -52915,25 +52925,25 @@ window.DASHBOARD_DATA = {
               "budget": 33.0,
               "budget_type": "diário",
               "created": "2026-07-22",
-              "spend": 257.24,
-              "impressions": 5580,
-              "reach": 2129,
-              "frequency": 2.62,
-              "clicks": 50,
+              "spend": 273.69,
+              "impressions": 5927,
+              "reach": 2212,
+              "frequency": 2.68,
+              "clicks": 54,
               "link_clicks": 15,
-              "ctr": 0.9,
-              "link_ctr": 0.27,
-              "cpc": 5.14,
-              "cpm": 46.1,
+              "ctr": 0.91,
+              "link_ctr": 0.25,
+              "cpc": 5.07,
+              "cpm": 46.18,
               "result_type": "Conversas",
               "results": 7,
-              "cpl": 36.75,
+              "cpl": 39.1,
               "page_views": 0,
               "conversas": 7,
-              "cost_conversa": 36.75,
+              "cost_conversa": 39.1,
               "leads": 1,
               "profile_visits": 0,
-              "followers": 9,
+              "followers": 10,
               "compras": 0,
               "conversion_value": 0,
               "cost_purchase": null,
@@ -54215,35 +54225,35 @@ window.DASHBOARD_DATA = {
         },
         "maximum": {
           "account": {
-            "spend": 7420.38,
-            "impressions": 616346,
+            "spend": 7436.83,
+            "impressions": 616693,
             "reach": 175265,
             "frequency": 3.52,
-            "clicks": 11670,
-            "link_clicks": 10663,
+            "clicks": 11674,
+            "link_clicks": 10664,
             "ctr": 1.89,
             "link_ctr": 1.73,
             "cpc": 0.64,
-            "cpm": 12.04,
+            "cpm": 12.06,
             "result_type": "Conversas",
             "results": 223,
-            "cpl": 18.7,
+            "cpl": 18.78,
             "page_views": 6,
-            "conversas": 249,
-            "cost_conversa": 29.8,
+            "conversas": 250,
+            "cost_conversa": 29.75,
             "leads": 39,
             "profile_visits": 0,
-            "followers": 873,
+            "followers": 874,
             "compras": 1,
             "conversion_value": 1840.0,
-            "cost_purchase": 7420.38,
+            "cost_purchase": 7436.83,
             "roas": 0.25,
-            "profit": -5580.38,
+            "profit": -5596.83,
             "results_breakdown": [
               {
                 "label": "Conversas",
                 "value": 223,
-                "cost": 18.7
+                "cost": 18.78
               },
               {
                 "label": "Cliques no link",
@@ -54329,25 +54339,25 @@ window.DASHBOARD_DATA = {
               "budget": 33.0,
               "budget_type": "diário",
               "created": "2026-07-22",
-              "spend": 582.69,
-              "impressions": 12621,
-              "reach": 3852,
-              "frequency": 3.28,
-              "clicks": 123,
+              "spend": 599.14,
+              "impressions": 12968,
+              "reach": 3945,
+              "frequency": 3.29,
+              "clicks": 127,
               "link_clicks": 38,
-              "ctr": 0.97,
-              "link_ctr": 0.3,
-              "cpc": 4.74,
-              "cpm": 46.17,
+              "ctr": 0.98,
+              "link_ctr": 0.29,
+              "cpc": 4.72,
+              "cpm": 46.2,
               "result_type": "Conversas",
               "results": 21,
-              "cpl": 27.75,
+              "cpl": 28.53,
               "page_views": 0,
               "conversas": 21,
-              "cost_conversa": 27.75,
+              "cost_conversa": 28.53,
               "leads": 3,
               "profile_visits": 0,
-              "followers": 27,
+              "followers": 28,
               "compras": 0,
               "conversion_value": 0,
               "cost_purchase": null,
@@ -54912,19 +54922,19 @@ window.DASHBOARD_DATA = {
       "periods": {
         "today": {
           "account": {
-            "spend": 14.46,
-            "impressions": 633,
-            "reach": 563,
-            "frequency": 1.12,
-            "clicks": 10,
-            "link_clicks": 9,
-            "ctr": 1.58,
-            "link_ctr": 1.42,
-            "cpc": 1.45,
-            "cpm": 22.84,
+            "spend": 19.39,
+            "impressions": 941,
+            "reach": 800,
+            "frequency": 1.18,
+            "clicks": 18,
+            "link_clicks": 15,
+            "ctr": 1.91,
+            "link_ctr": 1.59,
+            "cpc": 1.08,
+            "cpm": 20.61,
             "result_type": "Cliques no link",
-            "results": 7,
-            "cpl": 0.76,
+            "results": 13,
+            "cpl": 0.6,
             "page_views": 0,
             "conversas": 0,
             "cost_conversa": null,
@@ -54939,8 +54949,8 @@ window.DASHBOARD_DATA = {
             "results_breakdown": [
               {
                 "label": "Cliques no link",
-                "value": 7,
-                "cost": 0.76
+                "value": 13,
+                "cost": 0.6
               }
             ]
           },
@@ -54953,16 +54963,16 @@ window.DASHBOARD_DATA = {
               "budget": 40.0,
               "budget_type": "diário",
               "created": "2026-07-20",
-              "spend": 9.16,
-              "impressions": 112,
-              "reach": 93,
-              "frequency": 1.2,
-              "clicks": 3,
+              "spend": 11.62,
+              "impressions": 163,
+              "reach": 130,
+              "frequency": 1.25,
+              "clicks": 4,
               "link_clicks": 2,
-              "ctr": 2.68,
-              "link_ctr": 1.79,
-              "cpc": 3.05,
-              "cpm": 81.79,
+              "ctr": 2.45,
+              "link_ctr": 1.23,
+              "cpc": 2.9,
+              "cpm": 71.29,
               "result_type": "Conversas",
               "results": 0,
               "cpl": null,
@@ -54987,19 +54997,19 @@ window.DASHBOARD_DATA = {
               "budget": 20.0,
               "budget_type": "diário",
               "created": "2026-06-28",
-              "spend": 5.3,
-              "impressions": 521,
-              "reach": 473,
-              "frequency": 1.1,
-              "clicks": 7,
-              "link_clicks": 7,
-              "ctr": 1.34,
-              "link_ctr": 1.34,
-              "cpc": 0.76,
-              "cpm": 10.17,
+              "spend": 7.77,
+              "impressions": 778,
+              "reach": 681,
+              "frequency": 1.14,
+              "clicks": 14,
+              "link_clicks": 13,
+              "ctr": 1.8,
+              "link_ctr": 1.67,
+              "cpc": 0.56,
+              "cpm": 9.99,
               "result_type": "Cliques no link",
-              "results": 7,
-              "cpl": 0.76,
+              "results": 13,
+              "cpl": 0.6,
               "page_views": 0,
               "conversas": 0,
               "cost_conversa": null,
@@ -67668,22 +67678,22 @@ window.DASHBOARD_DATA = {
         },
         "this_month": {
           "account": {
-            "spend": 492.34,
-            "impressions": 22539,
-            "reach": 9045,
-            "frequency": 2.49,
-            "clicks": 372,
-            "link_clicks": 312,
-            "ctr": 1.65,
-            "link_ctr": 1.38,
-            "cpc": 1.32,
-            "cpm": 21.84,
+            "spend": 497.27,
+            "impressions": 22847,
+            "reach": 9127,
+            "frequency": 2.5,
+            "clicks": 380,
+            "link_clicks": 318,
+            "ctr": 1.66,
+            "link_ctr": 1.39,
+            "cpc": 1.31,
+            "cpm": 21.77,
             "result_type": "Conversas",
             "results": 4,
-            "cpl": 82.0,
+            "cpl": 82.61,
             "page_views": 0,
             "conversas": 6,
-            "cost_conversa": 82.06,
+            "cost_conversa": 82.88,
             "leads": 0,
             "profile_visits": 0,
             "followers": 51,
@@ -67696,11 +67706,11 @@ window.DASHBOARD_DATA = {
               {
                 "label": "Conversas",
                 "value": 4,
-                "cost": 82.0
+                "cost": 82.61
               },
               {
                 "label": "Cliques no link",
-                "value": 277,
+                "value": 283,
                 "cost": 0.59
               }
             ]
@@ -67714,22 +67724,22 @@ window.DASHBOARD_DATA = {
               "budget": 40.0,
               "budget_type": "diário",
               "created": "2026-07-20",
-              "spend": 327.99,
-              "impressions": 6147,
-              "reach": 2826,
-              "frequency": 2.18,
-              "clicks": 94,
+              "spend": 330.45,
+              "impressions": 6198,
+              "reach": 2850,
+              "frequency": 2.17,
+              "clicks": 95,
               "link_clicks": 35,
               "ctr": 1.53,
-              "link_ctr": 0.57,
-              "cpc": 3.49,
-              "cpm": 53.36,
+              "link_ctr": 0.56,
+              "cpc": 3.48,
+              "cpm": 53.32,
               "result_type": "Conversas",
               "results": 4,
-              "cpl": 82.0,
+              "cpl": 82.61,
               "page_views": 0,
               "conversas": 4,
-              "cost_conversa": 82.0,
+              "cost_conversa": 82.61,
               "leads": 0,
               "profile_visits": 0,
               "followers": 18,
@@ -67748,22 +67758,22 @@ window.DASHBOARD_DATA = {
               "budget": 20.0,
               "budget_type": "diário",
               "created": "2026-06-28",
-              "spend": 164.35,
-              "impressions": 16392,
-              "reach": 6731,
-              "frequency": 2.44,
-              "clicks": 278,
-              "link_clicks": 277,
-              "ctr": 1.7,
-              "link_ctr": 1.69,
+              "spend": 166.82,
+              "impressions": 16649,
+              "reach": 6794,
+              "frequency": 2.45,
+              "clicks": 285,
+              "link_clicks": 283,
+              "ctr": 1.71,
+              "link_ctr": 1.7,
               "cpc": 0.59,
-              "cpm": 10.03,
+              "cpm": 10.02,
               "result_type": "Cliques no link",
-              "results": 277,
+              "results": 283,
               "cpl": 0.59,
               "page_views": 0,
               "conversas": 2,
-              "cost_conversa": 82.17,
+              "cost_conversa": 83.41,
               "leads": 0,
               "profile_visits": 0,
               "followers": 33,
@@ -72773,19 +72783,19 @@ window.DASHBOARD_DATA = {
         },
         "maximum": {
           "account": {
-            "spend": 44097.92,
-            "impressions": 5392816,
-            "reach": 1104678,
+            "spend": 44102.85,
+            "impressions": 5393124,
+            "reach": 1104682,
             "frequency": 4.88,
-            "clicks": 86265,
-            "link_clicks": 80192,
+            "clicks": 86273,
+            "link_clicks": 80198,
             "ctr": 1.6,
             "link_ctr": 1.49,
             "cpc": 0.51,
             "cpm": 8.18,
             "result_type": "Conversas",
             "results": 350,
-            "cpl": 32.23,
+            "cpl": 32.24,
             "page_views": 84,
             "conversas": 0,
             "cost_conversa": null,
@@ -72801,7 +72811,7 @@ window.DASHBOARD_DATA = {
               {
                 "label": "Conversas",
                 "value": 350,
-                "cost": 32.23
+                "cost": 32.24
               },
               {
                 "label": "Leads",
@@ -72810,7 +72820,7 @@ window.DASHBOARD_DATA = {
               },
               {
                 "label": "Cliques no link",
-                "value": 74844,
+                "value": 74850,
                 "cost": 0.4
               }
             ]
@@ -73232,22 +73242,22 @@ window.DASHBOARD_DATA = {
               "budget": 20.0,
               "budget_type": "diário",
               "created": "2026-06-28",
-              "spend": 830.56,
-              "impressions": 95787,
-              "reach": 15549,
-              "frequency": 6.16,
-              "clicks": 1844,
-              "link_clicks": 1848,
+              "spend": 833.03,
+              "impressions": 96044,
+              "reach": 15550,
+              "frequency": 6.18,
+              "clicks": 1851,
+              "link_clicks": 1854,
               "ctr": 1.93,
               "link_ctr": 1.93,
               "cpc": 0.45,
               "cpm": 8.67,
               "result_type": "Cliques no link",
-              "results": 1848,
+              "results": 1854,
               "cpl": 0.45,
               "page_views": 8,
               "conversas": 4,
-              "cost_conversa": 207.64,
+              "cost_conversa": 208.26,
               "leads": 0,
               "profile_visits": 0,
               "followers": 237,
@@ -73300,22 +73310,22 @@ window.DASHBOARD_DATA = {
               "budget": 40.0,
               "budget_type": "diário",
               "created": "2026-07-20",
-              "spend": 784.66,
-              "impressions": 18355,
-              "reach": 8269,
+              "spend": 787.12,
+              "impressions": 18406,
+              "reach": 8275,
               "frequency": 2.22,
-              "clicks": 344,
+              "clicks": 345,
               "link_clicks": 181,
               "ctr": 1.87,
-              "link_ctr": 0.99,
+              "link_ctr": 0.98,
               "cpc": 2.28,
-              "cpm": 42.75,
+              "cpm": 42.76,
               "result_type": "Conversas",
               "results": 15,
-              "cpl": 52.31,
+              "cpl": 52.47,
               "page_views": 0,
               "conversas": 15,
-              "cost_conversa": 52.31,
+              "cost_conversa": 52.47,
               "leads": 2,
               "profile_visits": 0,
               "followers": 52,
@@ -75508,25 +75518,25 @@ window.DASHBOARD_DATA = {
       "periods": {
         "today": {
           "account": {
-            "spend": 32.61,
-            "impressions": 2271,
-            "reach": 2060,
-            "frequency": 1.1,
-            "clicks": 18,
-            "link_clicks": 12,
-            "ctr": 0.79,
-            "link_ctr": 0.53,
-            "cpc": 1.81,
-            "cpm": 14.36,
+            "spend": 40.3,
+            "impressions": 2818,
+            "reach": 2491,
+            "frequency": 1.13,
+            "clicks": 23,
+            "link_clicks": 16,
+            "ctr": 0.82,
+            "link_ctr": 0.57,
+            "cpc": 1.75,
+            "cpm": 14.3,
             "result_type": "Conversas",
-            "results": 5,
-            "cpl": 6.52,
+            "results": 7,
+            "cpl": 5.76,
             "page_views": 0,
-            "conversas": 5,
-            "cost_conversa": 6.52,
+            "conversas": 7,
+            "cost_conversa": 5.76,
             "leads": 0,
             "profile_visits": 0,
-            "followers": 12,
+            "followers": 18,
             "compras": 0,
             "conversion_value": 0,
             "cost_purchase": null,
@@ -75535,8 +75545,8 @@ window.DASHBOARD_DATA = {
             "results_breakdown": [
               {
                 "label": "Conversas",
-                "value": 5,
-                "cost": 6.52
+                "value": 7,
+                "cost": 5.76
               }
             ]
           },
@@ -75549,16 +75559,16 @@ window.DASHBOARD_DATA = {
               "budget": 50.0,
               "budget_type": "diário",
               "created": "2026-07-21",
-              "spend": 19.56,
-              "impressions": 1519,
-              "reach": 1378,
-              "frequency": 1.1,
+              "spend": 25.7,
+              "impressions": 1968,
+              "reach": 1730,
+              "frequency": 1.14,
               "clicks": 7,
               "link_clicks": 6,
-              "ctr": 0.46,
-              "link_ctr": 0.39,
-              "cpc": 2.79,
-              "cpm": 12.88,
+              "ctr": 0.36,
+              "link_ctr": 0.3,
+              "cpc": 3.67,
+              "cpm": 13.06,
               "result_type": "Conversas",
               "results": 0,
               "cpl": null,
@@ -75567,7 +75577,7 @@ window.DASHBOARD_DATA = {
               "cost_conversa": null,
               "leads": 0,
               "profile_visits": 0,
-              "followers": 12,
+              "followers": 17,
               "compras": 0,
               "conversion_value": 0,
               "cost_purchase": null,
@@ -75583,22 +75593,22 @@ window.DASHBOARD_DATA = {
               "budget": null,
               "budget_type": "—",
               "created": "2026-08-04",
-              "spend": 13.05,
-              "impressions": 752,
-              "reach": 693,
-              "frequency": 1.09,
-              "clicks": 11,
-              "link_clicks": 6,
-              "ctr": 1.46,
-              "link_ctr": 0.8,
-              "cpc": 1.19,
-              "cpm": 17.35,
+              "spend": 14.6,
+              "impressions": 850,
+              "reach": 762,
+              "frequency": 1.12,
+              "clicks": 16,
+              "link_clicks": 10,
+              "ctr": 1.88,
+              "link_ctr": 1.18,
+              "cpc": 0.91,
+              "cpm": 17.18,
               "result_type": "Conversas",
-              "results": 5,
-              "cpl": 2.61,
+              "results": 7,
+              "cpl": 2.09,
               "page_views": 0,
-              "conversas": 5,
-              "cost_conversa": 2.61,
+              "conversas": 7,
+              "cost_conversa": 2.09,
               "leads": 0,
               "profile_visits": 0,
               "followers": 0,
@@ -76274,7 +76284,7 @@ window.DASHBOARD_DATA = {
         "yesterday": {
           "account": {
             "spend": 65.73,
-            "impressions": 4033,
+            "impressions": 4034,
             "reach": 3755,
             "frequency": 1.07,
             "clicks": 29,
@@ -76282,7 +76292,7 @@ window.DASHBOARD_DATA = {
             "ctr": 0.72,
             "link_ctr": 0.4,
             "cpc": 2.27,
-            "cpm": 16.3,
+            "cpm": 16.29,
             "result_type": "Conversas",
             "results": 8,
             "cpl": 8.22,
@@ -76349,7 +76359,7 @@ window.DASHBOARD_DATA = {
               "budget_type": "—",
               "created": "2026-08-04",
               "spend": 23.36,
-              "impressions": 1198,
+              "impressions": 1199,
               "reach": 1155,
               "frequency": 1.04,
               "clicks": 18,
@@ -76357,7 +76367,7 @@ window.DASHBOARD_DATA = {
               "ctr": 1.5,
               "link_ctr": 0.83,
               "cpc": 1.3,
-              "cpm": 19.5,
+              "cpm": 19.48,
               "result_type": "Conversas",
               "results": 7,
               "cpl": 3.34,
@@ -77039,8 +77049,8 @@ window.DASHBOARD_DATA = {
         "last_7d": {
           "account": {
             "spend": 579.57,
-            "impressions": 33838,
-            "reach": 25682,
+            "impressions": 33839,
+            "reach": 25688,
             "frequency": 1.32,
             "clicks": 1078,
             "link_clicks": 896,
@@ -77119,8 +77129,8 @@ window.DASHBOARD_DATA = {
               "budget_type": "—",
               "created": "2026-08-04",
               "spend": 134.87,
-              "impressions": 5458,
-              "reach": 4066,
+              "impressions": 5459,
+              "reach": 4068,
               "frequency": 1.34,
               "clicks": 121,
               "link_clicks": 72,
@@ -77810,8 +77820,8 @@ window.DASHBOARD_DATA = {
         "last_14d": {
           "account": {
             "spend": 1137.52,
-            "impressions": 51142,
-            "reach": 34342,
+            "impressions": 51143,
+            "reach": 34354,
             "frequency": 1.49,
             "clicks": 1303,
             "link_clicks": 1015,
@@ -77924,8 +77934,8 @@ window.DASHBOARD_DATA = {
               "budget_type": "—",
               "created": "2026-08-04",
               "spend": 134.87,
-              "impressions": 5458,
-              "reach": 4066,
+              "impressions": 5459,
+              "reach": 4068,
               "frequency": 1.34,
               "clicks": 121,
               "link_clicks": 72,
@@ -78615,7 +78625,7 @@ window.DASHBOARD_DATA = {
         "last_30d": {
           "account": {
             "spend": 2218.9,
-            "impressions": 115474,
+            "impressions": 115475,
             "reach": 84796,
             "frequency": 1.36,
             "clicks": 3305,
@@ -78802,8 +78812,8 @@ window.DASHBOARD_DATA = {
               "budget_type": "—",
               "created": "2026-08-04",
               "spend": 134.87,
-              "impressions": 5458,
-              "reach": 4066,
+              "impressions": 5459,
+              "reach": 4068,
               "frequency": 1.34,
               "clicks": 121,
               "link_clicks": 72,
@@ -79426,35 +79436,35 @@ window.DASHBOARD_DATA = {
         },
         "this_month": {
           "account": {
-            "spend": 682.3,
-            "impressions": 39044,
-            "reach": 28407,
-            "frequency": 1.37,
-            "clicks": 1130,
-            "link_clicks": 928,
-            "ctr": 2.89,
-            "link_ctr": 2.38,
-            "cpc": 0.6,
-            "cpm": 17.48,
+            "spend": 689.99,
+            "impressions": 39592,
+            "reach": 28743,
+            "frequency": 1.38,
+            "clicks": 1135,
+            "link_clicks": 932,
+            "ctr": 2.87,
+            "link_ctr": 2.35,
+            "cpc": 0.61,
+            "cpm": 17.43,
             "result_type": "Conversas",
-            "results": 86,
-            "cpl": 6.58,
+            "results": 88,
+            "cpl": 6.52,
             "page_views": 657,
-            "conversas": 86,
-            "cost_conversa": 7.93,
+            "conversas": 88,
+            "cost_conversa": 7.84,
             "leads": 11,
             "profile_visits": 0,
-            "followers": 190,
+            "followers": 196,
             "compras": 1,
             "conversion_value": 900.0,
             "cost_purchase": null,
-            "roas": 1.32,
-            "profit": 217.7,
+            "roas": 1.3,
+            "profit": 210.01,
             "results_breakdown": [
               {
                 "label": "Conversas",
-                "value": 86,
-                "cost": 6.58
+                "value": 88,
+                "cost": 6.52
               },
               {
                 "label": "Visitas à página",
@@ -79472,30 +79482,30 @@ window.DASHBOARD_DATA = {
               "budget": 50.0,
               "budget_type": "diário",
               "created": "2026-07-21",
-              "spend": 417.93,
-              "impressions": 19719,
-              "reach": 13451,
+              "spend": 424.07,
+              "impressions": 20168,
+              "reach": 13751,
               "frequency": 1.47,
               "clicks": 146,
               "link_clicks": 94,
-              "ctr": 0.74,
-              "link_ctr": 0.48,
-              "cpc": 2.86,
-              "cpm": 21.19,
+              "ctr": 0.72,
+              "link_ctr": 0.47,
+              "cpc": 2.9,
+              "cpm": 21.03,
               "result_type": "Conversas",
               "results": 34,
-              "cpl": 12.29,
+              "cpl": 12.47,
               "page_views": 0,
               "conversas": 34,
-              "cost_conversa": 12.29,
+              "cost_conversa": 12.47,
               "leads": 1,
               "profile_visits": 0,
-              "followers": 143,
+              "followers": 148,
               "compras": 1,
               "conversion_value": 900.0,
               "cost_purchase": null,
-              "roas": 2.15,
-              "profit": 482.07,
+              "roas": 2.12,
+              "profit": 475.93,
               "opt_goal": "CONVERSATIONS"
             },
             {
@@ -79506,22 +79516,22 @@ window.DASHBOARD_DATA = {
               "budget": null,
               "budget_type": "—",
               "created": "2026-08-04",
-              "spend": 147.92,
-              "impressions": 6210,
-              "reach": 4495,
-              "frequency": 1.38,
-              "clicks": 132,
-              "link_clicks": 78,
-              "ctr": 2.13,
-              "link_ctr": 1.26,
-              "cpc": 1.12,
-              "cpm": 23.82,
+              "spend": 149.47,
+              "impressions": 6309,
+              "reach": 4554,
+              "frequency": 1.39,
+              "clicks": 137,
+              "link_clicks": 82,
+              "ctr": 2.17,
+              "link_ctr": 1.3,
+              "cpc": 1.09,
+              "cpm": 23.69,
               "result_type": "Conversas",
-              "results": 52,
-              "cpl": 2.84,
+              "results": 54,
+              "cpl": 2.77,
               "page_views": 0,
-              "conversas": 52,
-              "cost_conversa": 2.84,
+              "conversas": 54,
+              "cost_conversa": 2.77,
               "leads": 10,
               "profile_visits": 0,
               "followers": 4,
@@ -81008,25 +81018,25 @@ window.DASHBOARD_DATA = {
         },
         "maximum": {
           "account": {
-            "spend": 4898.31,
-            "impressions": 329539,
-            "reach": 228305,
+            "spend": 4906.0,
+            "impressions": 330087,
+            "reach": 228640,
             "frequency": 1.44,
-            "clicks": 9284,
-            "link_clicks": 5881,
-            "ctr": 2.82,
+            "clicks": 9289,
+            "link_clicks": 5885,
+            "ctr": 2.81,
             "link_ctr": 1.78,
             "cpc": 0.53,
             "cpm": 14.86,
             "result_type": "Conversas",
-            "results": 318,
-            "cpl": 8.24,
+            "results": 320,
+            "cpl": 8.22,
             "page_views": 2127,
             "conversas": 0,
             "cost_conversa": null,
             "leads": 0,
             "profile_visits": 0,
-            "followers": 2493,
+            "followers": 2499,
             "compras": 0,
             "conversion_value": 0,
             "cost_purchase": null,
@@ -81035,8 +81045,8 @@ window.DASHBOARD_DATA = {
             "results_breakdown": [
               {
                 "label": "Conversas",
-                "value": 318,
-                "cost": 8.24
+                "value": 320,
+                "cost": 8.22
               },
               {
                 "label": "Visitas à página",
@@ -81093,30 +81103,30 @@ window.DASHBOARD_DATA = {
               "budget": 50.0,
               "budget_type": "diário",
               "created": "2026-07-21",
-              "spend": 920.48,
-              "impressions": 37738,
-              "reach": 21653,
+              "spend": 926.62,
+              "impressions": 38187,
+              "reach": 21919,
               "frequency": 1.74,
               "clicks": 284,
               "link_clicks": 165,
-              "ctr": 0.75,
-              "link_ctr": 0.44,
-              "cpc": 3.24,
-              "cpm": 24.39,
+              "ctr": 0.74,
+              "link_ctr": 0.43,
+              "cpc": 3.26,
+              "cpm": 24.27,
               "result_type": "Conversas",
               "results": 74,
-              "cpl": 12.44,
+              "cpl": 12.52,
               "page_views": 0,
               "conversas": 74,
-              "cost_conversa": 12.44,
+              "cost_conversa": 12.52,
               "leads": 5,
               "profile_visits": 0,
-              "followers": 315,
+              "followers": 320,
               "compras": 2,
               "conversion_value": 2700.0,
               "cost_purchase": null,
-              "roas": 2.93,
-              "profit": 1779.52,
+              "roas": 2.91,
+              "profit": 1773.38,
               "opt_goal": "CONVERSATIONS"
             },
             {
@@ -81297,22 +81307,22 @@ window.DASHBOARD_DATA = {
               "budget": null,
               "budget_type": "—",
               "created": "2026-08-04",
-              "spend": 147.92,
-              "impressions": 6210,
-              "reach": 4386,
+              "spend": 149.47,
+              "impressions": 6309,
+              "reach": 4431,
               "frequency": 1.42,
-              "clicks": 132,
-              "link_clicks": 78,
-              "ctr": 2.13,
-              "link_ctr": 1.26,
-              "cpc": 1.12,
-              "cpm": 23.82,
+              "clicks": 137,
+              "link_clicks": 82,
+              "ctr": 2.17,
+              "link_ctr": 1.3,
+              "cpc": 1.09,
+              "cpm": 23.69,
               "result_type": "Conversas",
-              "results": 52,
-              "cpl": 2.84,
+              "results": 54,
+              "cpl": 2.77,
               "page_views": 0,
-              "conversas": 52,
-              "cost_conversa": 2.84,
+              "conversas": 54,
+              "cost_conversa": 2.77,
               "leads": 10,
               "profile_visits": 0,
               "followers": 4,
