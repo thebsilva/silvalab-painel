@@ -1,5 +1,5 @@
 window.PAINEL_DATA = {
-  "gerado_em": "2026-10-23T07:41:05+00:00",
+  "gerado_em": "2026-10-23T13:37:31+00:00",
   "periods": [
     "today",
     "yesterday",
@@ -514,11 +514,11 @@ window.PAINEL_DATA = {
       "vendas_dia": {},
       "periods": {
         "today": {
-          "gasto": 1.47,
+          "gasto": 7.79,
           "conversas": 0,
           "conversas_fonte": "meta",
           "leads": 0,
-          "cliques": 5,
+          "cliques": 19,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -649,11 +649,11 @@ window.PAINEL_DATA = {
           "clid_pct": null
         },
         "this_month": {
-          "gasto": 17.35,
+          "gasto": 23.67,
           "conversas": 0,
           "conversas_fonte": "meta",
           "leads": 0,
-          "cliques": 62,
+          "cliques": 76,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -703,11 +703,11 @@ window.PAINEL_DATA = {
           "clid_pct": null
         },
         "maximum": {
-          "gasto": 1041.19,
+          "gasto": 1047.51,
           "conversas": 79,
           "conversas_fonte": "meta",
           "leads": 27,
-          "cliques": 376,
+          "cliques": 390,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -719,7 +719,7 @@ window.PAINEL_DATA = {
           "consultas_por_venda": null,
           "taxa_conversao_pct": null,
           "teto_conversa": 0.0,
-          "custo_conversa": 13.18,
+          "custo_conversa": 13.26,
           "folga": null,
           "iniciadas": 79,
           "iniciadas_fonte": "meta",
@@ -1514,7 +1514,7 @@ window.PAINEL_DATA = {
       },
       "periods": {
         "today": {
-          "gasto": 2.25,
+          "gasto": 15.48,
           "conversas": 0,
           "conversas_fonte": "real",
           "leads": 0,
@@ -1649,7 +1649,7 @@ window.PAINEL_DATA = {
           "clid_pct": 27.8
         },
         "this_month": {
-          "gasto": 1345.76,
+          "gasto": 1358.99,
           "conversas": 6,
           "conversas_fonte": "real",
           "leads": 0,
@@ -1665,7 +1665,7 @@ window.PAINEL_DATA = {
           "consultas_por_venda": null,
           "taxa_conversao_pct": 0.0,
           "teto_conversa": 0.0,
-          "custo_conversa": 224.29,
+          "custo_conversa": 226.5,
           "folga": null,
           "iniciadas": 25,
           "iniciadas_fonte": "real",
@@ -1703,7 +1703,7 @@ window.PAINEL_DATA = {
           "clid_pct": 38.2
         },
         "maximum": {
-          "gasto": 47227.68,
+          "gasto": 47240.91,
           "conversas": 48,
           "conversas_fonte": "real",
           "leads": 138,
@@ -1712,16 +1712,16 @@ window.PAINEL_DATA = {
           "faturamento": 175424.0,
           "consultas": 35,
           "ticket": 29237.33,
-          "custo_venda": 7871.28,
-          "lucro": 128196.32,
+          "custo_venda": 7873.49,
+          "lucro": 128183.09,
           "margem_pct": 73.1,
           "roas_conta": 3.71,
           "consultas_por_venda": 5.83,
           "taxa_conversao_pct": 17.1,
-          "teto_conversa": 559.47,
-          "custo_conversa": 150.8,
+          "teto_conversa": 560.47,
+          "custo_conversa": 151.07,
           "folga": 3.71,
-          "gasto_janela": 7238.25,
+          "gasto_janela": 7251.48,
           "iniciadas": 191,
           "iniciadas_fonte": "real",
           "realizadas": 48,
@@ -2336,11 +2336,11 @@ window.PAINEL_DATA = {
       "vendas_dia": {},
       "periods": {
         "today": {
-          "gasto": 3.54,
+          "gasto": 10.27,
           "conversas": 0,
           "conversas_fonte": "real",
           "leads": 0,
-          "cliques": 3,
+          "cliques": 4,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -2354,16 +2354,16 @@ window.PAINEL_DATA = {
           "teto_conversa": null,
           "custo_conversa": null,
           "folga": null,
-          "iniciadas": 0,
+          "iniciadas": 1,
           "iniciadas_fonte": "real",
           "realizadas": 0,
           "realizadas_fonte": "real",
           "janela_desde": null,
           "com_clid": 0,
-          "clid_pct": null
+          "clid_pct": 0.0
         },
         "yesterday": {
-          "gasto": 54.2,
+          "gasto": 54.25,
           "conversas": 1,
           "conversas_fonte": "real",
           "leads": 9,
@@ -2379,7 +2379,7 @@ window.PAINEL_DATA = {
           "consultas_por_venda": null,
           "taxa_conversao_pct": null,
           "teto_conversa": 0.0,
-          "custo_conversa": 54.2,
+          "custo_conversa": 54.25,
           "folga": null,
           "iniciadas": 4,
           "iniciadas_fonte": "real",
@@ -2390,7 +2390,7 @@ window.PAINEL_DATA = {
           "clid_pct": 75.0
         },
         "last_7d": {
-          "gasto": 392.5,
+          "gasto": 392.55,
           "conversas": 17,
           "conversas_fonte": "real",
           "leads": 71,
@@ -2417,7 +2417,7 @@ window.PAINEL_DATA = {
           "clid_pct": 81.6
         },
         "last_14d": {
-          "gasto": 800.64,
+          "gasto": 800.69,
           "conversas": 37,
           "conversas_fonte": "real",
           "leads": 103,
@@ -2444,7 +2444,7 @@ window.PAINEL_DATA = {
           "clid_pct": 74.2
         },
         "last_30d": {
-          "gasto": 1483.4,
+          "gasto": 1483.45,
           "conversas": 109,
           "conversas_fonte": "real",
           "leads": 242,
@@ -2471,11 +2471,11 @@ window.PAINEL_DATA = {
           "clid_pct": 66.5
         },
         "this_month": {
-          "gasto": 1142.12,
+          "gasto": 1148.9,
           "conversas": 61,
           "conversas_fonte": "real",
           "leads": 156,
-          "cliques": 225,
+          "cliques": 226,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -2487,15 +2487,15 @@ window.PAINEL_DATA = {
           "consultas_por_venda": null,
           "taxa_conversao_pct": null,
           "teto_conversa": 0.0,
-          "custo_conversa": 18.72,
+          "custo_conversa": 18.83,
           "folga": null,
-          "iniciadas": 110,
+          "iniciadas": 111,
           "iniciadas_fonte": "real",
           "realizadas": 61,
           "realizadas_fonte": "real",
           "janela_desde": null,
           "com_clid": 78,
-          "clid_pct": 70.9
+          "clid_pct": 70.3
         },
         "last_month": {
           "gasto": 1124.59,
@@ -2525,11 +2525,11 @@ window.PAINEL_DATA = {
           "clid_pct": 44.9
         },
         "maximum": {
-          "gasto": 2396.56,
+          "gasto": 2403.34,
           "conversas": 200,
           "conversas_fonte": "real",
           "leads": 303,
-          "cliques": 427,
+          "cliques": 428,
           "vendas": 0,
           "faturamento": 0,
           "consultas": 0,
@@ -2541,23 +2541,23 @@ window.PAINEL_DATA = {
           "consultas_por_venda": null,
           "taxa_conversao_pct": null,
           "teto_conversa": 0.0,
-          "custo_conversa": 11.98,
+          "custo_conversa": 12.02,
           "folga": null,
-          "gasto_janela": 2396.56,
-          "iniciadas": 326,
+          "gasto_janela": 2403.34,
+          "iniciadas": 327,
           "iniciadas_fonte": "real",
           "realizadas": 200,
           "realizadas_fonte": "real",
           "janela_desde": "2026-08-27",
           "com_clid": 160,
-          "clid_pct": 49.1
+          "clid_pct": 48.9
         }
       },
       "captura": {
         "desde": "2026-08-27",
-        "contatos": 326,
+        "contatos": 327,
         "com_clid": 160,
-        "clid_pct": 49.1
+        "clid_pct": 48.9
       }
     },
     {
